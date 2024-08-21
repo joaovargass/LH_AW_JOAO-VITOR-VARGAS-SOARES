@@ -1,0 +1,27 @@
+dbt_bigquery:
+  outputs:
+    dev:
+      type: bigquery
+      method: service-account
+      project: robotic-parsec-433018-g3
+      dataset: dev_adventure_works
+      threads: 4
+      keyfile: keys/robotic-parsec-433018-g3-72ad2c9e237e.json
+      location: US
+    prod:
+      type: bigquery
+      method: service-account
+      project: robotic-parsec-433018-g3
+      dataset: prod_adventure_works
+      threads: 4
+      keyfile: keys/robotic-parsec-433018-g3-72ad2c9e237e.json
+      location: US
+    stg:
+      type: bigquery
+      method: service-account
+      project: robotic-parsec-433018-g3
+      dataset: stg_adventure_works
+      threads: 4
+      keyfile: keys/robotic-parsec-433018-g3-72ad2c9e237e.json
+      location: US
+  target: dev
