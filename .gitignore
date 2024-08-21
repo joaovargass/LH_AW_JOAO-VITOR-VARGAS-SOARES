@@ -5,3 +5,6 @@ __pycache__/
 .idea/
 target/
 logs/
+dbt/target/
+dbt/dbt_packages/
+dbt/logs/
