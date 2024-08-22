@@ -4,9 +4,7 @@ config-version: 2
 
 profile: 'dbt_bigquery'
 
-# These configurations specify where dbt should look for different types of files.
-# The `source-paths` config, for example, states that models in this project can be
-# found in the "models/" directory. You probably won't need to change these!
+# Directories for dbt to look for files
 model-paths: ["models"]
 analysis-paths: ["analyses"]
 test-paths: ["tests"]
@@ -14,24 +12,38 @@ seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
 
-target-path: "target"  # directory which will store compiled SQL files
-clean-targets:         # directories to be removed by `dbt clean`
+# Directory to store compiled SQL files
+target-path: "target"
+
+# Directories to clean with `dbt clean`
+clean-targets:
   - "target"
   - "dbt_packages"
 
-
-# Configuring models
-# Full documentation: https://docs.getdbt.com/docs/configuring-models
-
-# In this example config, we tell dbt to build all models in the example/ directory
-# as tables. These settings can be overridden in the individual model files
-# using the `{{ config(...) }}` macro.
+# Configuring models by directory
 models:
   dbt_adventure_works:
-    example:
-      materialized: view
+    # Configuration for staging models
+    staging:
+      +schema: stg_adventure_works
+      +materialized: table
+      person:
+        materialized: view
+        convert_spatial_location:
+          materialized: table
+          path: models/staging/person/convert_spatial_location.py
 
+    # Configuration for intermediate models
+    intermediate:
+      +schema: dev_adventure_works
+      +materialized: table
 
+    # Configuration for final (marts) models
+    marts:
+      +schema: prod_adventure_works
+      +materialized: table
+
+# Configuring seed files
 seeds:
   dbt_adventure_works:
     sap_adventure_works:
