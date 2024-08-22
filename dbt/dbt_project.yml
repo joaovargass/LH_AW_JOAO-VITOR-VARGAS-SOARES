@@ -25,8 +25,8 @@ models:
   dbt_adventure_works:
     # Configuration for staging models
     staging:
-      +schema: stg_adventure_works
-      +materialized: table
+      +schema: dev_adventure_works
+      +materialized: view
       person:
         materialized: view
         convert_spatial_location:
@@ -36,11 +36,11 @@ models:
     # Configuration for intermediate models
     intermediate:
       +schema: dev_adventure_works
-      +materialized: table
+      +materialized: view
 
     # Configuration for final (marts) models
     marts:
-      +schema: prod_adventure_works
+      +schema: dev_adventure_works
       +materialized: table
 
 # Configuring seed files

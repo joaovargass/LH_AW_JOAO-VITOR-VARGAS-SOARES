@@ -50,6 +50,7 @@ models:
             - business_entity_id
             - email_address_id
 
+
   - name: stg_address_type
     description: "this model standardizes the address_type data, converts modifieddate to datetime, renames columns to snake_case, and enforces primary key and unique constraints."
     columns:
@@ -190,13 +191,6 @@ models:
           - relationships:
               to: ref('stg_business_entity')
               field: business_entity_id
-      - name: person_id
-        description: "part of the composite primary key for the business entity contact and foreign key referencing the person."
-        tests:
-          - not_null
-          - relationships:
-              to: ref('stg_person')
-              field: person_id
       - name: contact_type_id
         description: "foreign key referencing the contact type."
         tests:
@@ -210,7 +204,7 @@ models:
       - unique:
           combination_of:
             - business_entity_id
-            - person_id
+            - contact_type_id
 
   - name: stg_state_province
     description: "this model standardizes the stateprovince data, replaces country_region_code with country_region_id, converts modifieddate to datetime, and enforces primary key and foreign key constraints."
@@ -340,13 +334,8 @@ models:
               field: state_province_id
 
   - name: stg_person
-    description: "This model standardizes the person data, formats names with capitalized first letters, modifies title values, replaces '[NULL]' with null, and adds a unique person_id."
+    description: "This model standardizes the person data, formats names with capitalized first letters, modifies title values, replaces '[NULL]' with null."
     columns:
-      - name: person_id
-        description: "Unique ID for each person, generated as a primary key."
-        tests:
-          - unique
-          - not_null
       - name: business_entity_id
         description: "Foreign key referencing the business entity, also a part of the composite primary key."
         tests:

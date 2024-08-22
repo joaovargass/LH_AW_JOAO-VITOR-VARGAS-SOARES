@@ -1,0 +1,237 @@
+version: 2
+
+models:
+  - name: stg_department
+    description: "This model standardizes the department data, ensuring names are capitalized, replaces null values in the `GroupName` column, and adds a unique primary key `department_id`."
+    columns:
+      - name: department_id
+        description: "Unique identifier for each department."
+        tests:
+          - unique
+          - not_null
+
+      - name: department_name
+        description: "Name of the department."
+        tests:
+          - not_null
+
+      - name: group_name
+        description: "Name of the group to which the department belongs. Replaced with 'Unknown Group' when null."
+
+      - name: last_modified_date
+        description: "Date and time when the department data was last modified, converted from string."
+        tests:
+          - not_null
+
+  - name: stg_shift
+    description: "This model standardizes the shift data, ensuring that the shift name is unique, validating the start and end times, and adding a unique primary key shift_id."
+    columns:
+      - name: shift_id
+        description: "Unique identifier for each shift."
+        tests:
+          - unique
+          - not_null
+
+      - name: shift_name
+        description: "Name of the shift."
+        tests:
+          - unique
+          - not_null
+
+      - name: start_time
+        description: "Start time of the shift."
+        tests:
+          - not_null
+
+      - name: end_time
+        description: "End time of the shift."
+        tests:
+          - not_null
+
+      - name: last_modified_date
+        description: "Date and time when the shift data was last modified, converted from string."
+        tests:
+          - not_null
+
+  - name: stg_job_candidate
+    description: "This model standardizes the job candidate data, ensuring that job_candidate_id is the primary key, allowing for nullable business_entity_id as a foreign key, and validating the modified date."
+    columns:
+      - name: job_candidate_id
+        description: "Unique identifier for each job candidate."
+        tests:
+          - unique
+          - not_null
+
+      - name: business_entity_id
+        description: "Foreign key referencing the business entity ID. This can be null if the candidate did not pass."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_employee')
+              field: business_entity_id
+
+      - name: resume
+        description: "Resume of the job candidate."
+
+      - name: last_modified_date
+        description: "Date and time when the job candidate data was last modified, converted from string."
+        tests:
+          - not_null
+
+  - name: stg_employee_pay_history
+    description: "This model cria uma nova coluna de chave primária employee_pay_history_id, assegura que rate é um float, define rate_change_date como único, e estabelece business_entity_id como uma chave estrangeira referenciando a tabela de employee."
+    columns:
+      - name: employee_pay_history_id
+        description: "Unique identifier for each employee pay history record."
+        tests:
+          - unique
+          - not_null
+
+      - name: business_entity_id
+        description: "Foreign key referencing the business entity ID from the employee table. This can be null if not associated with a specific entity."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_employee')
+              field: business_entity_id
+
+      - name: rate_change_date
+        description: "Date and time when the pay rate changed."
+        tests:
+          - unique
+          - not_null
+
+      - name: rate
+        description: "The pay rate for the employee, stored as a float."
+        tests:
+          - not_null
+
+      - name: pay_frequency
+        description: "The frequency of pay, stored as an integer."
+        tests:
+          - not_null
+
+      - name: last_modified_date
+        description: "Date and time when the pay history record was last modified, converted from string."
+        tests:
+          - not_null
+
+  - name: stg_employee_department_history
+    description: "This model creates a new primary key column employee_department_history_id, transforms dates, ensures key constraints, and sets startdate as non-nullable."
+    columns:
+      - name: employee_department_history_id
+        description: "Unique identifier for each employee department history record."
+        tests:
+          - unique
+          - not_null
+
+      - name: business_entity_id
+        description: "Foreign key referencing the business entity ID from the employee table."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_employee')
+              field: business_entity_id
+
+      - name: department_id
+        description: "Foreign key referencing the department ID."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_department')
+              field: department_id
+
+      - name: shift_id
+        description: "Foreign key referencing the shift ID."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_shift')
+              field: shift_id
+
+      - name: start_date
+        description: "The date when the employee started in the department, stored as a datetime."
+        tests:
+          - not_null
+
+      - name: end_date
+        description: "The date when the employee ended in the department, stored as a datetime."
+
+      - name: last_modified_date
+        description: "Date and time when the department history record was last modified, converted from string."
+        tests:
+          - not_null
+
+  - name: stg_employee
+    description: "This model standardizes the employee data, ensures the uniqueness of nationalidnumber, loginid, and rowguid, and enforces the foreign key constraint on businessentityid which is also the primary key."
+    columns:
+      - name: business_entity_id
+        description: "Unique identifier for each employee, also a foreign key referencing the person table."
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              to: ref('stg_person')
+              field: business_entity_id
+
+      - name: national_id_number
+        description: "Unique national ID number for each employee."
+        tests:
+          - unique
+          - not_null
+
+      - name: login_id
+        description: "Unique login ID for each employee."
+        tests:
+          - unique
+          - not_null
+
+      - name: job_title
+        description: "Job title of the employee."
+
+      - name: birth_date
+        description: "Date of birth of the employee, stored as datetime."
+        tests:
+          - not_null
+
+      - name: marital_status
+        description: "Marital status of the employee."
+
+      - name: gender
+        description: "Gender of the employee."
+
+      - name: hire_date
+        description: "Date when the employee was hired, stored as datetime."
+        tests:
+          - not_null
+
+      - name: salaried_flag
+        description: "Indicates if the employee is salaried (true or false)."
+        tests:
+          - not_null
+
+      - name: vacation_hours
+        description: "Number of vacation hours accumulated by the employee."
+        tests:
+          - not_null
+
+      - name: sick_leave_hours
+        description: "Number of sick leave hours accumulated by the employee."
+        tests:
+          - not_null
+
+      - name: current_flag
+        description: "Indicates if the employee is currently active (true or false)."
+        tests:
+          - not_null
+
+      - name: row_guid
+        description: "Unique identifier for each employee row, used for replication."
+        tests:
+          - unique
+          - not_null
+
+      - name: last_modified_date
+        description: "Date and time when the employee data was last modified, converted from string."
+        tests:
+          - not_null

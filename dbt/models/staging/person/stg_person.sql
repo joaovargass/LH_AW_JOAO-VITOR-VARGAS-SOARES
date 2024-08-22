@@ -1,13 +1,12 @@
 {{ config(
   materialized='view',
   schema='stg_adventure_works',
-  description='This model standardizes the person data, formats names with capitalized first letters, modifies title values, replaces [NULL] with null, and adds a unique person_id.'
+  description='This model standardizes the person data, formats names with capitalized first letters, modifies title values, replaces [NULL] with null.'
 ) }}
 
 with stg_person as (
     select
-          cast(row_number() over (order by p.BusinessEntityID) as int64) as person_id
-        , p.BusinessEntityID as business_entity_id
+        p.BusinessEntityID as business_entity_id
         , initcap(lower(p.FirstName)) as first_name
         , initcap(lower(p.MiddleName)) as middle_name
         , initcap(lower(p.LastName)) as last_name
@@ -33,8 +32,7 @@ with stg_person as (
 )
 
 select
-      person_id
-    , business_entity_id
+    business_entity_id
     , first_name
     , middle_name
     , last_name
