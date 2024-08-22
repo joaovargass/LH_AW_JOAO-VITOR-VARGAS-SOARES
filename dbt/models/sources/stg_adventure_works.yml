@@ -1,0 +1,1136 @@
+version: 2
+
+sources:
+  - name: stg_adventure_works
+    description: "This dataset contains raw data from the AdventureWorks database."
+
+    tables:
+      - name: addresstype
+        description: "**Overview:** Contains raw data about addresses associated with business entities."
+        columns:
+          - name: addresstypeid
+            description: "The unique identifier for the address type. Raw data."
+          - name: name
+            description: "Address type description. For example, Billing, Home, or Shipping. Raw data."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the address type. Raw data."
+          - name: modifieddate
+            description: "The date when the address type was last modified. Raw data."
+
+      - name: address
+        description: "**Overview:** Contains raw data about addresses associated with business entities."
+        columns:
+          - name: addressid
+            description: "The unique identifier for the address. Raw data."
+          - name: addressline1
+            description: "The first line of the address. Raw data."
+          - name: addressline2
+            description: "The second line of the address, if applicable. Raw data."
+          - name: city
+            description: "The city where the address is located. Raw data."
+          - name: stateprovinceid
+            description: "The identifier for the state or province. Raw data."
+          - name: postalcode
+            description: "The postal code for the address. Raw data."
+          - name: spatiallocation
+            description: "The spatial location data for the address. Raw data."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the address. Raw data."
+          - name: modifieddate
+            description: "The date when the address was last modified. Raw data."
+
+      - name: businessentity
+        description: "**Overview:** Contains raw data about business entities in the database."
+        columns:
+          - name: businessentityid
+            description: "The unique identifier for the business entity. Raw data."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the business entity. Raw data."
+          - name: modifieddate
+            description: "The date when the business entity was last modified. Raw data."
+
+      - name: businessentityaddress
+        description: "**Overview:** Contains raw data linking business entities to their addresses."
+        columns:
+          - name: businessentityid
+            description: "The unique identifier for the business entity. Raw data."
+          - name: addressid
+            description: "The unique identifier for the address. Raw data."
+          - name: addresstypeid
+            description: "The identifier for the address type. Raw data."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the business entity address. Raw data."
+          - name: modifieddate
+            description: "The date when the business entity address was last modified. Raw data."
+
+      - name: businessentitycontact
+        description: "**Overview:** Contains raw data linking business entities to their contacts."
+        columns:
+          - name: businessentityid
+            description: "The unique identifier for the business entity. Raw data."
+          - name: personid
+            description: "The unique identifier for the person. Raw data."
+          - name: contacttypeid
+            description: "The identifier for the contact type. Raw data."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the business entity contact. Raw data."
+          - name: modifieddate
+            description: "The date when the business entity contact was last modified. Raw data."
+
+      - name: contacttype
+        description: "**Overview:** Contains raw data about the types of contacts associated with business entities."
+        columns:
+          - name: contacttypeid
+            description: "The unique identifier for the contact type. Raw data."
+          - name: name
+            description: "The name of the contact type. Raw data."
+          - name: modifieddate
+            description: "The date when the contact type was last modified. Raw data."
+
+      - name: countryregion
+        description: "**Overview:** Contains raw data about the types of contacts associated with business entities."
+        columns:
+          - name: countryregioncode
+            description: "ISO standard code for countries and regions. Raw data."
+          - name: name
+            description: "Country or region name. Raw data."
+          - name: modifieddate
+            description: "The date when the contact type was last modified. Raw data."
+
+      - name: emailaddress
+        description: "**Overview:** Contains raw data about email addresses associated with business entities."
+        columns:
+          - name: businessentityid
+            description: "The unique identifier for the business entity. Raw data."
+          - name: emailaddressid
+            description: "The unique identifier for the email address. Raw data."
+          - name: emailaddress
+            description: "The email address. Raw data."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the email address. Raw data."
+          - name: modifieddate
+            description: "The date when the email address was last modified. Raw data."
+
+      - name: person
+        description: "**Overview:** Contains raw data about persons, including names, titles, and contact information."
+        columns:
+          - name: businessentityid
+            description: "The unique identifier for the business entity associated with the person. Raw data."
+          - name: persontype
+            description: "The type of person (e.g., employee, contact). Raw data."
+          - name: namestyle
+            description: "Indicates whether the name is formatted in a particular style. Raw data."
+          - name: title
+            description: "The title of the person (e.g., Mr., Ms.). Raw data."
+          - name: firstname
+            description: "The first name of the person. Raw data."
+          - name: middlename
+            description: "The middle name of the person. Raw data."
+          - name: lastname
+            description: "The last name of the person. Raw data."
+          - name: suffix
+            description: "The suffix of the person's name (e.g., Jr., Sr.). Raw data."
+          - name: emailpromotion
+            description: "Indicates whether the person receives email promotions. Raw data."
+          - name: additionalcontactinfo
+            description: "Additional contact information for the person. Raw data."
+          - name: demographics
+            description: "Demographic information about the person. Raw data."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the person. Raw data."
+          - name: modifieddate
+            description: "The date when the person record was last modified. Raw data."
+
+      - name: personphone
+        description: "**Overview:** Contains raw data about phone numbers associated with persons."
+        columns:
+          - name: businessentityid
+            description: "The unique identifier for the business entity associated with the phone number. Raw data."
+          - name: phonenumber
+            description: "The phone number associated with the person. Raw data."
+          - name: phonenumbertypeid
+            description: "The identifier for the phone number type. Raw data."
+          - name: modifieddate
+            description: "The date when the phone number record was last modified. Raw data."
+
+      - name: phonenumbertype
+        description: "**Overview:** Contains raw data about phone number types."
+        columns:
+          - name: phonenumbertypeid
+            description: "The unique identifier for the phone number type. Raw data."
+          - name: name
+            description: "The name of the phone number type (e.g., mobile, home). Raw data."
+          - name: modifieddate
+            description: "The date when the phone number type was last modified. Raw data."
+
+      - name: stateprovince
+        description: "**Overview:** Contains raw data about state or province regions."
+        columns:
+          - name: stateprovinceid
+            description: "The unique identifier for the state or province. Raw data."
+          - name: stateprovincecode
+            description: "The code representing the state or province. Raw data."
+          - name: countryregioncode
+            description: "The code representing the country or region. Raw data."
+          - name: isonlystateprovinceflag
+            description: "Indicates whether this is the only state or province in the country. Raw data."
+          - name: name
+            description: "The name of the state or province. Raw data."
+          - name: territoryid
+            description: "The identifier for the territory. Raw data."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the state or province. Raw data."
+          - name: modifieddate
+            description: "The date when the state or province record was last modified. Raw data."
+
+      - name: employeepayhistory
+        description: "**Overview:** Stores historical pay rate information for employees, including the date of change."
+        columns:
+          - name: businessentityid
+            description: "The unique identifier for the employee. Raw data."
+          - name: ratechangedate
+            description: "The date the pay rate was changed. Raw data."
+          - name: rate
+            description: "The pay rate of the employee at the time. Raw data."
+          - name: payfrequency
+            description: "The frequency of pay (e.g., weekly, bi-weekly). Raw data."
+          - name: modifieddate
+            description: "The date when the pay rate record was last modified. Raw data."
+
+      - name: employeedepartmenthistory
+        description: "**Overview:** Contains historical department assignment data for employees."
+        columns:
+          - name: businessentityid
+            description: "The unique identifier for the employee. Raw data."
+          - name: departmentid
+            description: "The identifier for the department. Raw data."
+          - name: shiftid
+            description: "The identifier for the shift. Raw data."
+          - name: startdate
+            description: "The start date of the employee's department assignment. Raw data."
+          - name: enddate
+            description: "The end date of the employee's department assignment. Raw data."
+          - name: modifieddate
+            description: "The date when the department assignment record was last modified. Raw data."
+
+      - name: department
+        description: "**Overview:** Stores details about departments within the company."
+        columns:
+          - name: departmentid
+            description: "The unique identifier for the department. Raw data."
+          - name: name
+            description: "The name of the department. Raw data."
+          - name: groupname
+            description: "The group name that the department belongs to. Raw data."
+          - name: modifieddate
+            description: "The date when the department record was last modified. Raw data."
+
+      - name: shift
+        description: "**Overview:** Contains data about work shifts, including start and end times."
+        columns:
+          - name: shiftid
+            description: "The unique identifier for the shift. Raw data."
+          - name: name
+            description: "The name of the shift (e.g., Morning, Evening). Raw data."
+          - name: starttime
+            description: "The start time of the shift. Raw data."
+          - name: endtime
+            description: "The end time of the shift. Raw data."
+          - name: modifieddate
+            description: "The date when the shift record was last modified. Raw data."
+
+      - name: employee
+        description: "**Overview:** Stores information about employees, including personal details and job information."
+        columns:
+          - name: businessentityid
+            description: "The unique identifier for the employee. Raw data."
+          - name: nationalidnumber
+            description: "The national ID number of the employee. Raw data."
+          - name: loginid
+            description: "The login ID used by the employee to access the system. Raw data."
+          - name: shiftid
+            description: "The identifier for the employee's shift. Raw data."
+          - name: jobtitle
+            description: "The job title of the employee. Raw data."
+          - name: birthdate
+            description: "The birthdate of the employee. Raw data."
+          - name: maritalstatus
+            description: "The marital status of the employee (e.g., Single, Married). Raw data."
+          - name: gender
+            description: "The gender of the employee. Raw data."
+          - name: hiredate
+            description: "The hire date of the employee. Raw data."
+          - name: salariedflag
+            description: "Indicates whether the employee is salaried. Raw data."
+          - name: vacationhours
+            description: "The number of vacation hours accrued by the employee. Raw data."
+          - name: sickleavehours
+            description: "The number of sick leave hours accrued by the employee. Raw data."
+          - name: currentflag
+            description: "Indicates whether the employee is currently employed. Raw data."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the employee. Raw data."
+          - name: modifieddate
+            description: "The date when the employee record was last modified. Raw data."
+
+      - name: jobcandidate
+        description: "**Overview:** Stores information about job candidates, including resumes."
+        columns:
+          - name: businessentityid
+            description: "The unique identifier for the job candidate. Raw data."
+          - name: jobcandidateid
+            description: "The unique identifier for the job candidate. Raw data."
+          - name: resume
+            description: "The resume of the job candidate. Raw data."
+          - name: modifieddate
+            description: "The date when the job candidate record was last modified. Raw data."
+
+      - name: purchaseorderheader
+        description: "**Overview:** Contains header information for purchase orders, including vendor details and total amounts."
+        columns:
+          - name: purchaseorderid
+            description: "The unique identifier for the purchase order. Raw data."
+          - name: revisionnumber
+            description: "The revision number of the purchase order. Raw data."
+          - name: status
+            description: "The current status of the purchase order. Raw data."
+          - name: orderdate
+            description: "The date when the purchase order was created. Raw data."
+          - name: shipdate
+            description: "The date when the goods were shipped. Raw data."
+          - name: subtotal
+            description: "The subtotal amount of the purchase order. Raw data."
+          - name: taxamt
+            description: "The tax amount applied to the purchase order. Raw data."
+          - name: freight
+            description: "The freight charges for the purchase order. Raw data."
+          - name: totaldue
+            description: "The total amount due for the purchase order. Raw data."
+          - name: modifieddate
+            description: "The date when the purchase order header was last modified. Raw data."
+
+      - name: purchaseorderdetail
+        description: "**Overview:** Stores details for each purchase order, including products ordered and quantities."
+        columns:
+          - name: purchaseorderid
+            description: "The unique identifier for the purchase order. Raw data."
+          - name: purchaseorderdetailid
+            description: "The unique identifier for the purchase order detail line. Raw data."
+          - name: duedate
+            description: "The due date for the items in the purchase order. Raw data."
+          - name: orderqty
+            description: "The quantity of items ordered. Raw data."
+          - name: productid
+            description: "The identifier for the product being ordered. Raw data."
+          - name: unitprice
+            description: "The price per unit for the product. Raw data."
+          - name: linetotal
+            description: "The total amount for this line item. Raw data."
+          - name: receivedqty
+            description: "The quantity of items received. Raw data."
+          - name: rejectedqty
+            description: "The quantity of items rejected. Raw data."
+          - name: stockedqty
+            description: "The quantity of items stocked. Raw data."
+          - name: modifieddate
+            description: "The date when the purchase order detail was last modified. Raw data."
+
+      - name: vendor
+        description: "**Overview:** Contains details about vendors, including contact information and status."
+        columns:
+          - name: businessentityid
+            description: "The unique identifier for the business entity. Raw data."
+          - name: accountnumber
+            description: "The account number assigned to the vendor. Raw data."
+          - name: name
+            description: "The name of the vendor. Raw data."
+          - name: creditrating
+            description: "The credit rating of the vendor. Raw data."
+          - name: preferredvendorstatus
+            description: "Indicates whether the vendor is a preferred vendor. Raw data."
+          - name: activeflag
+            description: "Indicates whether the vendor is currently active. Raw data."
+          - name: purchasingwebserviceurl
+            description: "The URL for the vendor's purchasing web service. Raw data."
+          - name: modifieddate
+            description: "The date when the vendor record was last modified. Raw data."
+
+      - name: shipmethod
+        description: "**Overview:** Stores information about shipping methods, including base and rate information."
+        columns:
+          - name: shipmethodid
+            description: "The unique identifier for the shipping method. Raw data."
+          - name: name
+            description: "The name of the shipping method (e.g., Air, Ground). Raw data."
+          - name: shipbase
+            description: "The base cost of the shipping method. Raw data."
+          - name: shiprate
+            description: "The rate applied to the shipping method. Raw data."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the shipping method. Raw data."
+          - name: modifieddate
+            description: "The date when the shipping method record was last modified. Raw data."
+
+      - name: productvendor
+        description: "**Overview:** Stores details about products supplied by vendors, including pricing and order quantities."
+        columns:
+          - name: businessentityid
+            description: "The unique identifier for the business entity (vendor). Raw data."
+          - name: productid
+            description: "The unique identifier for the product. Raw data."
+          - name: averageleadtime
+            description: "The average lead time for the vendor to supply the product. Raw data."
+          - name: standardprice
+            description: "The standard price of the product. Raw data."
+          - name: lastreceiptcost
+            description: "The cost of the last receipt of the product. Raw data."
+          - name: lastreceiptdate
+            description: "The date of the last receipt of the product. Raw data."
+          - name: minorderqty
+            description: "The minimum quantity that can be ordered from the vendor. Raw data."
+          - name: maxorderqty
+            description: "The maximum quantity that can be ordered from the vendor. Raw data."
+          - name: onorderqty
+            description: "The quantity currently on order from the vendor. Raw data."
+          - name: unitmeasurecode
+            description: "The code for the unit of measure used for the product. Raw data."
+          - name: modifieddate
+            description: "The date when the product vendor record was last modified. Raw data."
+
+      - name: salesorderheader
+        description: "**Overview:** Contains header information for sales orders, including customer and order details."
+        columns:
+          - name: salesorderid
+            description: "The unique identifier for the sales order. Raw data."
+          - name: revisionnumber
+            description: "The revision number of the sales order. Raw data."
+          - name: orderdate
+            description: "The date when the sales order was created. Raw data."
+          - name: duedate
+            description: "The date when the sales order is due. Raw data."
+          - name: shipdate
+            description: "The date when the goods were shipped. Raw data."
+          - name: status
+            description: "The current status of the sales order. Raw data."
+          - name: onlineorderflag
+            description: "Flag indicating whether the order was placed online. Raw data."
+          - name: salesordernumber
+            description: "The unique sales order number. Raw data."
+          - name: purchaseordernumber
+            description: "The customer's purchase order number. Raw data."
+          - name: accountnumber
+            description: "The account number associated with the sales order. Raw data."
+          - name: subtotal
+            description: "The subtotal amount of the sales order. Raw data."
+          - name: taxamt
+            description: "The tax amount applied to the sales order. Raw data."
+          - name: freight
+            description: "The freight charges for the sales order. Raw data."
+          - name: totaldue
+            description: "The total amount due for the sales order. Raw data."
+          - name: comment
+            description: "Any comments associated with the sales order. Raw data."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the sales order. Raw data."
+          - name: modifieddate
+            description: "The date when the sales order header was last modified. Raw data."
+
+      - name: salesorderdetail
+        description: "**Overview:** Stores details for each sales order, including products ordered and quantities."
+        columns:
+          - name: salesorderid
+            description: "The unique identifier for the sales order. Raw data."
+          - name: salesorderdetailid
+            description: "The unique identifier for the sales order detail line. Raw data."
+          - name: orderqty
+            description: "The quantity of items ordered. Raw data."
+          - name: productid
+            description: "The identifier for the product being ordered. Raw data."
+          - name: unitprice
+            description: "The price per unit for the product. Raw data."
+          - name: unitpricediscount
+            description: "The discount applied per unit for the product. Raw data."
+          - name: linetotal
+            description: "The total amount for this line item. Raw data."
+          - name: carriertrackingnumber
+            description: "The tracking number for the shipment of the product. Raw data."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the sales order detail. Raw data."
+          - name: modifieddate
+            description: "The date when the sales order detail was last modified. Raw data."
+
+      - name: customer
+        description: "**Overview:** Contains details about customers, including demographic information."
+        columns:
+          - name: customerid
+            description: "The unique identifier for the customer. Raw data."
+          - name: personid
+            description: "The identifier for the person associated with the customer. Raw data."
+          - name: storeid
+            description: "The identifier for the store associated with the customer. Raw data."
+          - name: territoryid
+            description: "The identifier for the sales territory associated with the customer. Raw data."
+          - name: accountnumber
+            description: "The account number assigned to the customer. Raw data."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the customer. Raw data."
+          - name: modifieddate
+            description: "The date when the customer record was last modified. Raw data."
+
+      - name: salesterritory
+        description: "**Overview:** Stores information about sales territories, including geographical and sales data."
+        columns:
+          - name: territoryid
+            description: "The unique identifier for the sales territory. Raw data."
+          - name: name
+            description: "The name of the sales territory. Raw data."
+          - name: countryregioncode
+            description: "The country or region code associated with the territory. Raw data."
+          - name: group
+            description: "The group the territory belongs to (e.g., North America, Europe). Raw data."
+          - name: salesytd
+            description: "The sales year-to-date for the territory. Raw data."
+          - name: saleslastyear
+            description: "The sales for the territory in the previous year. Raw data."
+          - name: costytd
+            description: "The cost year-to-date for the territory. Raw data."
+          - name: costlastyear
+            description: "The cost for the territory in the previous year. Raw data."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the sales territory. Raw data."
+          - name: modifieddate
+            description: "The date when the sales territory record was last modified. Raw data."
+
+      - name: salesreason
+        description: "**Overview:** Contains reasons for sales, such as promotions or customer requests."
+        columns:
+          - name: salesreasonid
+            description: "The unique identifier for the sales reason. Raw data."
+          - name: name
+            description: "The name of the sales reason. Raw data."
+          - name: reasontype
+            description: "The type of reason (e.g., promotion, request). Raw data."
+          - name: modifieddate
+            description: "The date when the sales reason record was last modified. Raw data."
+
+      - name: salespersonquotahistory
+        description: "**Overview:** Stores historical data about salespersons' quotas and their achievements."
+        columns:
+          - name: businessentityid
+            description: "The unique identifier for the business entity (salesperson). Raw data."
+          - name: quotadate
+            description: "The date when the quota was set. Raw data."
+          - name: salesquota
+            description: "The sales quota set for the salesperson. Raw data."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the salesperson quota history. Raw data."
+          - name: modifieddate
+            description: "The date when the salesperson quota history record was last modified. Raw data."
+
+      - name: store
+        description: "**Overview:** Stores information about stores, including demographics and sales territories."
+        columns:
+          - name: businessentityid
+            description: "The unique identifier for the business entity (store). Raw data."
+          - name: name
+            description: "The name of the store. Raw data."
+          - name: demographics
+            description: "Demographic data related to the store. Raw data."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the store. Raw data."
+          - name: modifieddate
+            description: "The date when the store record was last modified. Raw data."
+
+      - name: creditcard
+        description: "**Overview:** Contains details about credit cards used by customers."
+        columns:
+          - name: creditcardid
+            description: "The unique identifier for the credit card. Raw data."
+          - name: cardtype
+            description: "The type of credit card (e.g., Visa, MasterCard). Raw data."
+          - name: cardnumber
+            description: "The credit card number. Raw data."
+          - name: expmonth
+            description: "The expiration month of the credit card. Raw data."
+          - name: expyear
+            description: "The expiration year of the credit card. Raw data."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the credit card. Raw data."
+          - name: modifieddate
+            description: "The date when the credit card record was last modified. Raw data."
+
+      - name: specialoffer
+        description: "**Overview:** Contains details about special offers available to customers."
+        columns:
+          - name: specialofferid
+            description: "The unique identifier for the special offer. Raw data."
+          - name: description
+            description: "A brief description of the special offer. Raw data."
+          - name: discountpct
+            description: "The percentage discount offered. Raw data."
+          - name: type
+            description: "The type of special offer (e.g., discount, buy one get one free). Raw data."
+          - name: category
+            description: "The category of the special offer (e.g., Seasonal, Clearance). Raw data."
+          - name: startdate
+            description: "The start date of the special offer. Raw data."
+          - name: enddate
+            description: "The end date of the special offer. Raw data."
+          - name: minqty
+            description: "The minimum quantity required to avail the special offer. Raw data."
+          - name: maxqty
+            description: "The maximum quantity allowed under the special offer. Raw data"
+          - name: rowguid
+            description: "The unique identifier (GUID) for the special offer. Raw data."
+          - name: modifieddate
+            description: "The date when the special offer record was last modified. Raw data."
+
+      - name: specialofferproduct
+        description: "**Overview:** Associates special offers with products to determine discounts available."
+        columns:
+          - name: specialofferid
+            description: "The unique identifier for the special offer. Raw data."
+          - name: productid
+            description: "The unique identifier for the product. Raw data."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the special offer-product combination. Raw data."
+          - name: modifieddate
+            description: "The date when the special offer-product record was last modified. Raw data."
+
+      - name: currencyrate
+        description: "**Overview:** Stores exchange rates for currency conversions."
+        columns:
+          - name: currencyratedate
+            description: "The date of the currency exchange rate. Raw data."
+          - name: fromcurrencycode
+            description: "The currency code being converted from. Raw data."
+          - name: tocurrencycode
+            description: "The currency code being converted to. Raw data."
+          - name: averagerate
+            description: "The average exchange rate for the day. Raw data."
+          - name: endofdayrate
+            description: "The exchange rate at the end of the day. Raw data."
+          - name: modifieddate
+            description: "The date when the currency rate record was last modified. Raw data."
+
+      - name: currency
+        description: "**Overview:** Stores details about currencies used in transactions."
+        columns:
+          - name: currencycode
+            description: "The unique code for the currency. Raw data."
+          - name: name
+            description: "The name of the currency. Raw data."
+          - name: modifieddate
+            description: "The date when the currency record was last modified. Raw data."
+
+      - name: salesorderheadersalesreason
+        description: "**Overview:** Links sales orders to the reasons behind them, such as promotions or customer requests."
+        columns:
+          - name: salesorderid
+            description: "The unique identifier for the sales order. Raw data."
+          - name: salesreasonid
+            description: "The unique identifier for the sales reason. Raw data."
+          - name: modifieddate
+            description: "The date when the sales order-reason record was last modified. Raw data."
+
+      - name: salesterritoryhistory
+        description: "**Overview:** Stores historical data about changes to sales territories."
+        columns:
+          - name: territoryid
+            description: "The unique identifier for the sales territory. Raw data."
+          - name: startdate
+            description: "The start date of the territory's history record. Raw data."
+          - name: enddate
+            description: "The end date of the territory's history record. Raw data."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the territory history. Raw data."
+          - name: modifieddate
+            description: "The date when the territory history record was last modified. Raw data."
+
+      - name: shoppingcartitem
+        description: "**Overview:** Stores items added to a shopping cart by a customer."
+        columns:
+          - name: shoppingcartitemid
+            description: "The unique identifier for the shopping cart item. Raw data."
+          - name: shoppingcartid
+            description: "The unique identifier for the shopping cart. Raw data."
+          - name: quantity
+            description: "The quantity of the item added to the cart. Raw data."
+          - name: productid
+            description: "The identifier for the product added to the cart. Raw data."
+          - name: datecreated
+            description: "The date when the item was added to the cart. Raw data."
+          - name: modifieddate
+            description: "The date when the shopping cart item record was last modified. Raw data."
+
+      - name: salestaxrate
+        description: "**Overview:** Stores tax rates applied to sales based on regions and types."
+        columns:
+          - name: salestaxrateid
+            description: "The unique identifier for the sales tax rate. Raw data."
+          - name: stateprovinceid
+            description: "The identifier for the state or province where the tax rate applies. Raw data."
+          - name: taxtype
+            description: "The type of tax applied (e.g., sales, VAT). Raw data."
+          - name: taxrate
+            description: "The tax rate percentage applied. Raw data."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the sales tax rate. Raw data."
+          - name: modifieddate
+            description: "The date when the sales tax rate record was last modified. Raw data."
+
+      - name: salesperson
+        description: "**Overview:** Contains data about salespeople, including their sales quotas and territories."
+        columns:
+          - name: businessentityid
+            description: "The unique identifier for the salesperson, also references the employee. Raw data."
+          - name: territoryid
+            description: "The unique identifier for the sales territory assigned to the salesperson. Raw data."
+          - name: salesquota
+            description: "The sales quota assigned to the salesperson. Raw data."
+          - name: bonus
+            description: "The bonus earned by the salesperson. Raw data."
+          - name: commissionpct
+            description: "The commission percentage earned by the salesperson. Raw data."
+          - name: salesytd
+            description: "Year-to-date sales for the salesperson. Raw data."
+          - name: saleslastyear
+            description: "Sales from the previous year for the salesperson. Raw data."
+          - name: costytd
+            description: "Year-to-date cost incurred by the salesperson. Raw data."
+          - name: costlastyear
+            description: "Cost from the previous year incurred by the salesperson. Raw data."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the salesperson. Raw data."
+          - name: modifieddate
+            description: "The date when the salesperson record was last modified. Raw data."
+
+      - name: personcreditcard
+        description: "**Overview:** Links credit cards to individuals, storing card details and expiration dates."
+        columns:
+          - name: businessentityid
+            description: "The unique identifier for the person associated with the credit card. Raw data."
+          - name: creditcardid
+            description: "The unique identifier for the credit card. Raw data."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the person-credit card relationship. Raw data."
+          - name: modifieddate
+            description: "The date when the person-credit card record was last modified. Raw data."
+
+      - name: product
+        description: "**Overview:** Contains details about products, including pricing, weight, and inventory."
+        columns:
+          - name: productid
+            description: "The unique identifier for the product."
+          - name: name
+            description: "The name of the product."
+          - name: productnumber
+            description: "The unique product number."
+          - name: makesflag
+            description: "Indicates if the product is made or bought. 1 for made, 0 for bought."
+          - name: finishedgoodsflag
+            description: "Indicates if the product is a finished good. 1 for finished, 0 for not."
+          - name: color
+            description: "The color of the product."
+          - name: safetystocklevel
+            description: "The minimum inventory level for the product."
+          - name: reorderpoint
+            description: "The inventory level at which the product should be reordered."
+          - name: standardcost
+            description: "The standard cost of the product."
+          - name: listprice
+            description: "The list price of the product."
+          - name: size
+            description: "The size of the product."
+          - name: sizeunitmeasurecode
+            description: "The unit of measure code for the product's size."
+          - name: weightunitmeasurecode
+            description: "The unit of measure code for the product's weight."
+          - name: weight
+            description: "The weight of the product."
+          - name: daystomanufacture
+            description: "The number of days required to manufacture the product."
+          - name: productline
+            description: "The product line to which the product belongs."
+          - name: class
+            description: "The class of the product."
+          - name: style
+            description: "The style of the product."
+          - name: productsubcategoryid
+            description: "The unique identifier for the product subcategory."
+          - name: productmodelid
+            description: "The unique identifier for the product model."
+          - name: sellstartdate
+            description: "The date when the product first became available for sale."
+          - name: sellenddate
+            description: "The date when the product was no longer available for sale."
+          - name: discontinueddate
+            description: "The date when the product was discontinued."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the product."
+          - name: modifieddate
+            description: "The date when the product record was last modified."
+
+      - name: billofmaterials
+        description: "**Overview:** Contains the bill of materials, including components and their quantities required to assemble products."
+        columns:
+          - name: billofmaterialsid
+            description: "The unique identifier for the bill of materials."
+          - name: productassemblyid
+            description: "The unique identifier for the assembled product."
+          - name: componentid
+            description: "The unique identifier for the component product."
+          - name: startdate
+            description: "The date when the bill of materials became active."
+          - name: enddate
+            description: "The date when the bill of materials was deactivated."
+          - name: unitmeasurecode
+            description: "The unit of measure code for the component product."
+          - name: bomlevel
+            description: "The hierarchical level of the bill of materials."
+          - name: perassemblyqty
+            description: "The quantity of the component required per assembly."
+          - name: modifieddate
+            description: "The date when the bill of materials was last modified."
+
+      - name: productcosthistory
+        description: "**Overview:** Stores historical cost information for products, including start and end dates."
+        columns:
+          - name: productid
+            description: "The unique identifier for the product."
+          - name: startdate
+            description: "The start date of the cost period."
+          - name: enddate
+            description: "The end date of the cost period."
+          - name: standardcost
+            description: "The standard cost of the product."
+          - name: modifieddate
+            description: "The date when the cost record was last modified."
+
+      - name: productlistpricehistory
+        description: "**Overview:** Stores historical list price information for products, including start and end dates."
+        columns:
+          - name: productid
+            description: "The unique identifier for the product."
+          - name: startdate
+            description: "The start date of the price period."
+          - name: enddate
+            description: "The end date of the price period."
+          - name: listprice
+            description: "The list price of the product during the period."
+          - name: modifieddate
+            description: "The date when the list price record was last modified."
+
+      - name: productmodel
+        description: "**Overview:** Contains data about product models, including product descriptions and cultures."
+        columns:
+          - name: productmodelid
+            description: "The unique identifier for the product model."
+          - name: name
+            description: "The name of the product model."
+          - name: catalogdescription
+            description: "The catalog description of the product model."
+          - name: instructions
+            description: "The assembly instructions for the product model."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the product model."
+          - name: modifieddate
+            description: "The date when the product model record was last modified."
+
+      - name: productsubcategory
+        description: "**Overview:** Contains data about product subcategories, linked to the product categories."
+        columns:
+          - name: productsubcategoryid
+            description: "The unique identifier for the product subcategory."
+          - name: name
+            description: "The name of the product subcategory."
+          - name: productcategoryid
+            description: "The unique identifier for the product category."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the product subcategory."
+          - name: modifieddate
+            description: "The date when the product subcategory record was last modified."
+
+      - name: productcategory
+        description: "**Overview:** Contains data about product categories, the highest level of product classification."
+        columns:
+          - name: productcategoryid
+            description: "The unique identifier for the product category."
+          - name: name
+            description: "The name of the product category."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the product category."
+          - name: modifieddate
+            description: "The date when the product category record was last modified."
+
+      - name: transactionhistory
+        description: "**Overview:** Stores data about individual product transactions, including references to order and inventory records."
+        columns:
+          - name: transactionid
+            description: "The unique identifier for the transaction."
+          - name: productid
+            description: "The unique identifier for the product."
+          - name: referenceorderid
+            description: "The identifier for the order associated with the transaction."
+          - name: referenceorderlineid
+            description: "The line item identifier for the order associated with the transaction."
+          - name: transactiondate
+            description: "The date of the transaction."
+          - name: transactiontype
+            description: "The type of transaction (e.g., sale, return)."
+          - name: quantity
+            description: "The quantity involved in the transaction."
+          - name: actualcost
+            description: "The actual cost of the transaction."
+          - name: modifieddate
+            description: "The date when the transaction record was last modified."
+
+      - name: workorder
+        description: "**Overview:** Contains data about work orders, including production schedules and costs."
+        columns:
+          - name: workorderid
+            description: "The unique identifier for the work order."
+          - name: productid
+            description: "The unique identifier for the product being manufactured."
+          - name: orderqty
+            description: "The quantity of product to be manufactured."
+          - name: scrappedqty
+            description: "The quantity of product that was scrapped."
+          - name: startdate
+            description: "The start date of the work order."
+          - name: enddate
+            description: "The end date of the work order."
+          - name: due_date
+            description: "The date when the work order is due."
+          - name: scrapreasonid
+            description: "The reason for scrapping the product."
+          - name: modifieddate
+            description: "The date when the work order record was last modified."
+
+      - name: workorderrouting
+        description: "**Overview:** Stores routing information for work orders, including production operations and locations."
+        columns:
+          - name: workorderid
+            description: "The unique identifier for the work order."
+          - name: productid
+            description: "The unique identifier for the product being manufactured."
+          - name: operationsequence
+            description: "The sequence of operations for the work order."
+          - name: locationid
+            description: "The identifier for the location where the operation occurs."
+          - name: scheduledstartdate
+            description: "The scheduled start date for the operation."
+          - name: scheduledenddate
+            description: "The scheduled end date for the operation."
+          - name: actualstartdate
+            description: "The actual start date for the operation."
+          - name: actualenddate
+            description: "The actual end date for the operation."
+          - name: actualresourcehrs
+            description: "The actual hours spent on the operation."
+          - name: plannedcost
+            description: "The planned cost for the operation."
+          - name: actualcost
+            description: "The actual cost of the operation."
+          - name: modifieddate
+            description: "The date when the work order routing record was last modified."
+
+      - name: productinventory
+        description: "**Overview:** Contains inventory information for products, including quantities and locations."
+        columns:
+          - name: productid
+            description: "The unique identifier for the product."
+          - name: locationid
+            description: "The identifier for the location where the product is stored."
+          - name: shelf
+            description: "The shelf where the product is stored."
+          - name: bin
+            description: "The bin where the product is stored."
+          - name: quantity
+            description: "The quantity of product in the inventory."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the inventory record."
+          - name: modifieddate
+            description: "The date when the inventory record was last modified."
+
+      - name: productphoto
+        description: "**Overview:** Contains information about product photos, including filenames and paths."
+        columns:
+          - name: productphotoid
+            description: "The unique identifier for the product photo."
+          - name: thumbnailphoto
+            description: "The thumbnail image of the product."
+          - name: thumbnailphotoname
+            description: "The filename for the thumbnail photo."
+          - name: largephoto
+            description: "The large image of the product."
+          - name: largephotoname
+            description: "The filename for the large photo."
+          - name: modifieddate
+            description: "The date when the product photo record was last modified."
+
+      - name: productmodelillustration
+        description: "**Overview:** Stores the association between product models and illustrations."
+        columns:
+          - name: productmodelid
+            description: "The unique identifier for the product model."
+          - name: illustrationid
+            description: "The unique identifier for the illustration."
+          - name: modifieddate
+            description: "The date when the association record was last modified."
+
+      - name: productdocument
+        description: "**Overview:** Stores the association between products and documents."
+        columns:
+          - name: productid
+            description: "The unique identifier for the product."
+          - name: documentnode
+            description: "The unique identifier for the document."
+          - name: modifieddate
+            description: "The date when the association record was last modified."
+
+      - name: document
+        description: "**Overview:** Contains information about documents, including filenames and paths."
+        columns:
+          - name: documentnode
+            description: "The unique identifier for the document."
+          - name: documentlevel
+            description: "The level of the document in the hierarchy."
+          - name: title
+            description: "The title of the document."
+          - name: owner
+            description: "The owner of the document."
+          - name: folderflag
+            description: "Indicates if the document is a folder. 1 for folder, 0 for not."
+          - name: filename
+            description: "The filename of the document."
+          - name: fileextension
+            description: "The file extension of the document."
+          - name: revision
+            description: "The revision number of the document."
+          - name: change_number
+            description: "The change number associated with the document."
+          - name: status
+            description: "The status of the document."
+          - name: documentsummary
+            description: "A summary of the document."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the document."
+          - name: modifieddate
+            description: "The date when the document record was last modified."
+
+      - name: workorderroutingarchive
+        description: "**Overview:** Stores archived routing information for work orders."
+        columns:
+          - name: workorderid
+            description: "The unique identifier for the work order."
+          - name: productid
+            description: "The unique identifier for the product being manufactured."
+          - name: operationsequence
+            description: "The sequence of operations for the work order."
+          - name: locationid
+            description: "The identifier for the location where the operation occurs."
+          - name: scheduledstartdate
+            description: "The scheduled start date for the operation."
+          - name: scheduledenddate
+            description: "The scheduled end date for the operation."
+          - name: actualstartdate
+            description: "The actual start date for the operation."
+          - name: actualenddate
+            description: "The actual end date for the operation."
+          - name: actualresourcehrs
+            description: "The actual hours spent on the operation."
+          - name: plannedcost
+            description: "The planned cost for the operation."
+          - name: actualcost
+            description: "The actual cost of the operation."
+          - name: modifieddate
+            description: "The date when the work order routing archive record was last modified."
+
+      - name: scrapreason
+        description: "**Overview:** Stores data about reasons for scrapping products."
+        columns:
+          - name: scrapreasonid
+            description: "The unique identifier for the scrap reason."
+          - name: name
+            description: "The description of the scrap reason."
+          - name: modifieddate
+            description: "The date when the scrap reason record was last modified."
+
+      - name: location
+        description: "**Overview:** Stores information about manufacturing locations, including costs and availability."
+        columns:
+          - name: locationid
+            description: "The unique identifier for the location."
+          - name: name
+            description: "The name of the location."
+          - name: costrate
+            description: "The cost rate for the location."
+          - name: availability
+            description: "The availability percentage for the location."
+          - name: modifieddate
+            description: "The date when the location record was last modified."
+
+      - name: unitmeasure
+        description: "**Overview:** Stores information about units of measure used in the manufacturing process."
+        columns:
+          - name: unitmeasurecode
+            description: "The code for the unit of measure."
+          - name: name
+            description: "The name of the unit of measure."
+          - name: modifieddate
+            description: "The date when the unit of measure record was last modified."
+
+      - name: productreview
+        description: "**Overview:** Stores customer reviews of products, including ratings and comments."
+        columns:
+          - name: productreviewid
+            description: "The unique identifier for the product review."
+          - name: productid
+            description: "The unique identifier for the product."
+          - name: reviewername
+            description: "The name of the reviewer."
+          - name: reviewdate
+            description: "The date of the review."
+          - name: emailaddress
+            description: "The email address of the reviewer."
+          - name: rating
+            description: "The rating given to the product by the reviewer."
+          - name: comments
+            description: "The comments provided by the reviewer."
+          - name: modifieddate
+            description: "The date when the product review record was last modified."
+
+      - name: productmodelproductdescriptionculture
+        description: "**Overview:** Stores the association between product models, product descriptions, and cultures."
+        columns:
+          - name: productmodelid
+            description: "The unique identifier for the product model."
+          - name: productdescriptionid
+            description: "The unique identifier for the product description."
+          - name: cultureid
+            description: "The identifier for the culture associated with the product description."
+          - name: modifieddate
+            description: "The date when the association record was last modified."
+
+      - name: productdescription
+        description: "**Overview:** Contains descriptions of products, with links to cultures."
+        columns:
+          - name: productdescriptionid
+            description: "The unique identifier for the product description."
+          - name: description
+            description: "The description of the product."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the product description."
+          - name: modifieddate
+            description: "The date when the product description record was last modified."
+
+      - name: culture
+        description: "**Overview:** Contains information about cultures, used for translating product descriptions."
+        columns:
+          - name: cultureid
+            description: "The identifier for the culture."
+          - name: name
+            description: "The name of the culture."
+          - name: modifieddate
+            description: "The date when the culture record was last modified."

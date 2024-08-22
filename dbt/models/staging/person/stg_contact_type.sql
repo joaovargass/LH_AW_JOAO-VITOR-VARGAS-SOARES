@@ -10,7 +10,7 @@ with stg_contact_type as (
         , name as contact_type_name
         , cast(substr(modifieddate, 1, 19) as datetime) as last_modified_date
     from
-        {{ source('stg_adventure_works', 'contact_type') }}
+        {{ source('stg_adventure_works', 'contacttype') }}
 )
 
 select
