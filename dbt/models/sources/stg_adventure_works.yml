@@ -183,6 +183,20 @@ sources:
           - name: modifieddate
             description: "The date when the state or province record was last modified. Raw data."
 
+      - name: password
+        description: "**Overview:** Contains raw data about state or province regions."
+        columns:
+          - name: businessentityid
+            description: "The unique identifier for the business entity. Raw data."
+          - name: passwordhash
+            description: "Password hash of length 44. Raw data."
+          - name: passwordsalt
+            description: "Password salt of length 8. Raw data."
+          - name: rowguid
+            description: "The unique identifier (GUID) for the password. Raw data."
+          - name: modifieddate
+            description: "The date when password record was last modified. Raw data."
+
       - name: employeepayhistory
         description: "**Overview:** Stores historical pay rate information for employees, including the date of change."
         columns:
@@ -885,6 +899,28 @@ sources:
           - name: modifieddate
             description: "The date when the transaction record was last modified."
 
+      - name: transactionhistoryarchive
+        description: "**Overview:** Contains information about transactions for previous years."
+        columns:
+          - name: transactionid
+            description: "Primary key for TransactionHistoryArchive records."
+          - name: productid
+            description: "Product identification number. Foreign key to Product.ProductID. References: Production.Product"
+          - name: referenceorderid
+            description: "Purchase order, sales order, or work order identification number."
+          - name: referenceorderlineid
+            description: "Line number associated with the purchase order, sales order, or work order."
+          - name: transactiondate
+            description: "Date and time of the transaction."
+          - name: transactiontype
+            description: "W = Work Order, S = Sales Order, P = Purchase Order"
+          - name: quantity
+            description: "Product quantity."
+          - name: actualcost
+            description: "Product cost."
+          - name: modifieddate
+            description: "Date and time the record was last updated."
+
       - name: workorder
         description: "**Overview:** Contains data about work orders, including production schedules and costs."
         columns:
@@ -978,6 +1014,16 @@ sources:
             description: "The unique identifier for the illustration."
           - name: modifieddate
             description: "The date when the association record was last modified."
+
+      - name: illustration
+        description: "**Overview:** Stores the association between product models and illustrations."
+        columns:
+          - name: illustrationid
+            description: "The unique identifier for the illustration."
+          - name: diagram
+            description: "Illustrations used in manufacturing instructions. Stored as XML."
+          - name: modifieddate
+            description: "The date when the illustration record was last modified."
 
       - name: productdocument
         description: "**Overview:** Stores the association between products and documents."
@@ -1134,3 +1180,15 @@ sources:
             description: "The name of the culture."
           - name: modifieddate
             description: "The date when the culture record was last modified."
+
+      - name: productproductphoto
+        description: "**Overview:** Contains information about product photos, including filenames and paths."
+        columns:
+          - name: productphotoid
+            description: "The unique identifier for the product photo."
+          - name: productid
+            description: "The unique identifier for the product."
+          - name: primary
+            description: "0 = Photo is not the principal image. 1 = Photo is the principal image."
+          - name: modifieddate
+            description: "Date and time the record was last updated."
