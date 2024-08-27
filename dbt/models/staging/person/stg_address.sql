@@ -8,7 +8,7 @@ with stg_address as (
     select
           cast(a.addressid as int64) as address_id
         , cast(cr.country_region_id as int64) as country_region_id
-        , sp.stateprovinceid as state_province_id
+        , a.stateprovinceid as state_province_id
         , cd.city_district_id
         , cast(regexp_extract(a.addressline1, r'\b\d+\b') as int64) as address_number
         , lower(trim(regexp_replace(a.addressline1, r'\b\d+\b|\bno\.?\b|\bn\.?\b', ''))) as address_street
@@ -21,8 +21,6 @@ with stg_address as (
         {{ source('stg_adventure_works', 'address') }} a
     left join
         {{ ref('stg_city_district') }} cd on a.city = cd.city_district_name
-    left join
-        {{ source('stg_adventure_works', 'stateprovince') }} sp on a.stateprovinceid = sp.stateprovinceid
     left join
         {{ ref('stg_country_region') }} cr on sp.country_region_id = cr.country_region_id
 )

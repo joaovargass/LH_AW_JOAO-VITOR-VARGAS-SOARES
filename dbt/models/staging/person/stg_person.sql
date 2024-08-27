@@ -12,8 +12,8 @@ with stg_person as (
         , initcap(lower(p.MiddleName)) as middle_name
         , initcap(lower(p.LastName)) as last_name
         , case
-            when p.Title like '%Sra%' then 'Mrs'
-            when p.Title like '%Sr%' then 'Mr'
+            when p.Title like '%Sra%' then 'Mrs.'
+            when p.Title like '%Sr%' then 'Mr.'
             else p.Title
           end as name_title
         , p.suffix as name_suffix

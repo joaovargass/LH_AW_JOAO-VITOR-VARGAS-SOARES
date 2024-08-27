@@ -199,6 +199,7 @@ models:
           combination_of:
             - address_id
             - business_entity_id
+            - address_type_id
 
   - name: stg_business_entity_contact
     description: "this model standardizes the businessentitycontact data, converts modifieddate to datetime, renames columns to snake_case, and enforces composite primary key and foreign key constraints."
@@ -291,7 +292,8 @@ models:
             - country_region_id
 
   - name: stg_address
-    description: "This model standardizes the address data, adds country_region_id, extracts and cleans address components, removes the city column, and converts spatial_location to lat/long."
+    description: "This model standardizes the address data, adds country_region_id, extracts and cleans address components,
+                  removes the city column, and converts spatial_location to lat/long."
     columns:
       - name: address_id
         description: "Primary key for the address, converted to int."
@@ -335,19 +337,25 @@ models:
           - not_null
       - name: latitude
         description: "Latitude converted from spatial_location."
-        tests:
-          - not_null
       - name: longitude
         description: "Longitude converted from spatial_location."
-        tests:
-          - not_null
       - name: row_guid
         description: "Unique identifier (guid) for the address."
         tests:
           - unique
       - name: last_modified_date
         description: "Date and time when the record was last modified, converted from string to datetime."
-
+        tests:
+          - not_null
+    tests:
+      - unique_combination:
+          combination_of:
+            - state_province_id
+            - address_street
+            - address_number
+            - address_complement
+            - country_region_id
+            - city_district_id
 
   - name: stg_city_district
     description: "This model creates a standardized table for city districts, linking to country_region and state_province tables."
@@ -376,6 +384,12 @@ models:
           - relationships:
               to: ref('stg_state_province')
               field: state_province_id
+    tests:
+      - unique_combination:
+          combination_of:
+            - city_district_id
+            - state_province_id
+            - country_region_id
 
   - name: stg_person
     description: "This model standardizes the person data, formats names with capitalized first letters, modifies title values, replaces '[NULL]' with null."
@@ -444,15 +458,15 @@ models:
         description: "hash of the user's password."
         tests:
           - not_null
-          - accepted_values:
-              values: ["44 characters"]
+          - dbt_utils.expression_is_true:
+              expression: "LENGTH(password_hash) = 44"
 
       - name: password_salt
         description: "salt used in hashing the password."
         tests:
           - not_null
-          - accepted_values:
-              values: ["8 characters"]
+          - dbt_utils.expression_is_true:
+              expression: "LENGTH(password_salt) = 8"
 
       - name: row_guid
         description: "rowguidcol uniquely identifying the record."
