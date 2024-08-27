@@ -7,6 +7,7 @@
 with stg_person as (
     select
         p.BusinessEntityID as business_entity_id
+        , upper(p.persontype) as person_type
         , initcap(lower(p.FirstName)) as first_name
         , initcap(lower(p.MiddleName)) as middle_name
         , initcap(lower(p.LastName)) as last_name
@@ -14,7 +15,8 @@ with stg_person as (
             when p.Title like '%Sra%' then 'Mrs'
             when p.Title like '%Sr%' then 'Mr'
             else p.Title
-          end as title
+          end as name_title
+        , p.suffix as name_suffix
         , cast(p.EmailPromotion as int64) as email_promotion
         , cast(p.NameStyle as boolean) as name_style
         , case
@@ -36,11 +38,11 @@ select
     , first_name
     , middle_name
     , last_name
-    , title
+    , name_title
     , email_promotion
     , name_style
     , person_type
-    , suffix
+    , name_suffix
     , additional_contact_info
     , demographics
     , row_guid

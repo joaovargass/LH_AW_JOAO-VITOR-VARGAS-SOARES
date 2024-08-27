@@ -20,6 +20,8 @@ models:
           - unique
           - not_null
       - name: last_modified_date
+        tests:
+          - not_null
         description: "Date and time when the record was last modified, converted from string."
 
   - name: stg_email_address
@@ -42,8 +44,13 @@ models:
           - not_null
       - name: last_modified_date
         description: "date and time when the record was last modified, converted from string to datetime."
+        tests:
+          - not_null
       - name: row_guid
         description: "unique row identifier (guid), kept as string."
+        tests:
+          - not_null
+          - unique
     tests:
       - unique:
           combination_of:
@@ -66,10 +73,13 @@ models:
           - not_null
       - name: last_modified_date
         description: "date and time when the record was last modified, converted from string to datetime."
+        tests:
+          - not_null
       - name: row_guid
         description: "unique identifier (guid), kept as string."
         tests:
           - unique
+          - not_null
 
   - name: stg_contact_type
     description: "this model standardizes the contact_type data, converts modifieddate to datetime, renames columns to snake_case, and enforces primary key and unique constraints."
@@ -85,6 +95,8 @@ models:
           - unique
           - not_null
       - name: last_modified_date
+        tests:
+          - not_null
         description: "date and time when the record was last modified, converted from string to datetime."
 
   - name: stg_phone_number_type
@@ -98,10 +110,11 @@ models:
       - name: phone_number_type_name
         description: "unique name of the phone number type."
         tests:
-          - unique
           - not_null
       - name: last_modified_date
         description: "date and time when the record was last modified, converted from string to datetime."
+        tests:
+          - not_null
 
   - name: stg_business_entity
     description: "this model standardizes the businessentity data, converts modifieddate to datetime, renames columns to snake_case, and enforces primary key and unique constraints."
@@ -113,6 +126,8 @@ models:
           - not_null
       - name: last_modified_date
         description: "date and time when the record was last modified, converted from string to datetime."
+        tests:
+          - not_null
       - name: row_guid
         description: "unique identifier (guid) for the business entity."
         tests:
@@ -142,6 +157,8 @@ models:
               field: phone_number_type_id
       - name: last_modified_date
         description: "date and time when the record was last modified, converted from string to datetime."
+        tests:
+          - not_null
     tests:
       - unique:
           combination_of:
@@ -175,6 +192,8 @@ models:
               field: address_type_id
       - name: last_modified_date
         description: "date and time when the record was last modified, converted from string to datetime."
+        tests:
+          - not_null
     tests:
       - unique:
           combination_of:
@@ -191,6 +210,13 @@ models:
           - relationships:
               to: ref('stg_business_entity')
               field: business_entity_id
+      - name: person_id
+        description: "part of the composite primary key for the business entity contact and foreign key referencing the person's business_entity_id."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_person')
+              field: business_entity_id
       - name: contact_type_id
         description: "foreign key referencing the contact type."
         tests:
@@ -198,12 +224,20 @@ models:
           - relationships:
               to: ref('stg_contact_type')
               field: contact_type_id
+      - name: row_guid
+        description: "unique identifier (guid) for the business entity contact."
+        tests:
+          - unique
+          - not_null
       - name: last_modified_date
         description: "date and time when the record was last modified, converted from string to datetime."
+        tests:
+          - not_null
     tests:
       - unique:
           combination_of:
             - business_entity_id
+            - person_id
             - contact_type_id
 
   - name: stg_state_province
@@ -233,6 +267,7 @@ models:
         description: "name of the state province."
         tests:
           - not_null
+          - unique
       - name: territory_id
         description: "foreign key referencing the sales territory."
         tests:
@@ -244,14 +279,16 @@ models:
         description: "unique identifier (guid) for the state province."
         tests:
           - unique
+          - not_null
       - name: last_modified_date
         description: "date and time when the record was last modified, converted from string to datetime."
+        tests:
+          - not_null
     tests:
       - unique:
           combination_of:
-            - state_province_code
+            - state_province_id
             - country_region_id
-            - is_only_state_province_flag
 
   - name: stg_address
     description: "This model standardizes the address data, adds country_region_id, extracts and cleans address components, removes the city column, and converts spatial_location to lat/long."
@@ -275,6 +312,13 @@ models:
           - relationships:
               to: ref('stg_state_province')
               field: state_province_id
+      - name: city_district_id
+        description: "Foreign key referencing the city/district."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_city_district')
+              field: city_district_id
       - name: address_number
         description: "House/building number extracted from address line 1."
         tests:
@@ -354,16 +398,22 @@ models:
         description: "Person's last name with the first letter capitalized."
         tests:
           - not_null
-      - name: title
+      - name: name_title
         description: "Person's title, with 'Sra%' converted to 'Mrs' and 'Sr%' converted to 'Mr'."
       - name: email_promotion
         description: "Indicator for email promotions, converted to an integer."
+        tests:
+          - not_null
       - name: name_style
         description: "Boolean value indicating the style of the name."
+        tests:
+          - not_null
       - name: person_type
         description: "Type of the person."
-      - name: suffix
-        description: "Suffix of the person's name."
+        tests:
+          - not_null
+      - name: name_suffix
+        description: "Surname suffix. For example, Sr. or Jr."
       - name: additional_contact_info
         description: "Additional contact information for the person, with '[NULL]' replaced by null."
       - name: demographics
@@ -372,5 +422,45 @@ models:
         description: "Unique identifier (GUID) for the person."
         tests:
           - unique
+          - not_null
       - name: last_modified_date
         description: "Date and time when the record was last modified, converted to DATETIME."
+        tests:
+          - not_null
+
+  - name: stg_password
+    description: "this model standardizes the password data, ensuring data consistency, validating key constraints, and enforcing proper lengths for password hash and salt."
+    columns:
+      - name: business_entity_id
+        description: "primary key and foreign key for password records, referencing the business entity."
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              to: ref('stg_person')
+              field: business_entity_id
+
+      - name: password_hash
+        description: "hash of the user's password."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ["44 characters"]
+
+      - name: password_salt
+        description: "salt used in hashing the password."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ["8 characters"]
+
+      - name: row_guid
+        description: "rowguidcol uniquely identifying the record."
+        tests:
+          - unique
+          - not_null
+
+      - name: last_modified_date
+        description: "date and time the record was last updated."
+        tests:
+          - not_null

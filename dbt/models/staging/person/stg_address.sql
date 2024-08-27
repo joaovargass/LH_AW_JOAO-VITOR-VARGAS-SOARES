@@ -9,6 +9,7 @@ with stg_address as (
           cast(a.addressid as int64) as address_id
         , cast(cr.country_region_id as int64) as country_region_id
         , sp.stateprovinceid as state_province_id
+        , cd.city_district_id
         , cast(regexp_extract(a.addressline1, r'\b\d+\b') as int64) as address_number
         , lower(trim(regexp_replace(a.addressline1, r'\b\d+\b|\bno\.?\b|\bn\.?\b', ''))) as address_street
         , lower(a.addressline2) as address_complement
@@ -18,6 +19,8 @@ with stg_address as (
         , cast(substr(a.modifieddate, 1, 19) as datetime) as last_modified_date
     from
         {{ source('stg_adventure_works', 'address') }} a
+    left join
+        {{ ref('stg_city_district') }} cd on a.city = cd.city_district_name
     left join
         {{ source('stg_adventure_works', 'stateprovince') }} sp on a.stateprovinceid = sp.stateprovinceid
     left join
@@ -29,6 +32,7 @@ with stg_address as (
           address_id
         , country_region_id
         , state_province_id
+        , city_district_id
         , address_number
         , address_street
         , address_complement
@@ -54,6 +58,7 @@ select
       address_id
     , country_region_id
     , state_province_id
+    , city_district_id
     , address_number
     , address_street
     , address_complement

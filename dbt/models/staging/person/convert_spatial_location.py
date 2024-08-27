@@ -37,8 +37,8 @@ def model(dbt, session):
     with open('keys/google_api_key.txt', 'r') as file:
         google_api_key = file.read().strip()
 
-    # Carregar os dados da tabela stg_address
-    df = dbt.ref("stg_address").to_pandas()
+    # Carregar os dados da tabela source address
+    df = dbt.source("stg_adventure_works", "address").to_pandas()
 
     # Converter spatial_location para latitude e longitude
     df[['latitude', 'longitude']] = df['spatial_location'].apply(lambda x: pd.Series(convert_hex_to_lat_lon(x)))
