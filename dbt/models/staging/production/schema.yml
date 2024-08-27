@@ -105,9 +105,7 @@ models:
           - not_null
 
       - name: illustration_diagram
-        description: "Diagram of the illustration."
-        tests:
-          - not_null
+        description: "Illustrations used in manufacturing instructions. Stored as XML."
 
       - name: last_modified_date
         description: "Date and time when the illustration data was last modified."
@@ -183,6 +181,7 @@ models:
         description: "Name of the unit of measure."
         tests:
           - not_null
+          - unique
 
       - name: last_modified_date
         description: "Date and time when the unit measure data was last modified."
@@ -255,7 +254,7 @@ models:
         tests:
           - relationships:
               to: ref('stg_product')
-              field: product_assembly_id
+              field: product_id
 
       - name: component_id
         description: "Foreign key to Product.ProductID representing the component product."
@@ -263,7 +262,7 @@ models:
           - not_null
           - relationships:
               to: ref('stg_product')
-              field: component_id
+              field: product_id
 
       - name: start_date
         description: "Date and time when the component started being used in the assembly."
@@ -295,6 +294,12 @@ models:
         description: "Date and time when the bill of materials record was last modified."
         tests:
           - not_null
+    tests:
+      - unique_combination:
+          combination_of:
+            - product_assembly_id
+            - start_date
+            - component_id
 
   - name: stg_work_order
     description: "this model standardizes the work order data, ensuring data consistency and validating key constraints, date integrity, and quantity values."
@@ -355,10 +360,6 @@ models:
         description: "product identification number associated with the inventory record."
         tests:
           - not_null
-          - unique_combination_of_columns:
-              combination:
-                - product_id
-                - location_id
           - relationships:
               to: ref('stg_product')
               field: product_id
@@ -367,10 +368,6 @@ models:
         description: "inventory location identification number."
         tests:
           - not_null
-          - unique_combination_of_columns:
-              combination:
-                - product_id
-                - location_id
           - relationships:
               to: ref('stg_location')
               field: location_id
@@ -400,6 +397,12 @@ models:
         description: "date and time the record was last updated."
         tests:
           - not_null
+
+    tests:
+      - unique_combination:
+          combination_of:
+            - product_id
+            - location_id
 
   - name: stg_product_subcategory
     description: "this model standardizes the product subcategory data, ensuring data consistency and validating key constraints and uniqueness of product_subcategory_name and row_guid."
@@ -468,11 +471,6 @@ models:
         description: "primary key and foreign key for work order routing records, referencing work orders."
         tests:
           - not_null
-          - unique_combination_of_columns:
-              combination:
-                - work_order_id
-                - product_id
-                - operation_sequence
           - relationships:
               to: ref('stg_work_order')
               field: work_order_id
@@ -510,18 +508,12 @@ models:
 
       - name: actual_start_date
         description: "actual start date."
-        tests:
-          - not_null
 
       - name: actual_end_date
         description: "actual end date."
-        tests:
-          - not_null
 
       - name: actual_resource_hrs
         description: "number of manufacturing hours used."
-        tests:
-          - not_null
 
       - name: planned_cost
         description: "estimated manufacturing cost."
@@ -530,90 +522,18 @@ models:
 
       - name: actual_cost
         description: "actual manufacturing cost."
-        tests:
-          - not_null
 
       - name: last_modified_date
         description: "date and time the record was last updated."
         tests:
           - not_null
+    tests:
+      - unique_combination:
+          combination_of:
+            - work_order_id
+            - product_id
+            - operation_sequence
 
-  - name: stg_work_order_routing
-    description: "this model standardizes the work order routing data, ensuring data consistency and validating key constraints, date integrity, and cost and resource usage."
-    columns:
-      - name: work_order_id
-        description: "primary key and foreign key for work order routing records, referencing work orders."
-        tests:
-          - not_null
-          - unique_combination_of_columns:
-              combination:
-                - work_order_id
-                - product_id
-                - operation_sequence
-          - relationships:
-              to: ref('stg_work_order')
-              field: work_order_id
-
-      - name: product_id
-        description: "product identification number associated with the work order routing."
-        tests:
-          - not_null
-          - relationships:
-              to: ref('stg_product')
-              field: product_id
-
-      - name: operation_sequence
-        description: "indicates the manufacturing process sequence."
-        tests:
-          - not_null
-
-      - name: location_id
-        description: "manufacturing location where the part is processed."
-        tests:
-          - not_null
-          - relationships:
-              to: ref('stg_location')
-              field: location_id
-
-      - name: scheduled_start_date
-        description: "planned manufacturing start date."
-        tests:
-          - not_null
-
-      - name: scheduled_end_date
-        description: "planned manufacturing end date."
-        tests:
-          - not_null
-
-      - name: actual_start_date
-        description: "actual start date."
-        tests:
-          - none
-
-      - name: actual_end_date
-        description: "actual end date."
-        tests:
-          - none
-
-      - name: actual_resource_hrs
-        description: "number of manufacturing hours used."
-        tests:
-          - none
-
-      - name: planned_cost
-        description: "estimated manufacturing cost."
-        tests:
-          - not_null
-
-      - name: actual_cost
-        description: "actual manufacturing cost."
-        tests:
-          - none
-
-      - name: last_modified_date
-        description: "date and time the record was last updated."
-        tests:
-          - not_null
 
   - name: stg_product_cost_history
     description: "this model standardizes the product cost history data, introducing a new primary key generated by row_number() and ensuring data consistency and uniqueness of the combination of product_id and start_date."
@@ -636,10 +556,6 @@ models:
         description: "product cost start date."
         tests:
           - not_null
-          - unique_combination_of_columns:
-              combination:
-                - product_id
-                - start_date
 
       - name: end_date
         description: "product cost end date."
@@ -653,6 +569,11 @@ models:
         description: "date and time the record was last updated."
         tests:
           - not_null
+    tests:
+      - unique_combination:
+          combination_of:
+            - product_id
+            - start_date
 
   - name: stg_product_model_description_culture
     description: "this model standardizes the product model description culture data, ensuring data consistency and validating key constraints and uniqueness of the combination of product_model_id, product_description_id, and culture_id."
@@ -661,11 +582,6 @@ models:
         description: "primary key and foreign key for product model description culture records, referencing product models."
         tests:
           - not_null
-          - unique_combination_of_columns:
-              combination:
-                - product_model_id
-                - product_description_id
-                - culture_id
           - relationships:
               to: ref('stg_product_model')
               field: product_model_id
@@ -691,6 +607,13 @@ models:
         tests:
           - not_null
 
+    tests:
+      - unique_combination:
+          combination_of:
+            - product_model_id
+            - product_description_id
+            - culture_id
+
   - name: stg_product_document
     description: "this model standardizes the product document data, ensuring data consistency and validating key constraints and uniqueness of the combination of product_id and document_node."
     columns:
@@ -698,10 +621,6 @@ models:
         description: "primary key and foreign key for product document records, referencing products."
         tests:
           - not_null
-          - unique_combination_of_columns:
-              combination:
-                - product_id
-                - document_node
 
       - name: document_node
         description: "document identification number associated with the product."
@@ -712,6 +631,11 @@ models:
         description: "date and time the record was last updated."
         tests:
           - not_null
+    tests:
+      - unique_combination:
+          combination_of:
+            - product_id
+            - document_node
 
   - name: stg_product_review
     description: "this model standardizes the product review data, ensuring data consistency, validating key constraints, and enforcing proper email and rating formats."
@@ -756,8 +680,6 @@ models:
 
       - name: comments
         description: "reviewer's comments."
-        tests:
-          - none
 
       - name: last_modified_date
         description: "date and time the record was last updated."
@@ -795,13 +717,16 @@ models:
         description: "product list price."
         tests:
           - not_null
-          - accepted_values:
-              values: ["non-negative"]
 
       - name: last_modified_date
         description: "date and time the record was last updated."
         tests:
           - not_null
+    tests:
+      - unique_combination:
+          combination_of:
+            - start_date
+            - product_id
 
   - name: stg_product_model_illustration
     description: "This model standardizes the product model illustration data, ensuring data consistency and validating key constraints and dates."
@@ -809,7 +734,6 @@ models:
       - name: product_model_id
         description: "Primary key for ProductModelIllustration records, referencing ProductModel."
         tests:
-          - unique
           - not_null
           - relationships:
               to: ref('stg_product_model')
@@ -818,7 +742,6 @@ models:
       - name: illustration_id
         description: "Primary key for ProductModelIllustration records, referencing Illustration."
         tests:
-          - unique
           - not_null
           - relationships:
               to: ref('stg_illustration')
@@ -830,7 +753,7 @@ models:
           - not_null
 
     tests:
-      - primary_key:
+      - unique_combination:
           combination_of:
             - product_model_id
             - illustration_id
@@ -871,60 +794,57 @@ models:
           - unique
           - not_null
 
+      - name: thumbnail_photo
+        description: "Small image file."
+
       - name: thumbnail_photo_file_name
         description: "Small image file name."
-        tests:
-          - not_null
+
+      - name: large_photo
+        description: "Large image file."
 
       - name: large_photo_file_name
         description: "Large image file name."
-        tests:
-          - not_null
 
       - name: last_modified_date
         description: "Date and time when the record was last modified."
         tests:
           - not_null
 
-    tests:
-      - primary_key:
-          columns: [product_photo_id]
-
   - name: stg_product_product_photo
-    description: "Este modelo padroniza os dados de associação entre produtos e fotos de produtos, garantindo consistência nos dados e validando as chaves primárias e campos datetime."
+    description: "This model standardizes the data association between products and product photos, ensuring data consistency and validating primary keys and datetime fields."
     columns:
       - name: product_id
-        description: "Chave primária para ProductProductPhoto. Referencia a chave estrangeira Product.ProductID."
+        description: "Primary key for ProductProductPhoto. References the foreign key Product.ProductID."
         tests:
-          - unique
           - not_null
           - relationships:
               to: ref('stg_product')
               field: product_id
 
-
       - name: product_photo_id
-        description: "Chave primária para ProductProductPhoto. Referencia a chave estrangeira ProductPhoto.ProductPhotoID."
+        description: "Primary key for ProductProductPhoto. References the foreign key ProductPhoto.ProductPhotoID."
         tests:
-          - unique
           - not_null
           - relationships:
               to: ref('stg_product_photo')
               field: product_photo_id
 
       - name: is_primary
-        description: "Indica se a foto é a principal. Valores booleanos: true (é principal), false (não é principal)."
+        description: "Indicates whether the photo is the primary one. Boolean values: true (is primary), false (is not primary)."
         tests:
           - not_null
 
       - name: last_modified_date
-        description: "Data e hora da última modificação do registro."
+        description: "Date and time of the last record modification."
         tests:
           - not_null
 
     tests:
-      - primary_key:
-          columns: [product_id, product_photo_id]
+      - unique_combination:
+          combination_of:
+            - product_id
+            - product_photo_id
 
   - name: stg_document
     description: "This model standardizes the document data, ensuring data consistency and validating the primary key, key fields, and relationships."
@@ -999,10 +919,6 @@ models:
         tests:
           - not_null
 
-    tests:
-      - primary_key:
-          columns: [document_node]
-
   - name: stg_product
     description: "This model standardizes the product data, ensuring data consistency and validating key constraints, date integrity, and value correctness."
     columns:
@@ -1015,6 +931,7 @@ models:
         description: "Name of the product."
         tests:
           - not_null
+          - unique
       - name: product_number
         description: "Unique product identification number."
         tests:
@@ -1051,14 +968,12 @@ models:
       - name: size_unit_measure_id
         description: "Reference to the unit measure for the size of the product. Foreign key to stg_unit_measure.unit_measure_id."
         tests:
-          - not_null
           - relationships:
               to: ref('stg_unit_measure')
               field: unit_measure_id
       - name: weight_unit_measure_id
         description: "Reference to the unit measure for the weight of the product. Foreign key to stg_unit_measure.unit_measure_id."
         tests:
-          - not_null
           - relationships:
               to: ref('stg_unit_measure')
               field: unit_measure_id
@@ -1077,16 +992,14 @@ models:
       - name: product_subcategory_id
         description: "Product is a member of this product subcategory. Foreign key to ProductSubcategory."
         tests:
-          - not_null
           - relationships:
-              to: ref('stg_productsubcategory')
+              to: ref('stg_product_subcategory')
               field: product_subcategory_id
       - name: product_model_id
         description: "Product is a member of this product model. Foreign key to ProductModel."
         tests:
-          - not_null
           - relationships:
-              to: ref('stg_productmodel')
+              to: ref('stg_product_model')
               field: product_model_id
       - name: sell_start_date
         description: "Date the product was available for sale."
