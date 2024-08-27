@@ -25,6 +25,7 @@ models:
           from string.
         tests:
           - not_null
+
   - name: stg_shift
     description: This model standardizes the shift data, ensuring that the shift
       name is unique, validating the start and end times, and adding a unique
@@ -53,11 +54,12 @@ models:
           string.
         tests:
           - not_null
-      - tests:
-        - unique:
+    tests:
+      - unique_combination:
           combination_of:
             - start_time
             - end_time
+
   - name: stg_job_candidate
     description: This model standardizes the job candidate data, ensuring that
       job_candidate_id is the primary key, allowing for nullable
@@ -76,17 +78,17 @@ models:
               to: ref('stg_employee')
               field: business_entity_id
       - name: job_candidate_resume
-        description: Resume of the job candidate in XML
+        description: Resume of the job candidate in XML.
       - name: last_modified_date
         description: Date and time when the job candidate data was last modified,
           converted from string.
         tests:
           - not_null
+
   - name: stg_employee_pay_history
-    description: This model cria uma nova coluna de chave primária
-      employee_pay_history_id, assegura que rate é um float, define
-      rate_change_date como único, e estabelece business_entity_id como uma
-      chave estrangeira referenciando a tabela de employee.
+    description: This model creates a new primary key column `employee_pay_history_id`,
+      ensures `rate` is a float, defines `rate_change_date` as unique, and establishes
+      `business_entity_id` as a foreign key referencing the `employee` table.
     columns:
       - name: employee_pay_history_id
         description: Unique identifier for each employee pay history record.
@@ -111,7 +113,7 @@ models:
           - not_null
       - name: pay_frequency
         description: The frequency of pay, stored as an integer. 1 = Salary received
-          monthly, 2 = Salary received biweekly
+          monthly, 2 = Salary received biweekly.
         tests:
           - not_null
       - name: last_modified_date
@@ -120,14 +122,14 @@ models:
         tests:
           - not_null
     tests:
-      - unique:
+      - unique_combination:
           combination_of:
             - business_entity_id
-            - employee_pay_history_id
+            - rate_change_date
+
   - name: stg_employee_department_history
-    description: This model creates a new primary key column
-      employee_department_history_id, transforms dates, ensures key constraints,
-      and sets startdate as non-nullable.
+    description: This model creates a new primary key column `employee_department_history_id`,
+      transforms dates, ensures key constraints, and sets `start_date` as non-nullable.
     columns:
       - name: employee_department_history_id
         description: Unique identifier for each employee department history record.
@@ -162,23 +164,24 @@ models:
           - not_null
       - name: end_date
         description: The date when the employee ended in the department, stored as a
-          datetime. NULL = Current department
+          datetime. NULL = Current department.
       - name: last_modified_date
         description: Date and time when the department history record was last modified,
           converted from string.
         tests:
           - not_null
     tests:
-      - unique:
+      - unique_combination:
           combination_of:
             - employee_department_history_id
             - business_entity_id
             - department_id
             - shift_id
+
   - name: stg_employee
     description: This model standardizes the employee data, ensures the uniqueness
-      of nationalidnumber, loginid, and rowguid, and enforces the foreign key
-      constraint on businessentityid which is also the primary key.
+      of national_id_number, login_id, and rowguid, and enforces the foreign key
+      constraint on business_entity_id which is also the primary key.
     columns:
       - name: employee_id
         description: Unique identifier for each employee, also a foreign key referencing
@@ -206,7 +209,7 @@ models:
           - unique
           - not_null
       - name: organization_node
-        description: Where the employee is located in corporate hierarchy.
+        description: Where the employee is located in the corporate hierarchy.
       - name: job_title
         description: Job title of the employee.
         tests:
@@ -216,11 +219,11 @@ models:
         tests:
           - not_null
       - name: marital_status
-        description: Marital status of the employee. M = Married, S = Single
+        description: Marital status of the employee. M = Married, S = Single.
         tests:
           - not_null
       - name: gender
-        description: Gender of the employee. M = Male, F = Female
+        description: Gender of the employee. M = Male, F = Female.
         tests:
           - not_null
       - name: hire_date
