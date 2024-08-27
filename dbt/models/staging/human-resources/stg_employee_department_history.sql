@@ -6,7 +6,14 @@
 
 with stg_employee_department_history as (
     select
-          cast(row_number() over (order by startdate) as int64) as employee_department_history_id
+          cast(row_number() over (
+            order by
+                  business_entity_id
+                , start_date
+                , department_id
+                , shift_id
+                ) as int64
+            ) as employee_department_history_id
         , cast(businessentityid as int64) as business_entity_id
         , cast(departmentid as int64) as department_id
         , cast(shiftid as int64) as shift_id

@@ -6,7 +6,7 @@
 
 with stg_employee_pay_history as (
     select
-          cast(row_number() over (order by ratechangedate) as int64) as employee_pay_history_id
+          cast(row_number() over (order by businessentityid, ratechangedate) as int64) as employee_pay_history_id
         , cast(businessentityid as int64) as business_entity_id
         , cast(ratechangedate as datetime) as rate_change_date
         , cast(rate as float64) as rate

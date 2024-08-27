@@ -8,10 +8,7 @@ with stg_department as (
     select
           cast(departmentid as int64) as department_id
         , name as department_name
-        , case
-            when groupname is null then 'Unknown Group'
-            else groupname
-          end as group_name
+        , groupname as group_name
         , cast(substr(modifieddate, 1, 19) as datetime) as last_modified_date
     from
         {{ source('stg_adventure_works', 'department') }}

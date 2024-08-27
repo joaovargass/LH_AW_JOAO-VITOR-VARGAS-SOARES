@@ -6,9 +6,11 @@
 
 with stg_employee as (
     select
-          cast(businessentityid as int64) as business_entity_id
+          cast(row_number() over (order by businessentityid) as int64) as employee_id
+        , cast(businessentityid as int64) as business_entity_id
         , cast(nationalidnumber as string) as national_id_number
         , cast(loginid as string) as login_id
+        , organizationnode as organization_node
         , jobtitle as job_title
         , cast(birthdate as datetime) as birth_date
         , maritalstatus as marital_status
@@ -25,9 +27,11 @@ with stg_employee as (
 )
 
 select
-      business_entity_id
+    employee_id
+    , business_entity_id
     , national_id_number
     , login_id
+    , organization_node
     , job_title
     , birth_date
     , marital_status
