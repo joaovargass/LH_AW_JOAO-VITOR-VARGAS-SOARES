@@ -1,0 +1,779 @@
+version: 2
+
+models:
+  - name: stg_sales_territory_history
+    description: "This model standardizes the sales territory history data, ensuring data consistency and validating key constraints, date integrity, and unique identifiers."
+    columns:
+      - name: sales_territory_history_id
+        description: "Unique identifier for each record in the sales territory history table, generated based on the order of old primary keys."
+        tests:
+          - unique
+          - not_null
+      - name: business_entity_id
+        description: "Primary key. The sales rep. Foreign key to SalesPerson.BusinessEntityID."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_sales_person')
+              field: business_entity_id
+      - name: territory_id
+        description: "Primary key. Territory identification number. Foreign key to SalesTerritory.TerritoryID."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_sales_territory')
+              field: territory_id
+      - name: start_date
+        description: "Date the sales representative started work in the territory."
+        tests:
+          - not_null
+      - name: end_date
+        description: "Date the sales representative left work in the territory."
+      - name: row_guid
+        description: "ROWGUIDCOL number uniquely identifying the record. Used to support a merge replication sample."
+        tests:
+          - unique
+          - not_null
+      - name: last_modified_date
+        description: "Date and time the record was last updated."
+        tests:
+          - not_null
+
+    tests:
+      - unique_combination_of_keys:
+          keys: [business_entity_id, territory_id, start_date]
+
+  - name: stg_store
+    description: "This model standardizes the store data, ensuring data consistency and validating key constraints, unique identifiers, and relationships."
+    columns:
+      - name: store_id
+        description: "Unique identifier for each store record, generated based on the order of businessentityid."
+        tests:
+          - unique
+          - not_null
+      - name: business_entity_id
+        description: "Primary key. Foreign key to BusinessEntity.BusinessEntityID."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_business_entity')
+              field: business_entity_id
+      - name: store_name
+        description: "Name of the store."
+        tests:
+          - not_null
+      - name: sales_person_id
+        description: "Foreign key to SalesPerson.SalesPersonID."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_sales_person')
+              field: sales_person_id
+      - name: demographics
+        description: "Demographic information about the store."
+      - name: row_guid
+        description: "ROWGUIDCOL number uniquely identifying the record. Used to support a merge replication sample."
+        tests:
+          - unique
+          - not_null
+      - name: last_modified_date
+        description: "Date and time the record was last updated."
+        tests:
+          - not_null
+
+    tests:
+      - unique_combination_of_keys:
+          keys: [store_id, business_entity_id]
+
+  - name: stg_customer
+    description: "This model standardizes the customer data, ensuring data consistency and validating key constraints, unique identifiers, and relationships."
+    columns:
+      - name: customer_id
+        description: "Unique identifier for each customer record."
+        tests:
+          - unique
+          - not_null
+      - name: person_id
+        description: "Foreign key to Person.PersonID."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_person')
+              field: person_id
+      - name: store_id
+        description: "Foreign key to Store.StoreID."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_store')
+              field: store_id
+      - name: territory_id
+        description: "Foreign key to SalesTerritory.TerritoryID."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_sales_territory')
+              field: territory_id
+      - name: row_guid
+        description: "ROWGUIDCOL number uniquely identifying the record. Used to support a merge replication sample."
+        tests:
+          - unique
+          - not_null
+      - name: last_modified_date
+        description: "Date and time the record was last updated."
+        tests:
+          - not_null
+
+  - name: stg_sales_person_quota_history
+    description: "This model standardizes the sales person quota history data, ensuring data consistency and validating key constraints, unique identifiers, and relationships."
+    columns:
+      - name: sales_person_quota_history_id
+        description: "Unique identifier for each sales person quota history record."
+        tests:
+          - unique
+          - not_null
+      - name: business_entity_id
+        description: "Foreign key to SalesPerson.BusinessEntityID."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_sales_person')
+              field: business_entity_id
+      - name: quota_date
+        description: "Sales quota date."
+        tests:
+          - not_null
+      - name: sales_quota
+        description: "Sales quota amount."
+        tests:
+          - not_null
+      - name: row_guid
+        description: "ROWGUIDCOL number uniquely identifying the record. Used to support a merge replication sample."
+        tests:
+          - unique
+          - not_null
+      - name: last_modified_date
+        description: "Date and time the record was last updated."
+        tests:
+          - not_null
+
+    tests:
+      - unique_combination_of_keys:
+          keys: [business_entity_id, quota_date]
+
+  - name: stg_sales_person
+    description: "This model standardizes the sales person data, ensuring data consistency and validating key constraints, unique identifiers, and relationships."
+    columns:
+      - name: sales_person_id
+        description: "Unique identifier for each sales person record."
+        tests:
+          - unique
+          - not_null
+      - name: business_entity_id
+        description: "Foreign key to Employee.BusinessEntityID."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_employee')
+              field: business_entity_id
+      - name: territory_id
+        description: "Foreign key to SalesTerritory.TerritoryID."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_sales_territory')
+              field: territory_id
+      - name: sales_quota
+        description: "Projected yearly sales."
+        tests:
+          - not_null
+      - name: bonus
+        description: "Bonus due if quota is met."
+        tests:
+          - not_null
+      - name: commission_pct
+        description: "Commission percent received per sale."
+        tests:
+          - not_null
+      - name: sales_ytd
+        description: "Sales total year to date."
+        tests:
+          - not_null
+      - name: sales_last_year
+        description: "Sales total of previous year."
+        tests:
+          - not_null
+      - name: row_guid
+        description: "ROWGUIDCOL number uniquely identifying the record. Used to support a merge replication sample."
+        tests:
+          - unique
+          - not_null
+      - name: last_modified_date
+        description: "Date and time the record was last updated."
+        tests:
+          - not_null
+
+    tests:
+      - unique_combination_of_keys:
+          keys: [business_entity_id]
+
+  - name: stg_sales_territory
+    description: "This model standardizes the sales territory data, ensuring data consistency and validating key constraints, unique identifiers, and relationships."
+    columns:
+      - name: sales_territory_id
+        description: "Unique identifier for each sales territory record."
+        tests:
+          - unique
+          - not_null
+      - name: territory_name
+        description: "Name of the sales territory."
+        tests:
+          - not_null
+      - name: country_region_id
+        description: "Foreign key to StateProvince.CountryRegionID."
+        tests:
+          - not_null
+
+      - name: territory_group
+        description: "Group associated with the sales territory."
+        tests:
+          - not_null
+      - name: sales_ytd
+        description: "Year to date sales."
+        tests:
+          - not_null
+      - name: sales_last_year
+        description: "Sales total from the previous year."
+        tests:
+          - not_null
+      - name: cost_ytd
+        description: "Year to date cost."
+        tests:
+          - not_null
+      - name: cost_last_year
+        description: "Cost total from the previous year."
+        tests:
+          - not_null
+      - name: row_guid
+        description: "ROWGUIDCOL number uniquely identifying the record. Used to support a merge replication sample."
+        tests:
+          - unique
+          - not_null
+      - name: last_modified_date
+        description: "Date and time the record was last updated."
+        tests:
+          - not_null
+
+    tests:
+      - unique_combination_of_keys:
+          keys: [sales_territory_id]
+
+  - name: stg_person_credit_card
+    description: "This model standardizes the person credit card data, ensuring data consistency and validating key constraints, unique identifiers, and relationships."
+    columns:
+      - name: business_entity_id
+        description: "Foreign key to Person.BusinessEntityID."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_person')
+              field: business_entity_id
+      - name: credit_card_id
+        description: "Foreign key to CreditCard.CreditCardID."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_credit_card')
+              field: credit_card_id
+      - name: last_modified_date
+        description: "Date and time the record was last updated."
+        tests:
+          - not_null
+
+    tests:
+      - unique_combination_of_keys:
+          keys: [business_entity_id, credit_card_id]
+
+  - name: stg_credit_card
+    description: "This model standardizes the credit card data, ensuring data consistency and validating key constraints, unique identifiers, and relationships."
+    columns:
+      - name: credit_card_id
+        description: "Unique identifier for each credit card record."
+        tests:
+          - unique
+          - not_null
+      - name: card_type
+        description: "Type of the credit card (e.g., Visa, MasterCard)."
+        tests:
+          - not_null
+      - name: card_number
+        description: "Credit card number."
+        tests:
+          - unique
+          - not_null
+      - name: exp_month
+        description: "Expiration month of the credit card."
+        tests:
+          - not_null
+      - name: exp_year
+        description: "Expiration year of the credit card."
+        tests:
+          - not_null
+      - name: last_modified_date
+        description: "Date and time the record was last updated."
+        tests:
+          - not_null
+
+    tests:
+      - unique_combination_of_keys:
+          keys: [credit_card_id]
+
+  - name: stg_special_offer
+    description: "This model standardizes the special offer data, ensuring data consistency and validating key constraints, unique identifiers, and relationships."
+    columns:
+      - name: special_offer_id
+        description: "Unique identifier for each special offer record."
+        tests:
+          - unique
+          - not_null
+      - name: offer_description
+        description: "Description of the special offer."
+        tests:
+          - not_null
+      - name: discount_pct
+        description: "Discount percentage applied in the special offer."
+        tests:
+          - not_null
+      - name: offer_type
+        description: "Type of the special offer."
+        tests:
+          - not_null
+      - name: offer_category
+        description: "Category of the special offer."
+        tests:
+          - not_null
+      - name: start_date
+        description: "Start date of the special offer."
+        tests:
+          - not_null
+      - name: end_date
+        description: "End date of the special offer."
+        tests:
+          - not_null
+      - name: min_qty
+        description: "Minimum quantity required for the special offer."
+        tests:
+          - not_null
+      - name: max_qty
+        description: "Maximum quantity allowed for the special offer."
+        tests:
+          - not_null
+      - name: row_guid
+        description: "ROWGUIDCOL number uniquely identifying the record. Used to support a merge replication sample."
+        tests:
+          - unique
+          - not_null
+      - name: last_modified_date
+        description: "Date and time the record was last updated."
+        tests:
+          - not_null
+
+    tests:
+      - unique_combination_of_keys:
+          keys: [special_offer_id]
+
+  - name: stg_special_offer_product
+    description: "This model standardizes the special offer product data, ensuring data consistency and validating key constraints, unique identifiers, and relationships."
+    columns:
+      - name: special_offer_id
+        description: "Foreign key to SpecialOffer.SpecialOfferID."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_special_offer')
+              field: special_offer_id
+      - name: product_id
+        description: "Foreign key to Product.ProductID."
+        tests:
+          - not_null
+      - name: row_guid
+        description: "ROWGUIDCOL number uniquely identifying the record. Used to support a merge replication sample."
+        tests:
+          - unique
+          - not_null
+      - name: last_modified_date
+        description: "Date and time the record was last updated."
+        tests:
+          - not_null
+
+    tests:
+      - unique_combination_of_keys:
+          keys: [special_offer_id, product_id]
+
+  - name: stg_sales_reason
+    description: "This model standardizes the sales reason data, ensuring data consistency and validating key constraints, unique identifiers, and relationships."
+    columns:
+      - name: sales_reason_id
+        description: "Primary key for SalesReason records."
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: "Sales reason description."
+        tests:
+          - not_null
+      - name: reason_type
+        description: "Category the sales reason belongs to."
+        tests:
+          - not_null
+      - name: last_modified_date
+        description: "Date and time the record was last updated."
+        tests:
+          - not_null
+
+  - name: stg_sales_order_header_sales_reason
+    description: "This model standardizes the sales order header sales reason data, ensuring data consistency and validating the primary key and foreign key relationships."
+    columns:
+      - name: business_entity_id
+        description: "The business entity identification number."
+        tests:
+          - not_null
+          - unique_combination_of_keys
+      - name: sales_order_id
+        description: "The sales order identification number."
+        tests:
+          - not_null
+          - unique_combination_of_keys
+          - relationships:
+              to: ref('stg_sales_order_header')
+              field: sales_order_id
+      - name: sales_reason_id
+        description: "The sales reason identification number."
+        tests:
+          - not_null
+          - unique_combination_of_keys
+          - relationships:
+              to: ref('stg_sales_reason')
+              field: sales_reason_id
+      - name: last_modified_date
+        description: "The date and time when the record was last modified."
+        tests:
+          - not_null
+
+
+  - name: stg_sales_order_detail
+    description: "This model standardizes the sales order detail data, ensuring data consistency and validating key constraints and values."
+    columns:
+      - name: sales_order_id
+        description: "Primary key for the sales order detail, referencing the sales order header."
+        tests:
+          - not_null
+          - unique
+
+      - name: sales_order_detail_id
+        description: "Primary key for the sales order detail, unique per order."
+        tests:
+          - not_null
+          - unique
+
+      - name: product_id
+        description: "Product identification number associated with the sales order detail."
+        tests:
+          - not_null
+
+
+      - name: special_offer_id
+        description: "Special offer identification number associated with the sales order detail."
+        tests:
+          - not_null
+
+      - name: carrier_tracking_number
+        description: "Shipment tracking number supplied by the shipper."
+
+      - name: order_qty
+        description: "Quantity ordered per product."
+        tests:
+          - not_null
+
+      - name: unit_price
+        description: "Selling price of a single product."
+        tests:
+          - not_null
+
+      - name: unit_price_discount
+        description: "Discount amount applied to the unit price."
+        tests:
+          - not_null
+
+      - name: row_guid
+        description: "Unique identifier for the sales order detail record."
+        tests:
+          - unique
+
+      - name: last_modified_date
+        description: "Date and time when the sales order detail record was last modified."
+        tests:
+          - not_null
+
+  - name: stg_currency
+    description: "This model standardizes the currency data, ensuring data consistency and validating key constraints and values."
+    columns:
+      - name: currency_code
+        description: "The ISO code for the currency."
+        tests:
+          - not_null
+          - unique
+
+      - name: name
+        description: "The name of the currency."
+        tests:
+          - not_null
+          - unique
+
+      - name: last_modified_date
+        description: "The date and time when the currency record was last updated."
+        tests:
+          - not_null
+
+  - name: stg_currency_rate
+    description: "This model standardizes the currency rate data, ensuring data consistency and validating key constraints and values."
+    columns:
+      - name: currency_rate_id
+        description: "Primary key for CurrencyRate records."
+        tests:
+          - not_null
+          - unique
+
+      - name: currency_rate_date
+        description: "Date and time the exchange rate was obtained."
+        tests:
+          - not_null
+
+      - name: from_currency_code
+        description: "Exchange rate was converted from this currency code."
+        tests:
+          - not_null
+
+      - name: to_currency_code
+        description: "Exchange rate was converted to this currency code."
+        tests:
+          - not_null
+
+      - name: average_rate
+        description: "Average exchange rate for the day."
+        tests:
+          - not_null
+
+      - name: end_of_day_rate
+        description: "Final exchange rate for the day."
+        tests:
+          - not_null
+
+      - name: last_modified_date
+        description: "The date and time when the currency rate record was last updated."
+        tests:
+          - not_null
+
+  - name: stg_shopping_cart_item
+    description: "This model standardizes the shopping cart item data, ensuring data consistency and validating key constraints and values."
+    columns:
+      - name: shopping_cart_item_id
+        description: "Primary key for ShoppingCartItem records."
+        tests:
+          - not_null
+          - unique
+
+      - name: shopping_cart_id
+        description: "Shopping cart identification number."
+        tests:
+          - not_null
+
+      - name: quantity
+        description: "Product quantity ordered."
+        tests:
+          - not_null
+
+      - name: product_id
+        description: "Product ordered. Foreign key to Product.ProductID."
+        tests:
+          - not_null
+
+
+      - name: date_created
+        description: "Date the time the record was created."
+        tests:
+          - not_null
+
+      - name: last_modified_date
+        description: "Date and time the record was last updated."
+        tests:
+          - not_null
+
+  - name: stg_sales_tax_rate
+    description: "This model standardizes the sales tax rate data, ensuring data consistency and validating key constraints and values."
+    columns:
+      - name: sales_tax_rate_id
+        description: "Primary key for SalesTaxRate records."
+        tests:
+          - not_null
+          - unique
+
+      - name: state_province_id
+        description: "State, province, or country/region the sales tax applies to."
+        tests:
+          - not_null
+
+
+      - name: tax_type
+        description: "1 = Tax applied to retail transactions, 2 = Tax applied to wholesale transactions, 3 = Tax applied to all sales (retail and wholesale) transactions."
+        tests:
+          - not_null
+
+      - name: tax_rate
+        description: "Tax rate amount."
+        tests:
+          - not_null
+
+      - name: name
+        description: "Tax rate description."
+        tests:
+          - not_null
+
+      - name: row_guid
+        description: "ROWGUIDCOL number uniquely identifying the record."
+        tests:
+          - unique
+
+      - name: last_modified_date
+        description: "The date and time the record was last updated."
+        tests:
+          - not_null
+
+  - name: stg_sales_order_header
+    description: "This model standardizes the sales order header data, ensuring data consistency and validating key constraints and values."
+    columns:
+      - name: sales_order_id
+        description: "Primary key for SalesOrderHeader records."
+        tests:
+          - not_null
+          - unique
+
+      - name: revision_number
+        description: "Incremental number to track changes to the sales order over time."
+        tests:
+          - not_null
+
+      - name: order_date
+        description: "Dates the sales order was created."
+        tests:
+          - not_null
+
+      - name: due_date
+        description: "Date the order is due to the customer."
+        tests:
+          - not_null
+
+      - name: ship_date
+        description: "Date the order was shipped to the customer."
+        tests:
+          - not_null
+
+      - name: status
+        description: "Order current status. 1 = In process; 2 = Approved; 3 = Backordered; 4 = Rejected; 5 = Shipped; 6 = Cancelled."
+        tests:
+          - not_null
+
+      - name: online_order_flag
+        description: "0 = Order placed by sales person. 1 = Order placed online by customer."
+        tests:
+          - not_null
+
+      - name: purchase_order_number
+        description: "Customer purchase order number reference."
+        tests:
+          - not_null
+
+      - name: account_number
+        description: "Financial accounting number reference."
+        tests:
+          - not_null
+
+      - name: customer_id
+        description: "Customer identification number. Foreign key to Customer.CustomerID."
+        tests:
+          - not_null
+
+      - name: salesperson_id
+        description: "Sales person who created the sales order. Foreign key to SalesPerson.BusinessEntityID."
+        tests:
+          - not_null
+
+      - name: territory_id
+        description: "Territory in which the sale was made. Foreign key to SalesTerritory.SalesTerritoryID."
+        tests:
+          - not_null
+
+      - name: bill_to_address_id
+        description: "Customer billing address. Foreign key to Address.AddressID."
+        tests:
+          - not_null
+
+      - name: ship_to_address_id
+        description: "Customer shipping address. Foreign key to Address.AddressID."
+        tests:
+          - not_null
+
+      - name: ship_method_id
+        description: "Shipping method. Foreign key to ShipMethod.ShipMethodID."
+        tests:
+          - not_null
+
+      - name: credit_card_id
+        description: "Credit card identification number. Foreign key to CreditCard.CreditCardID."
+        tests:
+          - not_null
+
+      - name: credit_card_approval_code
+        description: "Approval code provided by the credit card company."
+        tests:
+          - not_null
+
+      - name: currency_rate_id
+        description: "Currency exchange rate used. Foreign key to CurrencyRate.CurrencyRateID."
+        tests:
+          - not_null
+
+      - name: sub_total
+        description: "Sales subtotal."
+        tests:
+          - not_null
+
+      - name: tax_amount
+        description: "Tax amount."
+        tests:
+          - not_null
+
+      - name: freight
+        description: "Shipping cost."
+        tests:
+          - not_null
+
+      - name: total_due
+        description: "Total due from customer. Computed as Subtotal + TaxAmt + Freight."
+        tests:
+          - not_null
+
+      - name: comment
+        description: "Additional order information."
+        tests:
+          - not_null
+
+      - name: row_guid
+        description: "ROWGUIDCOL number uniquely identifying the record."
+        tests:
+          - unique
+
+      - name: last_modified_date
+        description: "The date and time the record was last updated."
+        tests:
+          - not_null
