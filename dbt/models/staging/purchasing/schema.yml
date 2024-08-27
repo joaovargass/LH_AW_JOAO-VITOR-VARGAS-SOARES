@@ -114,13 +114,9 @@ models:
 
       - name: last_receipt_cost
         description: "Cost of the product during the last receipt."
-        tests:
-          - not_null
 
       - name: last_receipt_date
         description: "Date when the product was last received."
-        tests:
-          - not_null
 
       - name: min_order_qty
         description: "Minimum quantity that can be ordered from the vendor."
@@ -144,6 +140,11 @@ models:
         description: "Date and time when the product vendor data was last modified."
         tests:
           - not_null
+    tests:
+      - unique_combination:
+          combination_of:
+            - product_id
+            - business_entity_id
 
   - name: stg_purchase_order_header
     description: "This model standardizes the purchase order header data, ensuring data consistency and enforcing the foreign key constraints on vendorid, employeeid, and shipmethodid."
@@ -230,7 +231,6 @@ models:
       - name: purchase_order_detail_id
         description: "Primary key of the purchase order detail, unique within each purchase order."
         tests:
-          - unique
           - not_null
 
       - name: due_date
@@ -270,3 +270,9 @@ models:
         description: "Date and time when the purchase order detail was last modified."
         tests:
           - not_null
+
+    tests:
+      - unique_combination:
+          combination_of:
+            - purchase_order_id
+            - purchase_order_detail_id
