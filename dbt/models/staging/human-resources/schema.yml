@@ -16,8 +16,7 @@ models:
           - not_null
           - unique
       - name: group_name
-        description: Name of the group to which the department belongs. Replaced with
-          'Unknown Group' when null.
+        description: Name of the group to which the department belongs.
         tests:
           - not_null
       - name: last_modified_date

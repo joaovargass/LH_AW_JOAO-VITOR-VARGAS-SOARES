@@ -25,7 +25,7 @@ models:
   dbt_adventure_works:
     # Configuration for staging models
     staging:
-      +schema: dev_adventure_works
+      +schema: stg_adventure_works
       +materialized: view
       person:
         materialized: view
