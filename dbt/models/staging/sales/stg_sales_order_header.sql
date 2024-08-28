@@ -20,8 +20,8 @@ with stg_sales_order_header as (
         , cast(purchaseordernumber as string) as purchase_order_number
         , cast(accountnumber as string) as account_number
         , cast(customerid as int64) as customer_id
-        , cast(salespersonid as int64) as salesperson_id
-        , cast(territoryid as int64) as territory_id
+        , cast(salespersonid as int64) as sales_person_id
+        , cast(territoryid as int64) as sales_territory_id
         , cast(billtoaddressid as int64) as bill_to_address_id
         , cast(shiptoaddressid as int64) as ship_to_address_id
         , cast(shipmethodid as int64) as ship_method_id
@@ -49,8 +49,8 @@ select
     , purchase_order_number
     , account_number
     , customer_id
-    , salesperson_id
-    , territory_id
+    , sales_person_id
+    , sales_territory_id
     , bill_to_address_id
     , ship_to_address_id
     , ship_method_id

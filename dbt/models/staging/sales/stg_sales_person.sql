@@ -8,7 +8,7 @@ with stg_sales_person as (
     select
         row_number() over (order by businessentityid) as sales_person_id
         , cast(businessentityid as int64) as business_entity_id
-        , cast(territoryid as int64) as territory_id
+        , cast(territoryid as int64) as sales_territory_id
         , cast(salesquota as numeric) as sales_quota
         , cast(bonus as numeric) as bonus
         , cast(commissionpct as numeric) as commission_pct
@@ -23,7 +23,7 @@ with stg_sales_person as (
 select
     sales_person_id
     , business_entity_id
-    , territory_id
+    , sales_territory_id
     , sales_quota
     , bonus
     , commission_pct
