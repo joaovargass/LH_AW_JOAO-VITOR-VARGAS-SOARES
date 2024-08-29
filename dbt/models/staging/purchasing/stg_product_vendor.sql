@@ -46,4 +46,4 @@ select
 from
     stg_product_vendor
 order by
-    product_id, business_entity_id;
+    product_id, business_entity_id

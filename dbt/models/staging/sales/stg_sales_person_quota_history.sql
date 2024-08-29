@@ -26,4 +26,4 @@ select
 from
     stg_sales_person_quota_history
 order by
-    sales_person_quota_history_id;
+    sales_person_quota_history_id

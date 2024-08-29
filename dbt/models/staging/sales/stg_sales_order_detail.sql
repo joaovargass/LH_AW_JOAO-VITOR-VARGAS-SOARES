@@ -31,4 +31,4 @@ select
     , row_guid
     , last_modified_date
 from stg_sales_order_detail
-order by sales_order_detail_id;
+order by sales_order_detail_id

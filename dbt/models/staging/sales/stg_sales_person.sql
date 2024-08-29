@@ -34,4 +34,4 @@ select
 from
     stg_sales_person
 order by
-    sales_person_id;
+    sales_person_id

@@ -83,4 +83,4 @@ select
 from
     stg_product
 order by
-    product_id;
+    product_id

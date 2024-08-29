@@ -21,4 +21,4 @@ from
     stg_person_credit_card
 order by
     business_entity_id
-    , credit_card_id;
+    , credit_card_id

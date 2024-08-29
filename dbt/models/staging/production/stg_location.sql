@@ -8,9 +8,9 @@ with stg_location as (
     select
           cast(l.locationid as int64) as location_id
         , l.name as location_name
-        , cast(l.costrates as float64) as cost_rate
+        , cast(l.costrate as float64) as cost_rate
         , cast(l.availability as float64) as availability
-        , cast(substr(l.modifieddate, 1, 19) as datetime) as last_modified_date
+        , cast(l.modifieddate as datetime) as last_modified_date
     from
         {{ source('stg_adventure_works', 'location') }} l
 )
@@ -24,4 +24,4 @@ select
 from
     stg_location
 order by
-    location_id;
+    location_id

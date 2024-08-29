@@ -10,7 +10,7 @@ with stg_shift as (
         , name as shift_name
         , cast(starttime as time) as start_time
         , cast(endtime as time) as end_time
-        , cast(substr(modifieddate, 1, 19) as datetime) as last_modified_date
+        , cast(modifieddate as datetime) as last_modified_date
     from
         {{ source('stg_adventure_works', 'shift') }}
 )
@@ -24,4 +24,4 @@ select
 from
     stg_shift
 order by
-    shift_id;
+    shift_id

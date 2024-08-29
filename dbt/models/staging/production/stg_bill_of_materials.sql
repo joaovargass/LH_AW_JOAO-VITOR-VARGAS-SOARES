@@ -9,12 +9,12 @@ with stg_bill_of_materials as (
           cast(bom.billofmaterialsid as int64) as bill_of_materials_id
         , cast(bom.productassemblyid as int64) as product_assembly_id
         , cast(bom.componentid as int64) as component_id
-        , cast(substr(bom.startdate, 1, 19) as datetime) as start_date
-        , cast(substr(bom.enddate, 1, 19) as datetime) as end_date
+        , cast(bom.startdate as datetime) as start_date
+        , cast(bom.enddate as datetime) as end_date
         , um.unit_measure_id as unit_measure_id
         , cast(bom.bomlevel as int64) as bom_level
         , cast(bom.perassemblyqty as float64) as per_assembly_qty
-        , cast(substr(bom.modifieddate, 1, 19) as datetime) as last_modified_date
+        , cast(bom.modifieddate as datetime) as last_modified_date
     from
         {{ source('stg_adventure_works', 'billofmaterials') }} bom
     left join
@@ -36,4 +36,4 @@ select
 from
     stg_bill_of_materials
 order by
-    bill_of_materials_id;
+    bill_of_materials_id

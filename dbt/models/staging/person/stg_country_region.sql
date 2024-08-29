@@ -9,7 +9,7 @@ with stg_country_region as (
           row_number() over (order by countryregioncode) as country_region_id
         , countryregioncode as country_region_code
         , name as country_region_name
-        , cast(substr(modifieddate, 1, 19) as datetime) as last_modified_date
+        , cast(modifieddate as datetime) as last_modified_date
     from
         {{ source('stg_adventure_works', 'countryregion') }}
 )
@@ -17,4 +17,4 @@ with stg_country_region as (
 select
     *
 from
-    stg_country_region;
+    stg_country_region

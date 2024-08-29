@@ -29,4 +29,4 @@ from
     stg_product_inventory
 order by
     product_id
-  , location_id;
+  , location_id

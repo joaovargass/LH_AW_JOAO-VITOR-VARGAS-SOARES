@@ -6,18 +6,18 @@
 
 with stg_email_address as (
     select
-          cast(emailaddressid as int64) as email_address_id
-        , cast(businessentityid as int64) as business_entity_id
+          cast(e.emailaddressid as int64) as email_address_id
+        , cast(e.businessentityid as int64) as business_entity_id
         , translate(
-            lower(emailaddress)
+            lower(cast(e.emailaddress as string))
             , 'áéíóúãõâêîôûàèìòùäëïöüñç'
             , 'aeiouaoaeiouaeiounc'
           ) as email_address
-        , cast(substr(modifieddate, 1, 19) as datetime) as last_modified_date
-        , cast(rowguid as string) as row_guid
+        , cast(substr(e.modifieddate, 1, 19) as datetime) as last_modified_date
+        , cast(e.rowguid as string) as row_guid
 
     from
-        {{ source('stg_adventure_works', 'emailaddress') }}
+        {{ source('stg_adventure_works', 'emailaddress') }} as e
 )
 
 select
@@ -27,4 +27,4 @@ select
     , last_modified_date
     , row_guid
 from
-    stg_email_address;
+    stg_email_address

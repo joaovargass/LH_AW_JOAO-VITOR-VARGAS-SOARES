@@ -6,15 +6,17 @@
 
 with stg_store as (
     select
-        row_number() over (order by businessentityid) as store_id
-        , cast(businessentityid as int64) as business_entity_id
-        , cast(name as string) as store_name
-        , cast(salespersonid as int64) as sales_person_id
-        , cast(demographics as string) as demographics
-        , cast(rowguid as string) as row_guid
-        , cast(modifieddate as datetime) as last_modified_date
+        row_number() over (order by s.businessentityid) as store_id
+        , cast(s.businessentityid as int64) as business_entity_id
+        , cast(s.name as string) as store_name
+        , sp.sales_person_id
+        , cast(s.demographics as string) as demographics
+        , cast(s.rowguid as string) as row_guid
+        , cast(s.modifieddate as datetime) as last_modified_date
     from
-        {{ source('stg_adventure_works', 'store') }}
+        {{ source('stg_adventure_works', 'store') }} as s
+    left join {{ ref('stg_sales_person') }} as sp
+        on cast(s.salespersonid as int) = sp.business_entity_id
 )
 
 select
@@ -28,4 +30,4 @@ select
 from
     stg_store
 order by
-    store_id;
+    store_id

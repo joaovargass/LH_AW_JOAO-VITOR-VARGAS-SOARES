@@ -16,10 +16,16 @@ with stg_employee as (
         , maritalstatus as marital_status
         , gender as gender
         , cast(hiredate as datetime) as hire_date
-        , cast(salariedflag as boolean) as salaried_flag
+        , case
+            when salariedflag = 'f' then false
+            else true
+        end as salaried_flag
         , cast(vacationhours as int64) as vacation_hours
         , cast(sickleavehours as int64) as sick_leave_hours
-        , cast(currentflag as boolean) as current_flag
+        , case
+            when currentflag = 'f' then false
+            else true
+        end as current_flag
         , cast(rowguid as string) as row_guid
         , cast(substr(modifieddate, 1, 19) as datetime) as last_modified_date
     from
@@ -46,4 +52,4 @@ select
 from
     stg_employee
 order by
-    business_entity_id;
+    business_entity_id

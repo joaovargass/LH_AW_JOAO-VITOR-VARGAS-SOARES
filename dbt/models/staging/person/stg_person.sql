@@ -18,7 +18,10 @@ with stg_person as (
           end as name_title
         , p.suffix as name_suffix
         , cast(p.EmailPromotion as int64) as email_promotion
-        , cast(p.NameStyle as boolean) as name_style
+        , case
+            when p.NameStyle = 't' then true
+            else false
+        end as name_style
         , case
             when p.AdditionalContactInfo = '[NULL]' then null
             else p.AdditionalContactInfo
@@ -48,4 +51,4 @@ select
     , row_guid
     , last_modified_date
 from
-    stg_person;
+    stg_person

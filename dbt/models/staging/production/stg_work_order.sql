@@ -32,4 +32,4 @@ select
 from
     stg_work_order
 order by
-    work_order_id;
+    work_order_id

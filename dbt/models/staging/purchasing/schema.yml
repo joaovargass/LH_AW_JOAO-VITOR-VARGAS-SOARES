@@ -10,7 +10,7 @@ models:
           - unique
           - not_null
           - relationships:
-              to: ref('stg_businessentity')
+              to: ref('stg_business_entity')
               field: business_entity_id
 
       - name: account_number
@@ -140,9 +140,9 @@ models:
         description: "Date and time when the product vendor data was last modified."
         tests:
           - not_null
-    tests:
-      - unique_combination:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - product_id
             - business_entity_id
 
@@ -179,7 +179,7 @@ models:
           - not_null
           - relationships:
               to: ref('stg_vendor')
-              field: vendor_id
+              field: business_entity_id
 
       - name: ship_method_id
         description: "Shipping method used for the purchase order. Foreign key to ShipMethod.ShipMethodID."
@@ -271,8 +271,8 @@ models:
         tests:
           - not_null
 
-    tests:
-      - unique_combination:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - purchase_order_id
             - purchase_order_detail_id

@@ -9,9 +9,12 @@ with stg_state_province as (
           cast(sp.stateprovinceid as int64) as state_province_id
         , sp.stateprovincecode as state_province_code
         , cr.country_region_id
-        , cast(sp.isonlystateprovinceflag as boolean) as is_only_state_province_flag
+        , case
+            when isonlystateprovinceflag = 't' then true
+            else false
+        end as is_only_state_province_flag
         , sp.name as state_province_name
-        , cast(sp.territoryid as int64) as territory_id
+        , cast(sp.territoryid as int64) as sales_territory_id
         , cast(sp.rowguid as string) as row_guid
         , cast(substr(sp.modifieddate, 1, 19) as datetime) as last_modified_date
     from
@@ -26,8 +29,8 @@ select
     , country_region_id
     , is_only_state_province_flag
     , state_province_name
-    , territory_id
+    , sales_territory_id
     , row_guid
     , last_modified_date
 from
-    stg_state_province;
+    stg_state_province

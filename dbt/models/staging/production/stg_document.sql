@@ -6,25 +6,25 @@
 
 with stg_document as (
     select
-          cast(documentnode as string) as document_node
-        , cast(title as string) as title
-        , cast(owner as int64) as owner
+          cast(d.documentnode as string) as document_node
+        , cast(d.title as string) as title
+        , cast(d.owner as int64) as owner
         , case
-              when folderflag = 't' then true
-              when folderflag = 'f' then false
+              when d.folderflag = 't' then true
+              when d.folderflag = 'f' then false
               else null
           end as folder_flag
-        , cast(filename as string) as file_name
-        , cast(fileextension as string) as file_extension
-        , cast(revision as string) as revision
-        , cast(changenumber as int64) as change_number
-        , cast(status as int64) as status
-        , cast(documentsummary as string) as document_summary
-        , cast(document as bytes) as document
-        , cast(rowguid as string) as row_guid
-        , cast(substr(modifieddate, 1, 19) as datetime) as last_modified_date
+        , cast(d.filename as string) as file_name
+        , cast(d.fileextension as string) as file_extension
+        , cast(d.revision as string) as revision
+        , cast(d.changenumber as int64) as change_number
+        , cast(d.status as int64) as status
+        , cast(d.documentsummary as string) as document_summary
+        , cast(d.document as bytes) as document
+        , cast(d.rowguid as string) as row_guid
+        , cast(substr(d.modifieddate, 1, 19) as datetime) as last_modified_date
     from
-        {{ source('stg_adventure_works', 'document') }}
+        {{ source('stg_adventure_works', 'document') }} as d
 )
 
 select
@@ -44,4 +44,4 @@ select
 from
     stg_document
 order by
-    document_node;
+    document_node

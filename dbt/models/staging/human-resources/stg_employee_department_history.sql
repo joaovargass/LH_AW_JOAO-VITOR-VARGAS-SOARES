@@ -8,10 +8,10 @@ with stg_employee_department_history as (
     select
           cast(row_number() over (
             order by
-                  business_entity_id
-                , start_date
-                , department_id
-                , shift_id
+                  businessentityid
+                , startdate
+                , departmentid
+                , shiftid
                 ) as int64
             ) as employee_department_history_id
         , cast(businessentityid as int64) as business_entity_id
@@ -19,7 +19,7 @@ with stg_employee_department_history as (
         , cast(shiftid as int64) as shift_id
         , cast(startdate as datetime) as start_date
         , cast(enddate as datetime) as end_date
-        , cast(substr(modifieddate, 1, 19) as datetime) as last_modified_date
+        , cast(modifieddate as datetime) as last_modified_date
     from
         {{ source('stg_adventure_works', 'employeedepartmenthistory') }}
 )
@@ -35,4 +35,4 @@ select
 from
     stg_employee_department_history
 order by
-    employee_department_history_id;
+    employee_department_history_id

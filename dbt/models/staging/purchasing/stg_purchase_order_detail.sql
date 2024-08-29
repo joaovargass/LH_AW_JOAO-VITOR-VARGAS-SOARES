@@ -32,4 +32,5 @@ select
 from
     stg_purchase_order_detail
 order by
-    purchase_order_id, purchase_order_detail_id;
+    purchase_order_id
+    , purchase_order_detail_id

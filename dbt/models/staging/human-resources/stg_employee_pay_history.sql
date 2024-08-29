@@ -11,7 +11,7 @@ with stg_employee_pay_history as (
         , cast(ratechangedate as datetime) as rate_change_date
         , cast(rate as float64) as rate
         , cast(payfrequency as int64) as pay_frequency
-        , cast(substr(modifieddate, 1, 19) as datetime) as last_modified_date
+        , cast(modifieddate as datetime) as last_modified_date
     from
         {{ source('stg_adventure_works', 'employeepayhistory') }}
 )
@@ -26,4 +26,4 @@ select
 from
     stg_employee_pay_history
 order by
-    employee_pay_history_id;
+    employee_pay_history_id

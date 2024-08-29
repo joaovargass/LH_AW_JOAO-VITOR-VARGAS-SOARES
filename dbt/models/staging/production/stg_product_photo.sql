@@ -26,4 +26,4 @@ select
 from
     stg_product_photo
 order by
-    product_photo_id;
+    product_photo_id

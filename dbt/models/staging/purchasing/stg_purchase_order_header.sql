@@ -38,4 +38,4 @@ select
 from
     stg_purchase_order_header
 order by
-    purchase_order_id;
+    purchase_order_id

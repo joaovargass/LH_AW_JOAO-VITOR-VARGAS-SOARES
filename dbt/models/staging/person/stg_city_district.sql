@@ -6,7 +6,7 @@
 
 with stg_city_district as (
     select
-          initcap(lower(trim(a.city))) as city_district_name
+          distinct initcap(lower(trim(a.city))) as city_district_name
         , cast(cr.country_region_id as int64) as country_region_id
         , cast(sp.stateprovinceid as int64) as state_province_id
     from
@@ -22,9 +22,17 @@ with stg_city_district as (
 )
 
 select
-      cast(row_number() over (order by city_district_name) as int64) as city_district_id
+      cast(row_number() over (
+          order by
+                city_district_name
+              , country_region_id
+              , state_province_id
+              , coalesce(city_district_name, '')
+              , coalesce(country_region_id, 0)
+              , coalesce(state_province_id, 0)
+          ) as int64) as city_district_id
     , city_district_name
     , country_region_id
     , state_province_id
 from
-    stg_city_district;
+    stg_city_district

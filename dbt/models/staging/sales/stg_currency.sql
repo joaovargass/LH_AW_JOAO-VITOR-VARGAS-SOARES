@@ -17,4 +17,4 @@ select
     , name
     , last_modified_date
 from stg_currency
-order by currency_code;
+order by currency_code

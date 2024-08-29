@@ -36,4 +36,4 @@ select
 from
     stg_special_offer
 order by
-    special_offer_id;
+    special_offer_id

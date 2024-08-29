@@ -25,4 +25,4 @@ select
     , row_guid
     , last_modified_date
 from stg_sales_tax_rate
-order by sales_tax_rate_id;
+order by sales_tax_rate_id

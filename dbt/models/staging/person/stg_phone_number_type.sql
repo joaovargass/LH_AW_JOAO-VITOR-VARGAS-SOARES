@@ -15,7 +15,7 @@ with stg_phone_number_type as (
 
 select
       phone_number_type_id
-    , phone_type_name
+    , phone_number_type_name
     , last_modified_date
 from
-    stg_phone_number_type;
+    stg_phone_number_type

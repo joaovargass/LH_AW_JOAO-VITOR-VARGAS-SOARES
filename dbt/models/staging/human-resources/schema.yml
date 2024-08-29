@@ -53,9 +53,9 @@ models:
           string.
         tests:
           - not_null
-    tests:
-      - unique_combination:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - start_time
             - end_time
 
@@ -120,9 +120,9 @@ models:
           converted from string.
         tests:
           - not_null
-    tests:
-      - unique_combination:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - business_entity_id
             - rate_change_date
 
@@ -169,9 +169,9 @@ models:
           converted from string.
         tests:
           - not_null
-    tests:
-      - unique_combination:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - employee_department_history_id
             - business_entity_id
             - department_id

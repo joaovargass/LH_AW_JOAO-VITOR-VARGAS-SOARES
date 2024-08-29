@@ -15,7 +15,7 @@ with ranked_sales_territory_history as (
 select
     sales_territory_history_id,
     cast(businessentityid as int64) as business_entity_id,
-    cast(territoryid as int64) as territory_id,
+    cast(territoryid as int64) as sales_territory_id,
     cast(startdate as datetime) as start_date,
     cast(enddate as datetime) as end_date,
     cast(rowguid as string) as row_guid,
@@ -23,4 +23,4 @@ select
 from
     ranked_sales_territory_history
 order by
-    sales_territory_history_id;
+    sales_territory_history_id

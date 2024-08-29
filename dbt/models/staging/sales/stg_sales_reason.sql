@@ -22,4 +22,4 @@ select
 from
     stg_sales_reason
 order by
-    sales_reason_id;
+    sales_reason_id

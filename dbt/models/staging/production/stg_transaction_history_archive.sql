@@ -14,7 +14,7 @@ with stg_transaction_history_archive as (
         , tha.transactiontype as transaction_type
         , cast(tha.quantity as int64) as quantity
         , cast(tha.actualcost as float64) as actual_cost
-        , cast(substr(tha.modifieddate, 1, 19) as datetime) as last_modified_date
+        , cast(tha.modifieddate as datetime) as last_modified_date
     from
         {{ source('stg_adventure_works', 'transactionhistoryarchive') }} tha
 )
@@ -32,4 +32,4 @@ select
 from
     stg_transaction_history_archive
 order by
-    transaction_id;
+    transaction_id

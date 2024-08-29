@@ -24,4 +24,4 @@ select
 from
     stg_product_subcategory
 order by
-    product_subcategory_id;
+    product_subcategory_id

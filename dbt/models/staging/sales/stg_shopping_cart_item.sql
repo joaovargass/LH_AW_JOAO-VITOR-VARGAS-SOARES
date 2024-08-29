@@ -23,4 +23,4 @@ select
     , date_created
     , last_modified_date
 from stg_shopping_cart_item
-order by shopping_cart_item_id;
+order by shopping_cart_item_id

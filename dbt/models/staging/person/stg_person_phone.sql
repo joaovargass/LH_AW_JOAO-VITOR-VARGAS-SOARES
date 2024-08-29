@@ -20,4 +20,4 @@ select
     , phone_number_type_id
     , last_modified_date
 from
-    stg_person_phone;
+    stg_person_phone

@@ -21,4 +21,4 @@ from
     stg_product_model_illustration
 order by
     product_model_id,
-    illustration_id;
+    illustration_id

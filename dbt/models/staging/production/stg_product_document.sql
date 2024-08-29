@@ -21,4 +21,4 @@ from
     stg_product_document
 order by
     product_id
-  , document_node;
+  , document_node

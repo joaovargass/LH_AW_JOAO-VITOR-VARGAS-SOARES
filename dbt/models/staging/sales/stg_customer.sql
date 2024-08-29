@@ -26,4 +26,4 @@ select
 from
     stg_customer
 order by
-    customer_id;
+    customer_id

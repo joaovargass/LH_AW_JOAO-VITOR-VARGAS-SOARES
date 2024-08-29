@@ -27,11 +27,6 @@ models:
     staging:
       +schema: stg_adventure_works
       +materialized: view
-      person:
-        materialized: view
-        convert_spatial_location:
-          materialized: table
-          path: models/staging/person/convert_spatial_location.py
 
     # Configuration for intermediate models
     intermediate:

@@ -23,4 +23,4 @@ from
     stg_special_offer_product
 order by
     special_offer_id
-    , product_id;
+    , product_id

@@ -10,10 +10,16 @@ with stg_vendor as (
         , cast(v.accountnumber as string) as account_number
         , v.name as vendor_name
         , cast(v.creditrating as int64) as credit_rating
-        , cast(v.preferredvendorstatus as boolean) as preferred_vendor_status
-        , cast(v.activeflag as boolean) as active_flag
+        , case
+            when v.preferredvendorstatus = 't' then true
+            else false
+        end as preferred_vendor_status
+        , case
+            when v.activeflag = 't' then true
+            else false
+        end as active_flag
         , v.purchasingwebserviceurl as purchasing_web_service_url
-        , cast(substr(v.modifieddate, 1, 19) as datetime) as last_modified_date
+        , cast(v.modifieddate as datetime) as last_modified_date
     from
         {{ source('stg_adventure_works', 'vendor') }} v
 )
@@ -30,4 +36,4 @@ select
 from
     stg_vendor
 order by
-    business_entity_id;
+    business_entity_id

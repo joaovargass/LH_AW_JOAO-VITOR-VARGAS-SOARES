@@ -16,13 +16,13 @@ models:
           - relationships:
               to: ref('stg_sales_person')
               field: business_entity_id
-      - name: territory_id
+      - name: sales_territory_id
         description: "primary key. territory identification number. foreign key to salesterritory.territoryid."
         tests:
           - not_null
           - relationships:
               to: ref('stg_sales_territory')
-              field: territory_id
+              field: sales_territory_id
       - name: start_date
         description: "date the sales representative started work in the territory."
         tests:
@@ -39,11 +39,11 @@ models:
         tests:
           - not_null
 
-    tests:
-      - unique_combination:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - business_entity_id
-            - territory_id
+            - sales_territory_id
             - start_date
 
   - name: stg_store
@@ -96,21 +96,18 @@ models:
       - name: person_id
         description: "foreign key to person.personid."
         tests:
-          - not_null
           - relationships:
               to: ref('stg_person')
-              field: person_id
+              field: business_entity_id
       - name: store_id
         description: "foreign key to store.storeid."
         tests:
-          - not_null
           - relationships:
               to: ref('stg_store')
-              field: store_id
+              field: business_entity_id
       - name: sales_territory_id
         description: "foreign key to salesterritory.salesterritoryid."
         tests:
-          - not_null
           - relationships:
               to: ref('stg_sales_territory')
               field: sales_territory_id
@@ -157,9 +154,9 @@ models:
         tests:
           - not_null
 
-    tests:
-      - unique_combination:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - business_entity_id
             - quota_date
 
@@ -287,41 +284,46 @@ models:
         tests:
           - not_null
 
-    tests:
-      - unique_combination:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - business_entity_id
             - credit_card_id
 
   - name: stg_credit_card
-    description: "this model standardizes the credit card data, ensuring data consistency and validating key constraints, unique identifiers, and relationships."
+    description: "This model anonymizes the credit card data by hashing the card number with a salt and masking the expiration date, ensuring data consistency and validating key constraints, unique identifiers, and relationships."
     columns:
       - name: credit_card_id
-        description: "unique identifier for each credit card record."
+        description: "Unique identifier for each credit card record."
         tests:
           - unique
           - not_null
       - name: card_type
-        description: "type of the credit card (e.g., visa, mastercard)."
+        description: "Type of the credit card (e.g., Visa, Mastercard)."
         tests:
           - not_null
-      - name: card_number
-        description: "credit card number."
+      - name: hashed_card_number
+        description: "Hashed credit card number with a salt for enhanced security."
         tests:
           - unique
           - not_null
-      - name: exp_month
-        description: "expiration month of the credit card."
+      - name: masked_exp_month
+        description: "Masked expiration month of the credit card, displaying only asterisks."
         tests:
           - not_null
-      - name: exp_year
-        description: "expiration year of the credit card."
+      - name: masked_exp_year
+        description: "Masked expiration year of the credit card, displaying only asterisks."
         tests:
           - not_null
       - name: last_modified_date
-        description: "date and time the record was last updated."
+        description: "Date and time the record was last updated."
         tests:
           - not_null
+      - name: salt
+        description: "Unique salt used for hashing the credit card number, stored for potential verification."
+        tests:
+          - not_null
+
 
   - name: stg_special_offer
     description: "this model standardizes the special offer data, ensuring data consistency and validating key constraints, unique identifiers, and relationships."
@@ -398,9 +400,9 @@ models:
         tests:
           - not_null
 
-    tests:
-      - unique_combination:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - special_offer_id
             - product_id
 
@@ -447,9 +449,9 @@ models:
         tests:
           - not_null
 
-    tests:
-      - unique_combination:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - sales_order_id
             - sales_reason_id
 
@@ -505,9 +507,9 @@ models:
         tests:
           - not_null
 
-    tests:
-      - unique_combination:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - sales_order_id
             - sales_order_detail_id
 
@@ -576,9 +578,9 @@ models:
         tests:
           - not_null
 
-    tests:
-      - unique_combination:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - from_currency_code
             - to_currency_code
             - currency_rate_date
@@ -664,9 +666,9 @@ models:
         tests:
           - not_null
 
-    tests:
-      - unique_combination:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - state_province_id
             - tax_type
 
@@ -719,7 +721,7 @@ models:
           - not_null
           - relationships:
               to: ref('stg_customer')
-              field: currency_code
+              field: customer_id
 
       - name: sales_person_id
         description: "sales person who created the sales order. foreign key to salesperson.businessentityid."

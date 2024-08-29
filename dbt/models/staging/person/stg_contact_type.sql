@@ -8,7 +8,7 @@ with stg_contact_type as (
     select
           cast(contacttypeid as int64) as contact_type_id
         , name as contact_type_name
-        , cast(substr(modifieddate, 1, 19) as datetime) as last_modified_date
+        , cast(modifieddate as datetime) as last_modified_date
     from
         {{ source('stg_adventure_works', 'contacttype') }}
 )
@@ -18,4 +18,4 @@ select
     , contact_type_name
     , last_modified_date
 from
-    stg_contact_type;
+    stg_contact_type

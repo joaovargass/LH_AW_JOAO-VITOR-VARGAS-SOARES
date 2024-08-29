@@ -26,4 +26,4 @@ select
 from
     stg_product_model
 order by
-    product_model_id;
+    product_model_id

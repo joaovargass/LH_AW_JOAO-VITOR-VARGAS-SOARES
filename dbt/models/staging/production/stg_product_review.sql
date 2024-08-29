@@ -30,4 +30,4 @@ select
 from
     stg_product_review
 order by
-    product_review_id;
+    product_review_id

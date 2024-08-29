@@ -22,4 +22,4 @@ select
 from
     stg_product_description
 order by
-    product_description_id;
+    product_description_id

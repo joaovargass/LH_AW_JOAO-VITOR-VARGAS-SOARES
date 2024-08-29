@@ -22,4 +22,4 @@ select
 from
     stg_product_category
 order by
-    product_category_id;
+    product_category_id

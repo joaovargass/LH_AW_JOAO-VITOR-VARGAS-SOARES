@@ -10,11 +10,11 @@ with stg_transaction_history as (
         , cast(th.productid as int64) as product_id
         , cast(th.referenceorderid as int64) as reference_order_id
         , cast(th.referenceorderlineid as int64) as reference_order_line_id
-        , cast(substr(th.transactiondate, 1, 19) as datetime) as transaction_date
+        , cast(th.transactiondate as datetime) as transaction_date
         , th.transactiontype as transaction_type
         , cast(th.quantity as int64) as quantity
         , cast(th.actualcost as float64) as actual_cost
-        , cast(substr(th.modifieddate, 1, 19) as datetime) as last_modified_date
+        , cast(th.modifieddate as datetime) as last_modified_date
     from
         {{ source('stg_adventure_works', 'transactionhistory') }} th
 )
@@ -32,4 +32,4 @@ select
 from
     stg_transaction_history
 order by
-    transaction_id;
+    transaction_id

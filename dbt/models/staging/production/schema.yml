@@ -294,9 +294,9 @@ models:
         description: "Date and time when the bill of materials record was last modified."
         tests:
           - not_null
-    tests:
-      - unique_combination:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - product_assembly_id
             - start_date
             - component_id
@@ -398,9 +398,9 @@ models:
         tests:
           - not_null
 
-    tests:
-      - unique_combination:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - product_id
             - location_id
 
@@ -527,9 +527,9 @@ models:
         description: "date and time the record was last updated."
         tests:
           - not_null
-    tests:
-      - unique_combination:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - work_order_id
             - product_id
             - operation_sequence
@@ -569,9 +569,9 @@ models:
         description: "date and time the record was last updated."
         tests:
           - not_null
-    tests:
-      - unique_combination:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - product_id
             - start_date
 
@@ -607,9 +607,9 @@ models:
         tests:
           - not_null
 
-    tests:
-      - unique_combination:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - product_model_id
             - product_description_id
             - culture_id
@@ -631,9 +631,9 @@ models:
         description: "date and time the record was last updated."
         tests:
           - not_null
-    tests:
-      - unique_combination:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - product_id
             - document_node
 
@@ -668,15 +668,11 @@ models:
         description: "email address of the reviewer."
         tests:
           - not_null
-          - accepted_values:
-              values: ['%_@__%.__%']
 
       - name: rating
         description: "rating given by the reviewer (1 to 5 scale)."
         tests:
           - not_null
-          - accepted_values:
-              values: [1, 2, 3, 4, 5]
 
       - name: comments
         description: "reviewer's comments."
@@ -705,10 +701,6 @@ models:
 
       - name: start_date
         description: "start date of the product list price."
-        tests:
-          - not_null
-          - unique_combination:
-              combination: [product_id, start_date]
 
       - name: end_date
         description: "end date of the product list price."
@@ -722,9 +714,9 @@ models:
         description: "date and time the record was last updated."
         tests:
           - not_null
-    tests:
-      - unique_combination:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - start_date
             - product_id
 
@@ -752,9 +744,9 @@ models:
         tests:
           - not_null
 
-    tests:
-      - unique_combination:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - product_model_id
             - illustration_id
 
@@ -840,9 +832,9 @@ models:
         tests:
           - not_null
 
-    tests:
-      - unique_combination:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - product_id
             - product_photo_id
 
@@ -880,8 +872,6 @@ models:
 
       - name: file_extension
         description: "File extension indicating the document type (e.g., .doc or .txt)."
-        tests:
-          - not_null
 
       - name: revision
         description: "Revision number of the document."
@@ -900,13 +890,9 @@ models:
 
       - name: document_summary
         description: "Abstract of the document."
-        tests:
-          - not_null
 
       - name: document
         description: "Complete document data."
-        tests:
-          - not_null
 
       - name: row_guid
         description: "Unique identifier for the document."

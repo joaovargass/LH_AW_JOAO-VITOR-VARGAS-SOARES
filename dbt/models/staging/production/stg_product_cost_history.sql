@@ -26,4 +26,4 @@ select
 from
     stg_product_cost_history
 order by
-    product_cost_history_id;
+    product_cost_history_id

@@ -22,4 +22,4 @@ select
 from
     stg_job_candidate
 order by
-    job_candidate_id;
+    job_candidate_id

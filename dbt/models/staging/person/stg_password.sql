@@ -24,4 +24,4 @@ select
 from
     stg_password
 order by
-    business_entity_id;
+    business_entity_id

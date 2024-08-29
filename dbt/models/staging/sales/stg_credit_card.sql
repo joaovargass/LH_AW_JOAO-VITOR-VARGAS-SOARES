@@ -1,7 +1,7 @@
 {{ config(
     materialized='view',
     schema='stg_adventure_works',
-    description='This model standardizes the credit card data, ensuring data consistency and validating key constraints, unique identifiers, and relationships.'
+    description='This model anonymizes the credit card data by hashing the card number with a salt and masking the expiration date. It ensures data consistency and validates key constraints, unique identifiers, and relationships.'
 ) }}
 
 with stg_credit_card as (
@@ -12,6 +12,7 @@ with stg_credit_card as (
         , cast(expmonth as int64) as exp_month
         , cast(expyear as int64) as exp_year
         , cast(modifieddate as datetime) as last_modified_date
+        , generate_uuid() as salt
     from
         {{ source('stg_adventure_works', 'creditcard') }}
 )
@@ -19,11 +20,12 @@ with stg_credit_card as (
 select
     credit_card_id
     , card_type
-    , card_number
-    , exp_month
-    , exp_year
+    , to_hex(sha256(concat(card_number, salt))) as hashed_card_number
+    , concat('**/', lpad(cast(exp_month as string), 2, '0')) as masked_exp_month
+    , concat('****') as masked_exp_year
     , last_modified_date
+    , salt
 from
     stg_credit_card
 order by
-    credit_card_id;
+    credit_card_id

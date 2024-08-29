@@ -8,7 +8,7 @@ with stg_scrap_reason as (
     select
           cast(sr.scrapreasonid as int64) as scrap_reason_id
         , sr.name as scrap_reason_name
-        , cast(substr(sr.modifieddate, 1, 19) as datetime) as last_modified_date
+        , cast(sr.modifieddate as datetime) as last_modified_date
     from
         {{ source('stg_adventure_works', 'scrapreason') }} sr
 )
@@ -20,4 +20,4 @@ select
 from
     stg_scrap_reason
 order by
-    scrap_reason_id;
+    scrap_reason_id

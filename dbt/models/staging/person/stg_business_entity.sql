@@ -18,4 +18,4 @@ select
     , last_modified_date
     , row_guid
 from
-    stg_business_entity;
+    stg_business_entity

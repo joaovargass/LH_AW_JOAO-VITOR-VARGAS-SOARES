@@ -13,7 +13,7 @@ with stg_product_product_photo as (
             when primary = 'f' then false
             else null
           end as is_primary
-        , cast(substr(modifieddate, 1, 19) as datetime) as last_modified_date
+        , cast(modifieddate as datetime) as last_modified_date
     from
         {{ source('stg_adventure_works', 'productproductphoto') }}
 )
@@ -27,4 +27,4 @@ from
     stg_product_product_photo
 order by
     product_id,
-    product_photo_id;
+    product_photo_id

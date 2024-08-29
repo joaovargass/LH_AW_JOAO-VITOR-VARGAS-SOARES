@@ -17,25 +17,27 @@ with stg_sales_order_header as (
             when onlineorderflag = 'f' then false
             else null
           end as online_order_flag
-        , cast(purchaseordernumber as string) as purchase_order_number
-        , cast(accountnumber as string) as account_number
-        , cast(customerid as int64) as customer_id
-        , cast(salespersonid as int64) as sales_person_id
-        , cast(territoryid as int64) as sales_territory_id
-        , cast(billtoaddressid as int64) as bill_to_address_id
-        , cast(shiptoaddressid as int64) as ship_to_address_id
-        , cast(shipmethodid as int64) as ship_method_id
-        , cast(creditcardid as int64) as credit_card_id
-        , cast(creditcardapprovalcode as string) as credit_card_approval_code
-        , cast(currencyrateid as int64) as currency_rate_id
-        , cast(subtotal as float64) as sub_total
-        , cast(taxamt as float64) as tax_amount
-        , cast(freight as float64) as freight
-        , cast(totaldue as float64) as total_due
-        , cast(comment as int64) as comment
-        , cast(rowguid as string) as row_guid
-        , cast(modifieddate as datetime) as last_modified_date
-    from {{ source('stg_adventure_works', 'salesorderheader') }}
+        , cast(soh.purchaseordernumber as string) as purchase_order_number
+        , cast(soh.accountnumber as string) as account_number
+        , cast(soh.customerid as int64) as customer_id
+        , cast(sp.sales_person_id as int64) as sales_person_id
+        , cast(soh.territoryid as int64) as sales_territory_id
+        , cast(soh.billtoaddressid as int64) as bill_to_address_id
+        , cast(soh.shiptoaddressid as int64) as ship_to_address_id
+        , cast(soh.shipmethodid as int64) as ship_method_id
+        , cast(soh.creditcardid as int64) as credit_card_id
+        , cast(soh.creditcardapprovalcode as string) as credit_card_approval_code
+        , cast(soh.currencyrateid as int64) as currency_rate_id
+        , cast(soh.subtotal as float64) as sub_total
+        , cast(soh.taxamt as float64) as tax_amount
+        , cast(soh.freight as float64) as freight
+        , cast(soh.totaldue as float64) as total_due
+        , cast(soh.comment as int64) as comment
+        , cast(soh.rowguid as string) as row_guid
+        , cast(soh.modifieddate as datetime) as last_modified_date
+    from {{ source('stg_adventure_works', 'salesorderheader') }} soh
+    left join {{ ref('stg_sales_person') }} as sp
+        on soh.salespersonid = sp.business_entity_id
 )
 
 select
@@ -65,4 +67,4 @@ select
     , row_guid
     , last_modified_date
 from stg_sales_order_header
-order by sales_order_id;
+order by sales_order_id

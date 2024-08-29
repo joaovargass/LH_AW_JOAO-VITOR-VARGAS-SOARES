@@ -40,4 +40,4 @@ from
 order by
     work_order_id
   , product_id
-  , operation_sequence;
+  , operation_sequence

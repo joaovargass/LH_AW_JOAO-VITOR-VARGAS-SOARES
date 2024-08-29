@@ -8,7 +8,7 @@ with stg_sales_territory as (
     select
         st.territoryid as sales_territory_id
         , cast(st.name as string) as territory_name
-        , sp.country_region_id as country_region_id
+        , cr.country_region_id as country_region_id
         , cast(st.group as string) as territory_group
         , cast(st.salesytd as numeric) as sales_ytd
         , cast(st.saleslastyear as numeric) as sales_last_year
@@ -19,7 +19,7 @@ with stg_sales_territory as (
     from
         {{ source('stg_adventure_works', 'salesterritory') }} st
     left join
-        {{ ref('stg_state_province') }} sp on st.countryregioncode = sp.country_region_code
+        {{ ref('stg_country_region') }} as cr on st.countryregioncode = cr.country_region_code
 )
 
 select
@@ -36,4 +36,4 @@ select
 from
     stg_sales_territory
 order by
-    sales_territory_id;
+    sales_territory_id

@@ -6,15 +6,13 @@
 
 with stg_business_entity_contact as (
     select
-          cast(be.businessentityid as int64) as business_entity_id
-        , cast(p.businessentityid as int64) as person_id
-        , cast(be.contacttypeid as int64) as contact_type_id
-        , cast(be.rowguid as string) as row_guid
-        , cast(substr(be.modifieddate, 1, 19) as datetime) as last_modified_date
+          cast(businessentityid as int64) as business_entity_id
+        , cast(personid as int64) as person_id
+        , cast(contacttypeid as int64) as contact_type_id
+        , cast(rowguid as string) as row_guid
+        , cast(substr(modifieddate, 1, 19) as datetime) as last_modified_date
     from
-        {{ source('stg_adventure_works', 'businessentitycontact') }} as be
-    left join
-        {{ source('stg_adventure_works', 'person') }} as p
+        {{ source('stg_adventure_works', 'businessentitycontact') }}
 )
 
 select
@@ -24,4 +22,4 @@ select
     , row_guid
     , last_modified_date
 from
-    stg_business_entity_contact;
+    stg_business_entity_contact

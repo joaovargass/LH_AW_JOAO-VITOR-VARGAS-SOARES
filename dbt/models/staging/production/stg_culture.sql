@@ -6,9 +6,9 @@
 
 with stg_culture as (
     select
-          cast(c.cultureid as string) as culture_id
+          trim(cast(c.cultureid as string)) as culture_id
         , c.name as culture_name
-        , cast(substr(c.modifieddate, 1, 19) as datetime) as last_modified_date
+        , cast(c.modifieddate as datetime) as last_modified_date
     from
         {{ source('stg_adventure_works', 'culture') }} c
 )
@@ -20,4 +20,4 @@ select
 from
     stg_culture
 order by
-    culture_id;
+    culture_id

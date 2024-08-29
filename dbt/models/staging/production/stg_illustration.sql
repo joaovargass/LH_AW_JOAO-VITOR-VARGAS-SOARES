@@ -20,4 +20,4 @@ select
 from
     stg_illustration
 order by
-    illustration_id;
+    illustration_id

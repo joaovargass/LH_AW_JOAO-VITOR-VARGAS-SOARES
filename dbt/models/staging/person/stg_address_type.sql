@@ -8,7 +8,7 @@ with stg_address_type as (
     select
           cast(addresstypeid as int64) as address_type_id
         , name as address_type_name
-        , cast(substr(modifieddate, 1, 19) as datetime) as last_modified_date
+        , cast(modifieddate as datetime) as last_modified_date
         , cast(rowguid as string) as row_guid
     from
         {{ source('stg_adventure_works', 'addresstype') }}
@@ -20,4 +20,4 @@ select
     , last_modified_date
     , row_guid
 from
-    stg_address_type;
+    stg_address_type

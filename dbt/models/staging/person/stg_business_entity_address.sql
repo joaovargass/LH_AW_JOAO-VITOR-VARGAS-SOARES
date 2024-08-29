@@ -22,4 +22,4 @@ select
     , row_guid
     , last_modified_date
 from
-    stg_business_entity_address;
+    stg_business_entity_address

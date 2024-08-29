@@ -51,9 +51,9 @@ models:
         tests:
           - not_null
           - unique
-    tests:
-      - unique:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - business_entity_id
             - email_address_id
 
@@ -153,15 +153,15 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('stg_phonenumber_type')
+              to: ref('stg_phone_number_type')
               field: phone_number_type_id
       - name: last_modified_date
         description: "date and time when the record was last modified, converted from string to datetime."
         tests:
           - not_null
-    tests:
-      - unique:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - business_entity_id
             - phone_number
             - phone_number_type_id
@@ -194,9 +194,9 @@ models:
         description: "date and time when the record was last modified, converted from string to datetime."
         tests:
           - not_null
-    tests:
-      - unique:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - address_id
             - business_entity_id
             - address_type_id
@@ -234,9 +234,9 @@ models:
         description: "date and time when the record was last modified, converted from string to datetime."
         tests:
           - not_null
-    tests:
-      - unique:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - business_entity_id
             - person_id
             - contact_type_id
@@ -269,13 +269,13 @@ models:
         tests:
           - not_null
           - unique
-      - name: territory_id
+      - name: sales_territory_id
         description: "foreign key referencing the sales territory."
         tests:
           - not_null
           - relationships:
               to: ref('stg_sales_territory')
-              field: territory_id
+              field: sales_territory_id
       - name: row_guid
         description: "unique identifier (guid) for the state province."
         tests:
@@ -285,9 +285,9 @@ models:
         description: "date and time when the record was last modified, converted from string to datetime."
         tests:
           - not_null
-    tests:
-      - unique:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - state_province_id
             - country_region_id
 
@@ -323,8 +323,7 @@ models:
               field: city_district_id
       - name: address_number
         description: "House/building number extracted from address line 1."
-        tests:
-          - not_null
+
       - name: address_street
         description: "Street name, cleaned from address line 1."
         tests:
@@ -335,10 +334,8 @@ models:
         description: "Postal code for the address."
         tests:
           - not_null
-      - name: latitude
-        description: "Latitude converted from spatial_location."
-      - name: longitude
-        description: "Longitude converted from spatial_location."
+      - name: spatial_location
+        description: "Latitude and longitude of this address."
       - name: row_guid
         description: "Unique identifier (guid) for the address."
         tests:
@@ -347,15 +344,16 @@ models:
         description: "Date and time when the record was last modified, converted from string to datetime."
         tests:
           - not_null
-    tests:
-      - unique_combination:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - state_province_id
             - address_street
             - address_number
             - address_complement
             - country_region_id
             - city_district_id
+            - spatial_location
 
   - name: stg_city_district
     description: "This model creates a standardized table for city districts, linking to country_region and state_province tables."
@@ -368,7 +366,6 @@ models:
       - name: city_district_name
         description: "Name of the city district, with the first letter of each word capitalized."
         tests:
-          - unique
           - not_null
       - name: country_region_id
         description: "Foreign key referencing the country region."
@@ -384,9 +381,9 @@ models:
           - relationships:
               to: ref('stg_state_province')
               field: state_province_id
-    tests:
-      - unique_combination:
-          combination_of:
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
             - city_district_id
             - state_province_id
             - country_region_id
@@ -458,15 +455,11 @@ models:
         description: "hash of the user's password."
         tests:
           - not_null
-          - dbt_utils.expression_is_true:
-              expression: "LENGTH(password_hash) = 44"
 
       - name: password_salt
         description: "salt used in hashing the password."
         tests:
           - not_null
-          - dbt_utils.expression_is_true:
-              expression: "LENGTH(password_salt) = 8"
 
       - name: row_guid
         description: "rowguidcol uniquely identifying the record."

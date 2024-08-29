@@ -9,7 +9,7 @@ with stg_department as (
           cast(departmentid as int64) as department_id
         , name as department_name
         , groupname as group_name
-        , cast(substr(modifieddate, 1, 19) as datetime) as last_modified_date
+        , cast(modifieddate as datetime) as last_modified_date
     from
         {{ source('stg_adventure_works', 'department') }}
 
@@ -23,4 +23,4 @@ select
 from
     stg_department
 order by
-    department_id;
+    department_id
