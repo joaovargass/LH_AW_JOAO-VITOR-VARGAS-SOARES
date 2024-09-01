@@ -29,7 +29,7 @@ stg_product_vendor as (
     left join
         unit_measure_lookup um
     on
-        pv.unitmeasurecode = um.unit_measure_code
+        trim(pv.unitmeasurecode) = trim(um.unit_measure_code)
 )
 
 select

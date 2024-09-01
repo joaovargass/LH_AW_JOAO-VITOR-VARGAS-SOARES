@@ -1,0 +1,48 @@
+version: 2
+
+models:
+  - name: int_sales_person_info
+    description: "Intermediate view in the dev_adventure_works schema containing detailed sales person information with the latest sales quota."
+    columns:
+      - name: sales_person_id
+        description: "Unique identifier for the sales person."
+        tests:
+          - not_null
+          - unique
+      - name: business_entity_id
+        description: "Unique identifier for the business entity associated with the sales person."
+        tests:
+          - not_null
+          - unique
+      - name: first_name
+        description: "First name of the sales person."
+        tests:
+          - not_null
+      - name: last_name
+        description: "Last name of the sales person."
+        tests:
+          - not_null
+      - name: sales_territory_id
+        description: "Identifier for the sales territory."
+      - name: territory_name
+        description: "Name of the sales territory."
+      - name: country_region_id
+        description: "Country or region identifier for the sales territory."
+      - name: sales_quota
+        description: "The latest sales quota for the sales person."
+      - name: bonus
+        description: "Bonus amount for the sales person."
+        tests:
+          - not_null
+      - name: commission_pct
+        description: "Commission percentage for the sales person."
+        tests:
+          - not_null
+      - name: sales_ytd
+        description: "Year-to-date sales for the sales person."
+        tests:
+          - not_null
+      - name: sales_last_year
+        description: "Sales for the previous year."
+        tests:
+          - not_null

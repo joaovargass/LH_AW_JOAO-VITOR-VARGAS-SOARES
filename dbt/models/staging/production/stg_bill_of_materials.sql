@@ -20,7 +20,7 @@ with stg_bill_of_materials as (
     left join
         {{ ref('stg_unit_measure') }} um
     on
-        bom.unitmeasurecode = um.unit_measure_code
+        trim(bom.unitmeasurecode) = trim(um.unit_measure_code)
 )
 
 select

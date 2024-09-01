@@ -49,10 +49,10 @@ stg_product as (
         {{ source('stg_adventure_works', 'product') }} p
     left join
         stg_unit_measure su
-        on p.sizeunitmeasurecode = su.unit_measure_code
+        on trim(p.sizeunitmeasurecode) = trim(su.unit_measure_code)
     left join
         stg_unit_measure wu
-        on p.weightunitmeasurecode = wu.unit_measure_code
+        on trim(p.weightunitmeasurecode) = trim(wu.unit_measure_code)
 )
 select
     product_id

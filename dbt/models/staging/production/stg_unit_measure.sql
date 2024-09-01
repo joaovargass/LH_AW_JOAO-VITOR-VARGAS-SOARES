@@ -6,8 +6,8 @@
 
 with stg_unit_measure as (
     select
-          cast(row_number() over (order by unitmeasurecode) as int64) as unit_measure_id
-        , unitmeasurecode as unit_measure_code
+          cast(row_number() over (order by trim(unitmeasurecode)) as int64) as unit_measure_id
+        , trim(unitmeasurecode) as unit_measure_code
         , name as unit_measure_name
         , cast(modifieddate as datetime) as last_modified_date
     from

@@ -1,0 +1,90 @@
+version: 2
+
+models:
+  - name: int_sales_summary
+    description: "Intermediate model to summarize sales data including calculated freight, tax rates, and aggregated sales reasons."
+    columns:
+      - name: sales_order_id
+        description: "The unique identifier for the sales order."
+        tests:
+          - not_null
+
+      - name: product_id
+        description: "The unique identifier for the product."
+        tests:
+          - not_null
+
+      - name: customer_id
+        description: "The unique identifier for the customer."
+        tests:
+          - not_null
+
+      - name: sales_territory_id
+        description: "The identifier for the sales territory."
+        tests:
+          - not_null
+
+      - name: unit_freight_price
+        description: "The freight price assigned to each unit in the order."
+
+      - name: item_tax_rate
+        description: "The tax rate applied to the order item."
+        tests:
+          - not_null
+
+      - name: order_qty
+        description: "The quantity of the product ordered."
+        tests:
+          - not_null
+
+      - name: unit_price
+        description: "The unit price of the product."
+        tests:
+          - not_null
+
+      - name: carrier_tracking_number
+        description: "The carrier tracking number for the shipment."
+
+      - name: special_offer_id
+        description: "The identifier for the special offer applied to the order."
+        tests:
+          - not_null
+
+      - name: due_date
+        description: "The date the order is due."
+        tests:
+          - not_null
+
+      - name: status
+        description: "The status of the order."
+        tests:
+          - not_null
+
+      - name: online_order_flag
+        description: "Flag indicating whether the order was placed online."
+        tests:
+          - not_null
+
+      - name: ship_method_id
+        description: "The identifier for the shipping method."
+        tests:
+          - not_null
+
+      - name: ship_method_name
+        description: "The name of the shipping method."
+        tests:
+          - not_null
+
+      - name: order_item_sk
+        description: "Surrogate key for the order item."
+        tests:
+          - not_null
+          - unique
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - sales_order_id
+            - product_id
+            - customer_id
+            - sales_territory_id
