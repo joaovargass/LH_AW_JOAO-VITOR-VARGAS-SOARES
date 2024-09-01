@@ -1,7 +1,6 @@
 {{ config(
-    materialized='incremental',
-    unique_key='order_item_sk',
-    description='This model aggregates sales order details at the product level, including calculated freight, tax rates, and sales reasons. It generates a unique surrogate key for each order item to ensure data integrity and supports incremental updates for efficient processing.'
+    materialized='view',
+    description='This model aggregates sales order details at the product level, including calculated freight, tax rates, and sales reasons.'
 ) }}
 
 with calculated_freight as (
@@ -172,7 +171,6 @@ select distinct
     , ftr.ship_method_name
     , ftr.unit_weight_lbs as unit_weight
     , ftr.unit_measure_code
-    , ROW_NUMBER() OVER (ORDER BY ftr.sales_order_id, ftr.product_id, ftr.customer_id, ftr.sales_territory_id) as order_item_sk
 from final_tax_rates ftr
 group by
     ftr.sales_order_id

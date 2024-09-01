@@ -1,0 +1,39 @@
+version: 2
+
+models:
+  - name: dim_sales_person
+    description: "This table contains detailed information about salespersons, including their performance metrics."
+    columns:
+      - name: sales_person_id
+        description: "Unique identifier for the salesperson."
+        tests:
+          - unique
+          - not_null
+      - name: first_name
+        description: "First name of the salesperson."
+        tests:
+          - not_null
+      - name: last_name
+        description: "Last name of the salesperson."
+        tests:
+          - not_null
+      - name: sales_quota
+        description: "Sales quota assigned to the salesperson."
+      - name: bonus
+        description: "Bonus received by the salesperson."
+      - name: commission_pct
+        description: "Commission percentage earned by the salesperson."
+        tests:
+          - not_null
+      - name: sales_ytd
+        description: "Year-to-date sales achieved by the salesperson."
+        tests:
+          - not_null
+      - name: sales_last_year
+        description: "Sales achieved by the salesperson in the previous year."
+        tests:
+          - not_null
+      - name: territory_name
+        description: "Name of the territory the salesperson is associated with."
+      - name: country_region_id
+        description: "Country/region identifier associated with the salesperson."

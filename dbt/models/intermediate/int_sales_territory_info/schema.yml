@@ -1,0 +1,43 @@
+version: 2
+
+models:
+  - name: int_sales_territory_info
+    description: "This model transforms and enriches sales territory data by joining sales territory and country region tables, providing financial metrics and region names."
+    columns:
+      - name: sales_territory_id
+        description: "Unique identifier for the sales territory."
+        tests:
+          - not_null
+          - unique
+      - name: sales_territory_name
+        description: "Name of the sales territory."
+        tests:
+          - not_null
+      - name: sales_territory_group
+        description: "Group to which the sales territory belongs."
+        tests:
+          - not_null
+      - name: country_region_id
+        description: "Identifier for the country or region."
+        tests:
+          - not_null
+      - name: country_region_name
+        description: "Name of the country or region."
+        tests:
+          - not_null
+      - name: sales_ytd
+        description: "Year-to-date sales for the sales territory."
+        tests:
+          - not_null
+      - name: sales_last_year
+        description: "Sales for the last year in the sales territory."
+        tests:
+          - not_null
+      - name: cost_ytd
+        description: "Year-to-date costs for the sales territory."
+        tests:
+          - not_null
+      - name: cost_last_year
+        description: "Costs for the last year in the sales territory."
+        tests:
+          - not_null

@@ -75,12 +75,6 @@ models:
         tests:
           - not_null
 
-      - name: order_item_sk
-        description: "Surrogate key for the order item."
-        tests:
-          - not_null
-          - unique
-
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:

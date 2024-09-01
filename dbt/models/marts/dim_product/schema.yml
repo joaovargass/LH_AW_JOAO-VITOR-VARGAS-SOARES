@@ -1,0 +1,68 @@
+version: 2
+
+models:
+  - name: dim_product
+    description: "This table contains detailed product information, including category, subcategory, model, and various attributes such as color, size, and weight."
+    columns:
+      - name: product_id
+        description: "Unique identifier for the product."
+        tests:
+          - unique
+          - not_null
+      - name: product_name
+        description: "Name of the product."
+        tests:
+          - not_null
+      - name: product_number
+        description: "Product number used in the company."
+        tests:
+          - unique
+          - not_null
+      - name: product_category_id
+        description: "Identifier for the product's category."
+      - name: product_category_name
+        description: "Name of the product's category."
+      - name: product_subcategory_id
+        description: "Identifier for the product's subcategory."
+      - name: product_subcategory_name
+        description: "Name of the product's subcategory."
+      - name: product_model_id
+        description: "Identifier for the product model."
+      - name: product_model_name
+        description: "Name of the product model."
+      - name: product_line
+        description: "The line of the product."
+      - name: class
+        description: "Class of the product."
+      - name: style
+        description: "Style of the product."
+      - name: color
+        description: "Color of the product."
+      - name: size
+        description: "Size of the product."
+      - name: size_unit_measure_name
+        description: "Unit of measurement for the product size."
+      - name: weight_unit_measure_name
+        description: "Unit of measurement for the product weight."
+      - name: weight
+        description: "Weight of the product."
+      - name: standard_cost
+        description: "Standard cost of the product."
+        tests:
+          - not_null
+      - name: list_price
+        description: "List price of the product."
+        tests:
+          - not_null
+      - name: sell_start_date
+        description: "The date when the product became available for sale."
+        tests:
+          - not_null
+      - name: sell_end_date
+        description: "The date when the product was discontinued."
+      - name: discontinued_date
+        description: "Date when the product was discontinued."
+      - name: finished_goods_flag
+        description: "Flag indicating whether the product is finished goods."
+        tests:
+          - not_null

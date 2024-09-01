@@ -1,0 +1,39 @@
+version: 2
+
+models:
+  - name: dim_customer
+    description: "This table contains detailed customer information, including names, contact info, and demographic details."
+    columns:
+      - name: customer_id
+        description: "Unique identifier for the customer."
+        tests:
+          - unique
+          - not_null
+      - name: person_id
+        description: "Person identifier associated with the customer."
+      - name: store_id
+        description: "Store identifier associated with the customer."
+      - name: sales_territory_id
+        description: "Sales territory identifier for the customer."
+      - name: first_name
+        description: "First name of the customer."
+      - name: middle_name
+        description: "Middle name of the customer."
+      - name: last_name
+        description: "Last name of the customer."
+      - name: name_title
+        description: "Title of the customer's name."
+      - name: email_promotion
+        description: "Flag indicating if the customer is subscribed to email promotions."
+      - name: name_style
+        description: "Name style used for the customer."
+      - name: person_type
+        description: "Type of person (individual or organization)."
+      - name: name_suffix
+        description: "Suffix of the customer's name."
+      - name: additional_contact_info
+        description: "Additional contact information for the customer."
+      - name: demographics
+        description: "Demographic details of the customer."
+      - name: country_region_name
+        description: "Name of the country/region the customer is associated with."

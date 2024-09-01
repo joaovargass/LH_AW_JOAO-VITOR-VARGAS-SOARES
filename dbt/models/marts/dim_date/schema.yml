@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: dim_date
+    description: "This table contains date attributes useful for time-based analysis, including fiscal periods."
+    columns:
+      - name: date_id
+        description: "Unique identifier for the date, usually an integer representing YYYYMMDD."
+        tests:
+          - unique
+          - not_null
+      - name: full_date
+        description: "The full date."
+        tests:
+          - not_null
+      - name: year
+        description: "The year part of the date."
+      - name: quarter
+        description: "The quarter part of the date (1 to 4)."
+      - name: month
+        description: "The month part of the date (1 to 12)."
+      - name: day
+        description: "The day part of the date (1 to 31)."
+      - name: week
+        description: "The week number of the date."
+      - name: is_weekend
+        description: "Boolean flag indicating if the date is on a weekend."
+      - name: fiscal_year
+        description: "The fiscal year associated with the date."
+      - name: fiscal_quarter
+        description: "The fiscal quarter associated with the date."
