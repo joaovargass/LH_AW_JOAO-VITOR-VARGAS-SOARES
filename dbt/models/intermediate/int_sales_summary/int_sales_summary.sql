@@ -144,9 +144,9 @@ select distinct
     , ftr.customer_id
     , ftr.sales_person_id
     , ftr.sales_territory_id
-    , STRING_AGG(cast(ftr.sales_reason_id as string), ', ') as sales_reason_ids
-    , STRING_AGG(ftr.sales_reason_name, ', ') as sales_reason_names
-    , STRING_AGG(ftr.sales_reason_type, ', ') as sales_reason_types
+    , STRING_AGG(distinct cast(ftr.sales_reason_id as string), ', ') as sales_reason_ids
+    , STRING_AGG(distinct ftr.sales_reason_name, ', ') as sales_reason_names
+    , STRING_AGG(distinct ftr.sales_reason_type, ', ') as sales_reason_types
     , ftr.currency_rate_id
     , ftr.store_id
     , ftr.order_date
