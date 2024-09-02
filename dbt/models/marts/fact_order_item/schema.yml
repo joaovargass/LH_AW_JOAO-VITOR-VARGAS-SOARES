@@ -109,6 +109,8 @@ models:
 
       - name: unit_price_discount
         description: "The discount applied to the unit price."
+        tests:
+          - not_null
 
       - name: carrier_tracking_number
         description: "The carrier tracking number for the shipment."
