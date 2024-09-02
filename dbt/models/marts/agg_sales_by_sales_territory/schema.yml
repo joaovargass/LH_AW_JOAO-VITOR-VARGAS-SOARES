@@ -4,7 +4,7 @@ models:
   - name: agg_sales_by_sales_territory
     description: >
       This model aggregates sales data by sales territory, including key territory attributes, sales person information,
-      special offers, and sales metrics. The model is used to analyze sales performance on a weekly and yearly basis,
+      special offers, and sales metrics. The model is used to analyze sales performance on a weekly basis,
       rounding the financial values for accurate reporting.
     columns:
       - name: sales_territory_id
@@ -45,10 +45,10 @@ models:
           - relationships:
               to: ref('dim_sales_person')
               field: sales_person_id
-      - name: year
-        description: "Year when the order was placed."
-      - name: week_of_year
-        description: "Week of the year when the order was placed."
+      - name: start_of_week
+        description: "Date of the start of the weekly sales period."
+        tests:
+          - not_null
       - name: total_quantity
         description: "Total quantity of products sold."
       - name: total_sales_value

@@ -16,8 +16,7 @@ with sales_territory_data as (
         , so.offer_type
         , so.offer_category
         , f.sales_person_id
-        , extract(year from f.order_date) as year
-        , extract(week from f.order_date) as week_of_year
+        , date_trunc(f.order_date, week(monday)) as start_of_week
         , sum(f.order_qty) as total_quantity
         , round(sum(f.unit_price * f.order_qty), 2) as total_sales_value
         , round(sum(f.unit_price_discount * f.order_qty), 2) as total_discount_value
@@ -42,8 +41,7 @@ with sales_territory_data as (
         , so.offer_type
         , so.offer_category
         , f.sales_person_id
-        , year
-        , week_of_year
+        , start_of_week
 )
 
 select *

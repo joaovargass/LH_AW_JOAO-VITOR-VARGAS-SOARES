@@ -39,11 +39,13 @@ models:
       - name: store_id
         description: "Identifier for the store where the sale occurred."
 
-      - name: year
-        description: "Year of the sale."
+      - name: start_of_week
+        description: "Date of the start of the weekly sales period."
+        tests:
+          - not_null
       - name: total_sales_value
-        description: "Total sales value for the customer in the year."
+        description: "Total sales value for the customer in the week."
       - name: total_orders
-        description: "Total number of orders made by the customer in the year."
+        description: "Total number of orders made by the customer in the week."
       - name: last_order_date
         description: "Date of the last order made by the customer."

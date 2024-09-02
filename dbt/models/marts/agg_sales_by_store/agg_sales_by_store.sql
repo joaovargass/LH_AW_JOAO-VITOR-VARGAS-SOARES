@@ -32,8 +32,7 @@ special_offers as (
 order_aggregation as (
     select
         f.store_id
-        , extract(year from f.order_date) as year
-        , extract(quarter from f.order_date) as quarter
+        , date_trunc(f.order_date, week(monday)) as start_of_week
         , round(sum(f.unit_price * f.order_qty), 2) as total_sales_value
         , round(sum((f.unit_price - f.unit_price_discount) * f.order_qty), 2) as total_sales_value_with_discount
         , sum(f.order_qty) as total_quantity
@@ -42,8 +41,7 @@ order_aggregation as (
         {{ ref('fact_order_item') }} f
     group by
         f.store_id
-        , extract(year from f.order_date)
-        , extract(quarter from f.order_date)
+        , date_trunc(f.order_date, week(monday))
 )
 
 select
@@ -52,8 +50,7 @@ select
     , s.state_province_name
     , s.city_district_name
     , s.country_region_name
-    , o.year
-    , o.quarter
+    , o.start_of_week
     , o.total_sales_value
     , o.total_sales_value_with_discount
     , o.total_quantity
@@ -65,4 +62,4 @@ left join
 where
     o.store_id is not null
 order by
-    o.store_id, year, quarter
+    o.store_id, start_of_week

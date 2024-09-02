@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: agg_sales_by_store
-    description: "Aggregates sales data by store for analysis of quarterly performance."
+    description: "Aggregates sales data by store for analysis of weekly performance."
     columns:
       - name: store_id
         description: "Identifier for the store. Note: Store ID is not unique."
@@ -27,12 +27,8 @@ models:
         description: "Name of the country region where the store is located."
         tests:
           - not_null
-      - name: year
-        description: "Year of the sales period."
-        tests:
-          - not_null
-      - name: quarter
-        description: "Quarter of the sales period."
+      - name: start_of_week
+        description: "Date of the start of the weekly sales period."
         tests:
           - not_null
       - name: total_sales_value

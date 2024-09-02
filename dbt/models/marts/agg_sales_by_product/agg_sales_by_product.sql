@@ -31,8 +31,7 @@ with product_sales as (
         , so.offer_type
         , so.offer_category
         , f.online_order_flag
-        , extract(year from f.order_date) as year
-        , extract(week from f.order_date) as week_of_year
+        , date_trunc(f.order_date, week(monday)) as start_of_week
         , round(sum(f.order_qty), 2) as sales_quantity
         , round(sum(f.unit_price * f.order_qty), 2) as sales_value
         , round(sum(f.unit_price_discount * f.order_qty), 2) as sales_with_discount_value
@@ -71,8 +70,7 @@ with product_sales as (
         , so.offer_type
         , so.offer_category
         , f.online_order_flag
-        , year
-        , week_of_year
+        , start_of_week
 )
 
 select
@@ -101,8 +99,7 @@ select
     , offer_type
     , offer_category
     , online_order_flag
-    , week_of_year
-    , year
+    , start_of_week
     , sales_quantity
     , sales_value
     , sales_with_discount_value

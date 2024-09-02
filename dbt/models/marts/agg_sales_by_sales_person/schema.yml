@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: agg_sales_by_sales_person
-    description: "Aggregates sales data by sales person for analysis of quarterly performance."
+    description: "Aggregates sales data by sales person for analysis of weekly performance."
     columns:
       - name: sales_person_id
         description: "Unique identifier for the sales person."
@@ -34,12 +34,8 @@ models:
       - name: country_region_name
         description: "Name of the country region."
 
-      - name: year
-        description: "Year of the sales period."
-        tests:
-          - not_null
-      - name: quarter
-        description: "Quarter of the sales period."
+      - name: start_of_week
+        description: "Date of the start of the weekly sales period."
         tests:
           - not_null
       - name: total_sales_value

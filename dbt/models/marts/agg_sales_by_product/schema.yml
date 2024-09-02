@@ -89,8 +89,10 @@ models:
         description: "Flag indicating if the order was made online."
         tests:
           - not_null
-      - name: week_of_year
-        description: "Week of the year when the order was placed."
+      - name: start_of_week
+        description: "Date of the start of the weekly sales period."
+        tests:
+          - not_null
       - name: sales_quantity
         description: "Total quantity of products sold."
       - name: sales_value
