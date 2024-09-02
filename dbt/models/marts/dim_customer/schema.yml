@@ -2,38 +2,67 @@ version: 2
 
 models:
   - name: dim_customer
-    description: "This table contains detailed customer information, including names, contact info, and demographic details."
+    description: "This table contains detailed customer information, including personal details, demographics, and associated store and sales territory information."
     columns:
       - name: customer_id
         description: "Unique identifier for the customer."
         tests:
           - unique
           - not_null
+
       - name: person_id
-        description: "Person identifier associated with the customer."
-      - name: store_id
-        description: "Store identifier associated with the customer."
-      - name: sales_territory_id
-        description: "Sales territory identifier for the customer."
+        description: "Foreign key reference to the person associated with the customer."
+        tests:
+          - relationships:
+              to: ref('dim_person')
+              field: person_id
+
       - name: first_name
         description: "First name of the customer."
+
       - name: middle_name
         description: "Middle name of the customer."
+
       - name: last_name
         description: "Last name of the customer."
+
       - name: name_title
-        description: "Title of the customer's name."
-      - name: email_promotion
-        description: "Flag indicating if the customer is subscribed to email promotions."
+        description: "Title of the customer."
+
       - name: name_style
-        description: "Name style used for the customer."
+        description: "Style of the customer's name."
+
       - name: person_type
         description: "Type of person (individual or organization)."
+
       - name: name_suffix
         description: "Suffix of the customer's name."
+
+      - name: email_promotion
+        description: "Indicates whether the customer is open to email promotions."
+
       - name: additional_contact_info
-        description: "Additional contact information for the customer."
+        description: "Additional contact information of the customer."
+
       - name: demographics
-        description: "Demographic details of the customer."
+        description: "Demographic information of the customer."
+
+      - name: store_id
+        description: "Foreign key reference to the store associated with the customer."
+        tests:
+          - relationships:
+              to: ref('dim_store')
+              field: business_entity_id
+
+      - name: sales_territory_id
+        description: "Foreign key reference to the sales territory associated with the customer."
+        tests:
+          - relationships:
+              to: ref('dim_sales_territory')
+              field: sales_territory_id
+
+      - name: country_region_id
+        description: "Identifier for the country or region associated with the customer."
+
       - name: country_region_name
-        description: "Name of the country/region the customer is associated with."
+        description: "Name of the country or region associated with the customer."

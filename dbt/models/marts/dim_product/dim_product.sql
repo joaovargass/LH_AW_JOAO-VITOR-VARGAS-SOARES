@@ -1,6 +1,6 @@
 {{ config(
-    materialized='table',
-    schema='dev_adventure_works'
+    materialized = 'table'
+    , schema = 'dev_adventure_works'
 ) }}
 
 with product_info as (
@@ -20,8 +20,8 @@ with product_info as (
         , color
         , size
         , size_unit_measure_name
-        , weight_unit_measure_name
         , weight
+        , weight_unit_measure_name
         , standard_cost
         , list_price
         , sell_start_date
@@ -47,8 +47,8 @@ select
     , color
     , size
     , size_unit_measure_name
-    , weight_unit_measure_name
     , weight
+    , weight_unit_measure_name
     , standard_cost
     , list_price
     , sell_start_date

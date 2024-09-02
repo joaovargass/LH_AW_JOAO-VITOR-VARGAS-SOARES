@@ -1,6 +1,6 @@
 {{ config(
-    materialized='table',
-    schema='dev_adventure_works'
+    materialized = 'table'
+    , schema = 'dev_adventure_works'
 ) }}
 
 with store_info as (
@@ -10,8 +10,11 @@ with store_info as (
         , store_name
         , sales_person_id
         , demographics
+        , state_province_id
         , state_province_name
+        , city_district_id
         , city_district_name
+        , country_region_id
         , country_region_name
     from {{ ref('int_store_info') }}
 )
@@ -22,7 +25,10 @@ select
     , store_name
     , sales_person_id
     , demographics
+    , state_province_id
     , state_province_name
+    , city_district_id
     , city_district_name
+    , country_region_id
     , country_region_name
 from store_info

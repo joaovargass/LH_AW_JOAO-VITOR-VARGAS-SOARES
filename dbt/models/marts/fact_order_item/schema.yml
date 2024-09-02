@@ -1,0 +1,167 @@
+version: 2
+
+models:
+  - name: fact_order_item
+    description: "Fact table representing individual order items. Each row represents a product ordered in a specific sales order, along with associated pricing, logistics details, and sales reasons."
+    columns:
+      - name: sales_order_item_sk
+        description: "Surrogate key for the fact table, unique for each combination of sales order, product, customer, and sales territory."
+        tests:
+          - unique
+          - not_null
+
+      - name: sales_order_id
+        description: "Unique identifier for the sales order."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_sales_order')
+              field: sales_order_id
+
+      - name: product_id
+        description: "Unique identifier for the product."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_product')
+              field: product_id
+
+      - name: customer_id
+        description: "Unique identifier for the customer."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customer')
+              field: customer_id
+
+      - name: sales_person_id
+        description: "Unique identifier for the sales person."
+        tests:
+          - relationships:
+              to: ref('dim_sales_person')
+              field: sales_person_id
+
+      - name: sales_territory_id
+        description: "Identifier for the sales territory."
+        tests:
+          - relationships:
+              to: ref('dim_sales_territory')
+              field: sales_territory_id
+
+      - name: sales_reason_ids
+        description: "Sales reason IDs associated with the order."
+
+      - name: sales_reason_names
+        description: "Sales reason names associated with the order."
+
+      - name: sales_reason_types
+        description: "Sales reason types associated with the order."
+
+      - name: currency_rate_id
+        description: "Identifier for the currency rate."
+
+      - name: store_id
+        description: "Identifier for the store."
+        tests:
+          - relationships:
+              to: ref('dim_store')
+              field: store_id
+
+      - name: order_date
+        description: "The date the order was placed."
+        tests:
+          - not_null
+
+      - name: ship_date
+        description: "The date the order was shipped."
+        tests:
+          - not_null
+
+      - name: unit_freight_price
+        description: "The freight price assigned to each unit in the order."
+
+      - name: item_tax_rate
+        description: "The tax rate applied to the order item."
+        tests:
+          - not_null
+
+      - name: from_currency_code
+        description: "The currency code from which the conversion is made."
+
+      - name: to_currency_code
+        description: "The currency code to which the conversion is made."
+
+      - name: average_rate
+        description: "The average exchange rate for the currency conversion."
+
+      - name: credit_card_type
+        description: "The type of credit card used for the order."
+
+      - name: order_qty
+        description: "The quantity of the product ordered."
+        tests:
+          - not_null
+
+      - name: unit_price
+        description: "The unit price of the product."
+        tests:
+          - not_null
+
+      - name: unit_price_discount
+        description: "The discount applied to the unit price."
+
+      - name: carrier_tracking_number
+        description: "The carrier tracking number for the shipment."
+
+      - name: special_offer_id
+        description: "Identifier for the special offer applied to the order."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_special_offer')
+              field: special_offer_id
+
+      - name: revision_number
+        description: "The revision number of the order."
+
+      - name: due_date
+        description: "The date the order is due."
+        tests:
+          - not_null
+
+      - name: status
+        description: "The status of the order."
+        tests:
+          - not_null
+
+      - name: online_order_flag
+        description: "Flag indicating whether the order was placed online."
+        tests:
+          - not_null
+
+      - name: purchase_order_number
+        description: "The purchase order number associated with the sales order."
+
+      - name: ship_method_id
+        description: "The identifier for the shipping method."
+        tests:
+          - not_null
+
+      - name: ship_method_name
+        description: "The name of the shipping method."
+        tests:
+          - not_null
+
+      - name: unit_weight
+        description: "The weight of the unit in pounds."
+
+      - name: unit_measure_code
+        description: "The unit measure code associated with the product."
+
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - sales_order_id
+            - product_id
+            - customer_id
+            - sales_territory_id

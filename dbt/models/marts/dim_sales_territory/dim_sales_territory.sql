@@ -1,6 +1,6 @@
 {{ config(
-    materialized='table',
-    schema='dev_adventure_works'
+    materialized = 'table'
+    , schema = 'dev_adventure_works'
 ) }}
 
 with sales_territory_info as (
