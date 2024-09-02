@@ -1,5 +1,5 @@
 {{ config(
-    materialized='table',
+    materialized='view',
     description='''This model transforms the sales territory data by joining the stg_sales_territory and stg_country_region tables to provide detailed information about each sales territory, including financial metrics and region names.'''
 ) }}
 
