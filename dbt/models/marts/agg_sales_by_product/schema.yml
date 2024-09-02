@@ -1,0 +1,103 @@
+version: 2
+
+models:
+  - name: agg_sales_by_product
+    description: >
+      This model aggregates sales data by product, including key product attributes, sales territory information,
+      special offers, and various sales metrics. The model is used to analyze sales performance on a weekly basis,
+      factoring in discounts and distinguishing between online and offline orders.
+    columns:
+      - name: product_id
+        description: "Unique identifier for the product."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_product')
+              field: product_id
+      - name: product_line
+        description: "Product line classification."
+      - name: class
+        description: "Product class."
+      - name: style
+        description: "Product style."
+      - name: color
+        description: "Product color."
+      - name: size
+        description: "Product size."
+      - name: weight
+        description: "Product weight."
+      - name: standard_cost
+        description: "Standard cost of the product."
+        tests:
+          - not_null
+      - name: list_price
+        description: "Listed price of the product."
+        tests:
+          - not_null
+      - name: finished_goods_flag
+        description: "Flag indicating if the product is a finished good."
+      - name: product_name
+        description: "Name of the product."
+        tests:
+          - not_null
+      - name: product_category_name
+        description: "Name of the product category."
+      - name: product_subcategory_name
+        description: "Name of the product subcategory."
+      - name: product_model_name
+        description: "Name of the product model."
+      - name: sales_territory_id
+        description: "Identifier for the sales territory."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_sales_territory')
+              field: sales_territory_id
+      - name: sales_territory_name
+        description: "Name of the sales territory."
+        tests:
+          - not_null
+      - name: sales_territory_group
+        description: "Group to which the sales territory belongs."
+      - name: country_region_id
+        description: "Identifier for the country or region."
+        tests:
+          - not_null
+      - name: country_region_name
+        description: "Name of the country or region."
+        tests:
+          - not_null
+      - name: special_offer_id
+        description: "Identifier for the special offer applied."
+      - name: offer_description
+        description: "Description of the special offer."
+        tests:
+          - not_null
+      - name: discount_pct
+        description: "Discount percentage applied in the special offer."
+        tests:
+          - not_null
+      - name: offer_type
+        description: "Type of the special offer."
+        tests:
+          - not_null
+      - name: offer_category
+        description: "Category of the special offer."
+        tests:
+          - not_null
+      - name: online_order_flag
+        description: "Flag indicating if the order was made online."
+        tests:
+          - not_null
+      - name: week_of_year
+        description: "Week of the year when the order was placed."
+      - name: sales_quantity
+        description: "Total quantity of products sold."
+      - name: sales_value
+        description: "Total value of sales."
+      - name: sales_with_discount_value
+        description: "Total value of sales with discounts applied."
+      - name: average_ticket
+        description: "Average ticket value per order."
+      - name: number_of_orders
+        description: "Total number of orders."

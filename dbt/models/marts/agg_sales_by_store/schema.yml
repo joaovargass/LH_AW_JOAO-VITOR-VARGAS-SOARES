@@ -1,0 +1,53 @@
+version: 2
+
+models:
+  - name: agg_sales_by_store
+    description: "Aggregates sales data by store for analysis of quarterly performance."
+    columns:
+      - name: store_id
+        description: "Identifier for the store. Note: Store ID is not unique."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_store')
+              field: store_id
+      - name: store_name
+        description: "Name of the store."
+        tests:
+          - not_null
+      - name: state_province_name
+        description: "Name of the state or province where the store is located."
+        tests:
+          - not_null
+      - name: city_district_name
+        description: "Name of the city district where the store is located."
+        tests:
+          - not_null
+      - name: country_region_name
+        description: "Name of the country region where the store is located."
+        tests:
+          - not_null
+      - name: year
+        description: "Year of the sales period."
+        tests:
+          - not_null
+      - name: quarter
+        description: "Quarter of the sales period."
+        tests:
+          - not_null
+      - name: total_sales_value
+        description: "Total sales value for the period."
+        tests:
+          - not_null
+      - name: total_sales_value_with_discount
+        description: "Total sales value with discounts applied for the period."
+        tests:
+          - not_null
+      - name: total_quantity
+        description: "Total quantity of items sold in the period."
+        tests:
+          - not_null
+      - name: avg_item_tax_rate
+        description: "Average tax rate applied to the items sold."
+        tests:
+          - not_null

@@ -1,0 +1,64 @@
+version: 2
+
+models:
+  - name: agg_sales_by_sales_person
+    description: "Aggregates sales data by sales person for analysis of quarterly performance."
+    columns:
+      - name: sales_person_id
+        description: "Unique identifier for the sales person."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_sales_person')
+              field: sales_person_id
+      - name: first_name
+        description: "First name of the sales person."
+        tests:
+          - not_null
+      - name: last_name
+        description: "Last name of the sales person."
+        tests:
+          - not_null
+      - name: sales_territory_id
+        description: "Unique identifier for the sales territory."
+        tests:
+          - relationships:
+              to: ref('dim_sales_territory')
+              field: sales_territory_id
+      - name: sales_territory_name
+        description: "Name of the sales territory."
+
+      - name: sales_territory_group
+        description: "Group of the sales territory."
+
+      - name: country_region_name
+        description: "Name of the country region."
+
+      - name: year
+        description: "Year of the sales period."
+        tests:
+          - not_null
+      - name: quarter
+        description: "Quarter of the sales period."
+        tests:
+          - not_null
+      - name: total_sales_value
+        description: "Total sales value for the period."
+        tests:
+          - not_null
+      - name: total_sales_value_with_discount
+        description: "Total sales value with discounts applied for the period."
+        tests:
+          - not_null
+      - name: total_quantity
+        description: "Total quantity of items sold in the period."
+        tests:
+          - not_null
+      - name: avg_item_tax_rate
+        description: "Average tax rate applied to the items sold."
+        tests:
+          - not_null
+      - name: total_freight
+        description: "Total freight value for the items sold in the period."
+        tests:
+          - not_null

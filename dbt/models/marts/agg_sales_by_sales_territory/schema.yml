@@ -1,0 +1,59 @@
+version: 2
+
+models:
+  - name: agg_sales_by_sales_territory
+    description: >
+      This model aggregates sales data by sales territory, including key territory attributes, sales person information,
+      special offers, and sales metrics. The model is used to analyze sales performance on a weekly and yearly basis,
+      rounding the financial values for accurate reporting.
+    columns:
+      - name: sales_territory_id
+        description: "Unique identifier for the sales territory."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_sales_territory')
+              field: sales_territory_id
+      - name: sales_territory_name
+        description: "Name of the sales territory."
+        tests:
+          - not_null
+      - name: sales_territory_group
+        description: "Group to which the sales territory belongs."
+      - name: country_region_id
+        description: "Identifier for the country or region associated with the sales territory."
+        tests:
+          - not_null
+      - name: country_region_name
+        description: "Name of the country or region associated with the sales territory."
+        tests:
+          - not_null
+      - name: special_offer_id
+        description: "Identifier for the special offer applied."
+      - name: offer_description
+        description: "Description of the special offer."
+      - name: discount_pct
+        description: "Discount percentage applied in the special offer."
+      - name: offer_type
+        description: "Type of the special offer."
+      - name: offer_category
+        description: "Category of the special offer."
+      - name: sales_person_id
+        description: "Identifier for the sales person associated with the sales."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_sales_person')
+              field: sales_person_id
+      - name: year
+        description: "Year when the order was placed."
+      - name: week_of_year
+        description: "Week of the year when the order was placed."
+      - name: total_quantity
+        description: "Total quantity of products sold."
+      - name: total_sales_value
+        description: "Total sales value, rounded to two decimal places."
+      - name: total_discount_value
+        description: "Total discount value, rounded to two decimal places."
+      - name: total_orders
+        description: "Total number of orders."
