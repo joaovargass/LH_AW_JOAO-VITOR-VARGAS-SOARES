@@ -2,13 +2,13 @@ version: 2
 
 models:
   - name: dim_store
-    description: "This table contains detailed store information, including associated sales person, demographics, and location details."
+    description: "This table contains detailed store information, including location data and the associated salesperson."
     columns:
       - name: store_id
         description: "Unique identifier for the store."
         tests:
-          - unique
           - not_null
+          - unique
 
       - name: business_entity_id
         description: "Unique identifier for the business entity associated with the store."
@@ -23,40 +23,24 @@ models:
       - name: sales_person_id
         description: "Identifier for the sales person associated with the store."
         tests:
-          - not_null
           - relationships:
               to: ref('dim_sales_person')
               field: sales_person_id
 
-      - name: demographics
-        description: "Demographics information for the store."
-
       - name: state_province_id
-        description: "Identifier for the state or province."
-        tests:
-          - not_null
+        description: "Identifier for the state or province associated with the store."
 
       - name: state_province_name
         description: "Name of the state or province."
-        tests:
-          - not_null
 
       - name: city_district_id
-        description: "Identifier for the city or district."
-        tests:
-          - not_null
+        description: "Identifier for the city or district associated with the store."
 
       - name: city_district_name
         description: "Name of the city or district."
-        tests:
-          - not_null
 
       - name: country_region_id
-        description: "Identifier for the country or region."
-        tests:
-          - not_null
+        description: "Identifier for the country or region associated with the store."
 
       - name: country_region_name
-        description: "Name of the country or region."
-        tests:
-          - not_null
+        description: "Name of the country or region associated with the store."

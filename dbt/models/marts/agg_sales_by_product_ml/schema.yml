@@ -1,0 +1,170 @@
+version: 2
+
+models:
+  - name: agg_sales_by_product_ml
+    description: "Aggregate sales by product, used for machine learning prediction models. This table contains weekly sales data per product, enriched with customer, store, and product details."
+    columns:
+      - name: product_id
+        description: "Unique identifier for the product."
+        tests:
+          - not_null
+
+      - name: product_name
+        description: "The name of the product."
+        tests:
+          - not_null
+
+      - name: product_category_name
+        description: "The name of the product category the product belongs to."
+        tests:
+          - not_null
+
+      - name: product_subcategory_name
+        description: "The name of the product subcategory."
+        tests:
+          - not_null
+
+      - name: product_line
+        description: "Product line classification: R = Road, M = Mountain, T = Touring, S = Standard."
+
+      - name: class
+        description: "Product class: H = High, M = Medium, L = Low."
+
+      - name: style
+        description: "Product style: W = Women's, M = Men's, U = Universal."
+
+      - name: size
+        description: "Product size, specific to each product type."
+
+      - name: size_unit_measure_name
+        description: "The unit of measurement for the size of the product."
+
+      - name: weight
+        description: "Weight of the product."
+
+      - name: weight_unit_measure_name
+        description: "Unit of measurement for the weight of the product."
+
+      - name: make_flag
+        description: "Indicates whether the product is manufactured (TRUE) or bought (FALSE)."
+        tests:
+          - not_null
+
+      - name: safety_stock_level
+        description: "The minimum quantity of stock that must always be on hand to avoid stockouts."
+        tests:
+          - not_null
+
+      - name: reorder_point
+        description: "The quantity at which the product should be reordered."
+        tests:
+          - not_null
+
+      - name: days_to_manufacture
+        description: "The number of days required to manufacture the product."
+        tests:
+          - not_null
+
+      - name: sell_start_date
+        description: "Date when the product became available for sale."
+        tests:
+          - not_null
+
+      - name: sell_end_date
+        description: "Date when the product was discontinued or removed from the sale list."
+
+      - name: finished_goods_flag
+        description: "Indicates whether the product is a finished good (TRUE) or not (FALSE)."
+        tests:
+          - not_null
+
+      - name: sales_territory_name
+        description: "The sales territory where the sale occurred."
+
+      - name: city_district_name
+        description: "The name of the city district where the sale occurred."
+
+      - name: state_province_name
+        description: "The name of the state or province where the sale occurred."
+
+      - name: store_name
+        description: "The name of the store where the product was sold."
+
+      - name: store_id
+        description: "The unique identifier for the store."
+
+      - name: num_unique_customers
+        description: "The number of unique customers who purchased this product in the given week."
+        tests:
+          - not_null
+
+      - name: week_start_date
+        description: "The starting date of the week during which the sales were recorded."
+        tests:
+          - not_null
+
+      - name: total_products_sold
+        description: "The total number of units of the product sold in the given week."
+        tests:
+          - not_null
+
+      - name: total_sales_value
+        description: "The total value of sales for the product in the given week, accounting for any discounts."
+        tests:
+          - not_null
+
+      - name: products_sold_with_discount
+        description: "The number of products sold with a discount."
+
+      - name: total_discount_value
+        description: "The total value of discounts applied to the sales of the product in the given week."
+
+      - name: avg_unit_price
+        description: "The average price of a single unit of the product in the given week."
+
+      - name: avg_discount_pct
+        description: "The average discount percentage applied to the product in the given week."
+
+      - name: avg_unit_freight
+        description: "The average freight cost per unit for the product."
+
+      - name: avg_tax_rate
+        description: "The average tax rate applied to the sales of the product in the given week."
+
+      - name: num_orders
+        description: "The number of distinct orders that included the product in the given week."
+        tests:
+          - not_null
+
+      - name: num_online_orders
+        description: "The number of distinct online orders that included the product in the given week."
+
+      - name: num_instore_orders
+        description: "The number of distinct in-store orders that included the product in the given week."
+
+      - name: avg_special_offer_discount
+        description: "The average discount percentage offered as part of a special offer for the product in the given week."
+
+      - name: avg_ship_base
+        description: "The average base shipping cost for the product."
+
+      - name: avg_ship_rate
+        description: "The average shipping rate per unit weight for the product."
+
+      - name: ship_method_name
+        description: "The name of the shipping method used to deliver the product."
+
+      - name: sales_person_id
+        description: "The unique identifier for the salesperson who made the sale."
+
+      - name: sales_reason_names
+        description: "A list of sales reasons that explain why the customer made the purchase."
+
+      - name: sales_reason_types
+        description: "A list of types associated with the sales reasons for the purchase."
+
+      - name: is_first_purchase
+        description: "Indicates whether this was the customer's first purchase of the product."
+        tests:
+          - not_null
+

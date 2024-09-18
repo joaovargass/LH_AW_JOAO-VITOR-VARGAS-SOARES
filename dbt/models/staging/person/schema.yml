@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: stg_country_region
-    description: "This model standardizes the countryregion data, converts modifieddate to DATETIME, and adds a new primary key."
+    description: "This model standardizes the countryregion data, and adds a new primary key."
     columns:
       - name: country_region_id
         description: "Unique identifier for each country/region."
@@ -19,13 +19,9 @@ models:
         tests:
           - unique
           - not_null
-      - name: last_modified_date
-        tests:
-          - not_null
-        description: "Date and time when the record was last modified, converted from string."
 
   - name: stg_email_address
-    description: "this model standardizes the emailaddress data, converts modifieddate to datetime, normalizes emails, and applies snake_case naming conventions."
+    description: "this model standardizes the emailaddress data, normalizes emails, and applies snake_case naming conventions."
     columns:
       - name: email_address_id
         description: "part of the composite primary key for the email address, converted to int."
@@ -42,15 +38,6 @@ models:
         description: "normalized email address, converted to lowercase and without accents."
         tests:
           - not_null
-      - name: last_modified_date
-        description: "date and time when the record was last modified, converted from string to datetime."
-        tests:
-          - not_null
-      - name: row_guid
-        description: "unique row identifier (guid), kept as string."
-        tests:
-          - not_null
-          - unique
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
@@ -59,7 +46,7 @@ models:
 
 
   - name: stg_address_type
-    description: "this model standardizes the address_type data, converts modifieddate to datetime, renames columns to snake_case, and enforces primary key and unique constraints."
+    description: "this model standardizes the address_type data, renames columns to snake_case, and enforces primary key and unique constraints."
     columns:
       - name: address_type_id
         description: "primary key for the address type, converted to int."
@@ -67,107 +54,22 @@ models:
           - unique
           - not_null
       - name: address_type_name
-        description: "unique name of the address type."
+        description: "Address type description. For example, Billing, Home, or Shipping."
         tests:
           - unique
-          - not_null
-      - name: last_modified_date
-        description: "date and time when the record was last modified, converted from string to datetime."
-        tests:
-          - not_null
-      - name: row_guid
-        description: "unique identifier (guid), kept as string."
-        tests:
-          - unique
-          - not_null
-
-  - name: stg_contact_type
-    description: "this model standardizes the contact_type data, converts modifieddate to datetime, renames columns to snake_case, and enforces primary key and unique constraints."
-    columns:
-      - name: contact_type_id
-        description: "primary key for the contact type, converted to int."
-        tests:
-          - unique
-          - not_null
-      - name: contact_type_name
-        description: "unique name of the contact type."
-        tests:
-          - unique
-          - not_null
-      - name: last_modified_date
-        tests:
-          - not_null
-        description: "date and time when the record was last modified, converted from string to datetime."
-
-  - name: stg_phone_number_type
-    description: "this model standardizes the phonenumbertype data, converts modifieddate to datetime, renames columns to snake_case, and enforces primary key and unique constraints."
-    columns:
-      - name: phone_number_type_id
-        description: "primary key for the phone number type, converted to int."
-        tests:
-          - unique
-          - not_null
-      - name: phone_number_type_name
-        description: "unique name of the phone number type."
-        tests:
-          - not_null
-      - name: last_modified_date
-        description: "date and time when the record was last modified, converted from string to datetime."
-        tests:
           - not_null
 
   - name: stg_business_entity
-    description: "this model standardizes the businessentity data, converts modifieddate to datetime, renames columns to snake_case, and enforces primary key and unique constraints."
+    description: "this model standardizes the businessentity data and enforces primary key and unique constraints."
     columns:
       - name: business_entity_id
         description: "primary key for the business entity, converted to int."
         tests:
           - unique
           - not_null
-      - name: last_modified_date
-        description: "date and time when the record was last modified, converted from string to datetime."
-        tests:
-          - not_null
-      - name: row_guid
-        description: "unique identifier (guid) for the business entity."
-        tests:
-          - unique
-          - not_null
-
-  - name: stg_person_phone
-    description: "this model standardizes the personphone data, converts modifieddate to datetime, renames columns to snake_case, and enforces composite primary key constraints."
-    columns:
-      - name: business_entity_id
-        description: "part of the composite primary key for the person phone and foreign key referencing the business entity."
-        tests:
-          - not_null
-          - relationships:
-              to: ref('stg_business_entity')
-              field: business_entity_id
-      - name: phone_number
-        description: "numeric phone number, part of the composite primary key for the person phone."
-        tests:
-          - not_null
-      - name: phone_number_type_id
-        description: "part of the composite primary key for the person phone and foreign key referencing the phone number type."
-        tests:
-          - not_null
-          - relationships:
-              to: ref('stg_phone_number_type')
-              field: phone_number_type_id
-      - name: last_modified_date
-        description: "date and time when the record was last modified, converted from string to datetime."
-        tests:
-          - not_null
-    data_tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - business_entity_id
-            - phone_number
-            - phone_number_type_id
 
   - name: stg_business_entity_address
-    description: "this model standardizes the businessentityaddress data, converts modifieddate to datetime, renames columns to snake_case, and enforces composite primary key and foreign key constraints."
+    description: "this model standardizes the businessentityaddress data, renames columns to snake_case, and enforces composite primary key and foreign key constraints."
     columns:
       - name: address_id
         description: "part of the composite primary key for the business entity address and foreign key referencing the address."
@@ -190,10 +92,6 @@ models:
           - relationships:
               to: ref('stg_address_type')
               field: address_type_id
-      - name: last_modified_date
-        description: "date and time when the record was last modified, converted from string to datetime."
-        tests:
-          - not_null
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
@@ -201,48 +99,8 @@ models:
             - business_entity_id
             - address_type_id
 
-  - name: stg_business_entity_contact
-    description: "this model standardizes the businessentitycontact data, converts modifieddate to datetime, renames columns to snake_case, and enforces composite primary key and foreign key constraints."
-    columns:
-      - name: business_entity_id
-        description: "part of the composite primary key for the business entity contact and foreign key referencing the business entity."
-        tests:
-          - not_null
-          - relationships:
-              to: ref('stg_business_entity')
-              field: business_entity_id
-      - name: person_id
-        description: "part of the composite primary key for the business entity contact and foreign key referencing the person's business_entity_id."
-        tests:
-          - not_null
-          - relationships:
-              to: ref('stg_person')
-              field: business_entity_id
-      - name: contact_type_id
-        description: "foreign key referencing the contact type."
-        tests:
-          - not_null
-          - relationships:
-              to: ref('stg_contact_type')
-              field: contact_type_id
-      - name: row_guid
-        description: "unique identifier (guid) for the business entity contact."
-        tests:
-          - unique
-          - not_null
-      - name: last_modified_date
-        description: "date and time when the record was last modified, converted from string to datetime."
-        tests:
-          - not_null
-    data_tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - business_entity_id
-            - person_id
-            - contact_type_id
-
   - name: stg_state_province
-    description: "this model standardizes the stateprovince data, replaces country_region_code with country_region_id, converts modifieddate to datetime, and enforces primary key and foreign key constraints."
+    description: "this model standardizes the stateprovince data, replaces country_region_code with country_region_id, and enforces primary key and foreign key constraints."
     columns:
       - name: state_province_id
         description: "primary key for the state province, converted to int."
@@ -261,7 +119,7 @@ models:
               to: ref('stg_country_region')
               field: country_region_id
       - name: is_only_state_province_flag
-        description: "boolean flag indicating if this is the only state province."
+        description: "0 = StateProvinceCode exists. 1 = StateProvinceCode unavailable, using CountryRegionCode."
         tests:
           - not_null
       - name: state_province_name
@@ -276,15 +134,6 @@ models:
           - relationships:
               to: ref('stg_sales_territory')
               field: sales_territory_id
-      - name: row_guid
-        description: "unique identifier (guid) for the state province."
-        tests:
-          - unique
-          - not_null
-      - name: last_modified_date
-        description: "date and time when the record was last modified, converted from string to datetime."
-        tests:
-          - not_null
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
@@ -293,7 +142,7 @@ models:
 
   - name: stg_address
     description: "This model standardizes the address data, adds country_region_id, extracts and cleans address components,
-                  removes the city column, and converts spatial_location to lat/long."
+                  removes the city column, and fills null postal code using spatiallocation field."
     columns:
       - name: address_id
         description: "Primary key for the address, converted to int."
@@ -336,14 +185,6 @@ models:
           - not_null
       - name: spatial_location
         description: "Latitude and longitude of this address."
-      - name: row_guid
-        description: "Unique identifier (guid) for the address."
-        tests:
-          - unique
-      - name: last_modified_date
-        description: "Date and time when the record was last modified, converted from string to datetime."
-        tests:
-          - not_null
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
@@ -415,10 +256,6 @@ models:
         description: "Indicator for email promotions, converted to an integer."
         tests:
           - not_null
-      - name: name_style
-        description: "Boolean value indicating the style of the name."
-        tests:
-          - not_null
       - name: person_type
         description: "Type of the person."
         tests:
@@ -429,45 +266,3 @@ models:
         description: "Additional contact information for the person, with '[NULL]' replaced by null."
       - name: demographics
         description: "Demographic information for the person, with '[NULL]' replaced by null."
-      - name: row_guid
-        description: "Unique identifier (GUID) for the person."
-        tests:
-          - unique
-          - not_null
-      - name: last_modified_date
-        description: "Date and time when the record was last modified, converted to DATETIME."
-        tests:
-          - not_null
-
-  - name: stg_password
-    description: "this model standardizes the password data, ensuring data consistency, validating key constraints, and enforcing proper lengths for password hash and salt."
-    columns:
-      - name: business_entity_id
-        description: "primary key and foreign key for password records, referencing the business entity."
-        tests:
-          - unique
-          - not_null
-          - relationships:
-              to: ref('stg_person')
-              field: business_entity_id
-
-      - name: password_hash
-        description: "hash of the user's password."
-        tests:
-          - not_null
-
-      - name: password_salt
-        description: "salt used in hashing the password."
-        tests:
-          - not_null
-
-      - name: row_guid
-        description: "rowguidcol uniquely identifying the record."
-        tests:
-          - unique
-          - not_null
-
-      - name: last_modified_date
-        description: "date and time the record was last updated."
-        tests:
-          - not_null

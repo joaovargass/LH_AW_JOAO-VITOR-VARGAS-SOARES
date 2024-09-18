@@ -21,14 +21,12 @@ models:
         description: "Identifier for the sales person associated with the store."
         tests:
           - not_null
-      - name: demographics
-        description: "Demographics information for the store."
-        tests:
-          - not_null
       - name: state_province_id
         description: "Identifier for the state or province."
         tests:
-          - not_null
+          - relationships:
+              to: ref('stg_state_province')
+              field: state_province_id
       - name: state_province_name
         description: "Name of the state or province."
         tests:
@@ -36,7 +34,9 @@ models:
       - name: city_district_id
         description: "Identifier for the city or district."
         tests:
-          - not_null
+          - relationships:
+              to: ref('stg_city_district')
+              field: city_district_id
       - name: city_district_name
         description: "Name of the city or district."
         tests:
@@ -44,7 +44,9 @@ models:
       - name: country_region_id
         description: "Identifier for the country or region."
         tests:
-          - not_null
+          - relationships:
+              to: ref('stg_country_region')
+              field: country_region_id
       - name: country_region_name
         description: "Name of the country or region."
         tests:

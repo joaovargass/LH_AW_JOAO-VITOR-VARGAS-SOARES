@@ -2,58 +2,45 @@ version: 2
 
 models:
   - name: agg_sales_by_sales_territory
-    description: >
-      This model aggregates sales data by sales territory, including key territory attributes, sales person information,
-      special offers, and sales metrics. The model is used to analyze sales performance on a weekly basis,
-      rounding the financial values for accurate reporting.
+    description: "Aggregated sales data by sales territory, including sales details by week."
     columns:
       - name: sales_territory_id
         description: "Unique identifier for the sales territory."
         tests:
           - not_null
-          - relationships:
-              to: ref('dim_sales_territory')
-              field: sales_territory_id
+
       - name: sales_territory_name
-        description: "Name of the sales territory."
+        description: "The name of the sales territory."
         tests:
           - not_null
-      - name: sales_territory_group
-        description: "Group to which the sales territory belongs."
-      - name: country_region_id
-        description: "Identifier for the country or region associated with the sales territory."
+
+      - name: week_start_date
+        description: "Start date of the week for which sales are aggregated."
         tests:
           - not_null
-      - name: country_region_name
-        description: "Name of the country or region associated with the sales territory."
+
+      - name: num_orders
+        description: "Total number of orders made in the sales territory during the week."
         tests:
           - not_null
-      - name: special_offer_id
-        description: "Identifier for the special offer applied."
-      - name: offer_description
-        description: "Description of the special offer."
-      - name: discount_pct
-        description: "Discount percentage applied in the special offer."
-      - name: offer_type
-        description: "Type of the special offer."
-      - name: offer_category
-        description: "Category of the special offer."
-      - name: sales_person_id
-        description: "Identifier for the sales person associated with the sales."
+
+      - name: total_products_sold
+        description: "Total number of products sold in the sales territory during the week."
         tests:
           - not_null
-          - relationships:
-              to: ref('dim_sales_person')
-              field: sales_person_id
-      - name: start_of_week
-        description: "Date of the start of the weekly sales period."
-        tests:
-          - not_null
-      - name: total_quantity
-        description: "Total quantity of products sold."
+
       - name: total_sales_value
-        description: "Total sales value, rounded to two decimal places."
-      - name: total_discount_value
-        description: "Total discount value, rounded to two decimal places."
-      - name: total_orders
-        description: "Total number of orders."
+        description: "Total value of sales made in the sales territory during the week."
+        tests:
+          - not_null
+
+      - name: num_customers
+        description: "Total number of unique customers in the sales territory during the week."
+        tests:
+          - not_null
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - sales_territory_id
+            - week_start_date

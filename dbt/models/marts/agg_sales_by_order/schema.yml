@@ -2,106 +2,97 @@ version: 2
 
 models:
   - name: agg_sales_by_order
-    description: "Aggregates sales data by order to analyze periodicity, average ticket value, quantity, payment method distribution, and reason for purchase."
+    description: "aggregated sales data by order, including order details, payment method, discount flag, and other relevant metrics."
     columns:
       - name: sales_order_id
-        description: "Unique identifier for each sales order."
+        description: "unique identifier for the sales order."
         tests:
           - not_null
           - unique
-      - name: customer_id
-        description: "Unique identifier for the customer associated with the order."
+
+      - name: order_date
+        description: "the date when the order was placed."
         tests:
           - not_null
+
+      - name: due_date
+        description: "the date when the order is due."
+        tests:
+          - not_null
+
+      - name: status_name
+        description: "the status of the order."
+        tests:
+          - not_null
+
+      - name: sales_person_id
+        description: "identifier for the salesperson associated with the order."
+        tests:
+          - relationships:
+              to: ref('dim_sales_person')
+              field: sales_person_id
+
+      - name: customer_id
+        description: "identifier for the customer who placed the order."
+        tests:
           - relationships:
               to: ref('dim_customer')
               field: customer_id
-      - name: sales_person_id
-        description: "Unique identifier for the sales person associated with the order. This field can be null."
+
       - name: sales_territory_id
-        description: "Unique identifier for the sales territory associated with the order."
+        description: "sales territory where the order was placed."
         tests:
-          - not_null
           - relationships:
               to: ref('dim_sales_territory')
               field: sales_territory_id
-      - name: sales_reason_names
-        description: "List of reasons for the purchase, sorted alphabetically and separated by commas."
-      - name: freight_price
-        description: "Total freight price for the order. If null, replaced with 0."
-      - name: avg_item_tax_rate
-        description: "Average item tax rate for the items in the order."
-        tests:
-          - not_null
-      - name: store_id
-        description: "Unique identifier for the store where the order was placed. This field can be null."
-      - name: order_date
-        description: "Date when the order was placed."
-        tests:
-          - not_null
-      - name: ship_date
-        description: "Date when the order was shipped."
-        tests:
-          - not_null
-      - name: order_value
-        description: "Total value of the order without any discounts."
-        tests:
-          - not_null
-      - name: discount_value
-        description: "Total value of the order after applying discounts."
-        tests:
-          - not_null
-      - name: total_qty
-        description: "Total quantity of items in the order."
-        tests:
-          - not_null
-      - name: currency_rate_id
-        description: "Identifier for the currency rate used in the order."
-      - name: from_currency_code
-        description: "Currency code from which the conversion was made. This field can be null."
-      - name: to_currency_code
-        description: "Currency code to which the conversion was made. This field can be null."
-      - name: average_rate
-        description: "Average rate applied for currency conversion."
-      - name: credit_card_type
-        description: "Type of credit card used in the order, if applicable."
-      - name: value_with_freight
-        description: "Total value of the order including discounts and freight. If freight is null, replaced with 0."
-        tests:
-          - not_null
-      - name: due_date
-        description: "Date when the payment is due for the order."
-        tests:
-          - not_null
-      - name: special_offer_ids
-        description: "Concatenated string of special offer IDs applied to the order."
-        tests:
-          - not_null
-      - name: offer_descriptions
-        description: "Concatenated string of special offer descriptions applied to the order."
-        tests:
-          - not_null
-      - name: offer_types
-        description: "Concatenated string of special offer types applied to the order."
-        tests:
-          - not_null
-      - name: offer_categories
-        description: "Concatenated string of special offer categories applied to the order."
-        tests:
-          - not_null
-      - name: status
-        description: "Status of the order."
-        tests:
-          - not_null
-      - name: online_order_flag
-        description: "Indicates if the order was placed online."
-        tests:
-          - not_null
-      - name: ship_method_id
-        description: "Unique identifier for the shipping method used in the order."
-        tests:
-          - not_null
+
       - name: ship_method_name
-        description: "Name of the shipping method used in the order."
+        description: "shipping method used for the order."
+        tests:
+          - not_null
+
+      - name: ship_date
+        description: "the date when the order was shipped."
+        tests:
+          - not_null
+
+      - name: online_order_flag
+        description: "indicates whether the order was placed online (true) or offline (false)."
+        tests:
+          - not_null
+
+      - name: store_id
+        description: "identifier for the store where the order was processed, if applicable."
+
+      - name: num_order_items
+        description: "total number of items in the order."
+        tests:
+          - not_null
+
+      - name: total_products_ordered
+        description: "total quantity of products ordered."
+        tests:
+          - not_null
+
+      - name: total_sales_value
+        description: "total value of the order, including discounts."
+        tests:
+          - not_null
+
+      - name: avg_item_value
+        description: "average value per item in the order, adjusted for discounts."
+        tests:
+          - not_null
+
+      - name: payment_method
+        description: "payment method used for the order."
+        tests:
+          - not_null
+
+      - name: sales_reasons
+        description: "aggregated reasons for the sale, if applicable."
+
+      - name: has_discount
+        description: "flag indicating whether the order had a discount applied based on the special_offer_id."
         tests:
           - not_null

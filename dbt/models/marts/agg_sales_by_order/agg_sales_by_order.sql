@@ -1,97 +1,53 @@
 {{ config(
-    materialized='table',
-    schema='dev_adventure_works'
+    materialized = 'table',
+    schema = 'dev_adventure_works'
 ) }}
 
-with sales_reasons_cte as (
+with order_summary as (
     select
-        f.sales_order_id,
-        string_agg(distinct trim(word), ', ') as sales_reason_names
-    from
-        {{ ref('fact_order_item') }} f,
-        unnest(split(f.sales_reason_names, ', ')) as word
-    group by
-        f.sales_order_id
-),
-
-special_offers_cte as (
-    select
-        f.sales_order_id,
-        string_agg(distinct cast(f.special_offer_id as string), ', ') as special_offer_ids,
-        string_agg(distinct so.offer_description, ', ') as offer_descriptions,
-        string_agg(distinct so.offer_type, ', ') as offer_types,
-        string_agg(distinct so.offer_category, ', ') as offer_categories
-    from
-        {{ ref('fact_order_item') }} f
-    left join
-        {{ ref('dim_special_offer') }} so on f.special_offer_id = so.special_offer_id
-    group by
-        f.sales_order_id
-),
-
-order_aggregation_cte as (
-    select
-        f.sales_order_id
-        , f.customer_id
-        , f.sales_person_id
-        , f.sales_territory_id
-        , r.sales_reason_names
-        , round(sum(coalesce(f.unit_freight_price, 0)), 2) as freight_price
-        , round(avg(f.item_tax_rate), 4) as avg_item_tax_rate
-        , f.store_id
-        , f.order_date
-        , f.ship_date
-        , round(sum(f.unit_price * f.order_qty), 2) as order_value
-        , round(sum((f.unit_price - f.unit_price_discount) * f.order_qty), 2) as discount_value
-        , sum(f.order_qty) as total_qty
-        , f.currency_rate_id
-        , f.from_currency_code
-        , f.to_currency_code
-        , f.average_rate
-        , f.credit_card_type
-        , round(sum((f.unit_price - f.unit_price_discount) * f.order_qty + coalesce(f.unit_freight_price, 0)), 2) as value_with_freight
-        , f.due_date
-        , so.special_offer_ids
-        , so.offer_descriptions
-        , so.offer_types
-        , so.offer_categories
-        , f.status
-        , f.online_order_flag
-        , f.ship_method_id
-        , f.ship_method_name
-    from
-        {{ ref('fact_order_item') }} f
-    left join
-        sales_reasons_cte r on f.sales_order_id = r.sales_order_id
-    left join
-        special_offers_cte so on f.sales_order_id = so.sales_order_id
-    group by
-        f.sales_order_id
-        , f.customer_id
-        , f.sales_person_id
-        , f.sales_territory_id
-        , r.sales_reason_names
-        , f.store_id
-        , f.order_date
-        , f.ship_date
-        , f.currency_rate_id
-        , f.from_currency_code
-        , f.to_currency_code
-        , f.average_rate
-        , f.credit_card_type
-        , f.due_date
-        , so.special_offer_ids
-        , so.offer_descriptions
-        , so.offer_types
-        , so.offer_categories
-        , f.status
-        , f.online_order_flag
-        , f.ship_method_id
-        , f.ship_method_name
+        sales_order_id
+        , min(order_date) as order_date
+        , max(due_date) as due_date
+        , max(status_name) as status_name
+        , max(sales_person_id) as sales_person_id
+        , max(customer_id) as customer_id
+        , max(sales_territory_id) as sales_territory_id
+        , max(ship_method_name) as ship_method_name
+        , max(ship_date) as ship_date
+        , max(online_order_flag) as online_order_flag
+        , max(store_id) as store_id
+        , count(sales_order_detail_id) as num_order_items
+        , sum(order_qty) as total_products_ordered
+        , sum((unit_price * (1 - unit_price_discount)) * order_qty) as total_sales_value
+        , avg((unit_price * (1 - unit_price_discount))) as avg_item_value
+        , payment_method
+        , string_agg(sales_reason_names, ', ') as sales_reasons
+        , case
+            when max(special_offer_id) != 1 then true
+            else false
+          end as has_discount
+    from {{ ref('fact_order_item') }}
+    group by sales_order_id, payment_method
 )
 
-select *
-from
-    order_aggregation_cte
-order by
-    sales_order_id
+select
+    order_summary.sales_order_id
+    , order_summary.order_date
+    , order_summary.due_date
+    , order_summary.status_name
+    , order_summary.sales_person_id
+    , order_summary.customer_id
+    , order_summary.sales_territory_id
+    , order_summary.ship_method_name
+    , order_summary.ship_date
+    , order_summary.online_order_flag
+    , order_summary.store_id
+    , order_summary.num_order_items
+    , order_summary.total_products_ordered
+    , order_summary.total_sales_value
+    , order_summary.avg_item_value
+    , order_summary.payment_method
+    , order_summary.sales_reasons
+    , order_summary.has_discount
+from order_summary
+order by order_summary.sales_order_id

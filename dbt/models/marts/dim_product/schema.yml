@@ -2,50 +2,82 @@ version: 2
 
 models:
   - name: dim_product
-    description: "This table contains detailed product information, including attributes like category, subcategory, model, and pricing."
+    description: "This table contains detailed product information, including category, subcategory, model, and product characteristics."
     columns:
       - name: product_id
         description: "Unique identifier for the product."
         tests:
-          - unique
           - not_null
+          - unique
 
       - name: product_name
-        description: "The name of the product."
+        description: "Name of the product."
         tests:
           - not_null
 
       - name: product_number
-        description: "The product number for identification."
+        description: "Product number for identification."
+        tests:
+          - not_null
+
+      - name: make_flag
+        description: "Indicates if the product is manufactured in-house ('true') or purchased ('false')."
+        tests:
+          - not_null
+
+      - name: safety_stock_level
+        description: "Minimum inventory quantity."
+        tests:
+          - not_null
+
+      - name: reorder_point
+        description: "Inventory level that triggers a purchase order or work order."
+        tests:
+          - not_null
+
+      - name: days_to_manufacture
+        description: "Number of days required to manufacture the product."
         tests:
           - not_null
 
       - name: product_category_id
-        description: "Identifier for the product category."
+        description: "Foreign key to the product category entity."
+        tests:
+          - relationships:
+              to: ref('dim_product_category')
+              field: product_category_id
 
       - name: product_category_name
         description: "Name of the product category."
 
       - name: product_subcategory_id
-        description: "Identifier for the product subcategory."
+        description: "Foreign key to the product subcategory entity."
+        tests:
+          - relationships:
+              to: ref('dim_product_subcategory')
+              field: product_subcategory_id
 
       - name: product_subcategory_name
         description: "Name of the product subcategory."
 
       - name: product_model_id
-        description: "Identifier for the product model."
+        description: "Foreign key to the product model entity."
+        tests:
+          - relationships:
+              to: ref('dim_product_model')
+              field: product_model_id
 
       - name: product_model_name
         description: "Name of the product model."
 
       - name: product_line
-        description: "Product line category."
+        description: "Product line code (e.g., R = Road, M = Mountain, T = Touring, S = Standard)."
 
       - name: class
-        description: "Product class."
+        description: "Class code of the product (e.g., H = High, M = Medium, L = Low)."
 
       - name: style
-        description: "Product style."
+        description: "Style code of the product (e.g., W = Womens, M = Mens, U = Universal)."
 
       - name: color
         description: "Color of the product."
@@ -84,6 +116,6 @@ models:
         description: "Date when the product was discontinued."
 
       - name: finished_goods_flag
-        description: "Flag indicating if the product is a finished good."
+        description: "Flag indicating if the product is a finished good ('true') or not ('false')."
         tests:
           - not_null

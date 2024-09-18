@@ -9,7 +9,6 @@ with int_store_info as (
         , s.business_entity_id
         , s.store_name
         , s.sales_person_id
-        , s.demographics
         , a.state_province_id
         , sp.state_province_name
         , a.city_district_id
@@ -32,16 +31,6 @@ with int_store_info as (
 )
 
 select
-    store_id
-    , business_entity_id
-    , store_name
-    , sales_person_id
-    , demographics
-    , state_province_id
-    , state_province_name
-    , city_district_id
-    , city_district_name
-    , country_region_id
-    , country_region_name
+    *
 from int_store_info
 order by store_id

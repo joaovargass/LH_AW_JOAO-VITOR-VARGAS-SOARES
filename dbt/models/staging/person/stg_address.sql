@@ -15,8 +15,6 @@ with stg_address as (
         , lower(a.addressline2) as address_complement
         , a.postalcode as postal_code
         , a.spatiallocation as spatial_location
-        , rowguid as row_guid
-        , cast(substr(a.modifieddate, 1, 19) as datetime) as last_modified_date
     from {{ source('stg_adventure_works', 'address') }} a
     left join {{ ref('stg_state_province') }} sp
         on a.stateprovinceid = sp.state_province_id
@@ -26,17 +24,7 @@ with stg_address as (
         and a.stateprovinceid = cd.state_province_id
     )
 select
-      address_id
-    , country_region_id
-    , state_province_id
-    , city_district_id
-    , address_number
-    , address_street
-    , address_complement
-    , postal_code
-    , spatial_location
-    , row_guid
-    , last_modified_date
+    *
 from
     stg_address
 order by

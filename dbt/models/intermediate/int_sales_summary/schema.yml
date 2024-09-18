@@ -2,83 +2,136 @@ version: 2
 
 models:
   - name: int_sales_summary
-    description: "Intermediate model to summarize sales data including calculated freight, tax rates, and aggregated sales reasons."
+    description: "This view aggregates sales order data, including details on customers, salespersons, reasons for purchase, and shipping information. It also performs various transformations such as calculating tax rate, aggregating sales reasons, and determining the payment method."
     columns:
       - name: sales_order_id
-        description: "The unique identifier for the sales order."
+        description: "Unique identifier for the sales order."
         tests:
           - not_null
-
+      - name: sales_order_detail_id
+        description: "Unique identifier for the sales order detail, representing individual products within the order."
+        tests:
+          - not_null
       - name: product_id
-        description: "The unique identifier for the product."
+        description: "Unique identifier for the product associated with the sales order."
         tests:
           - not_null
-
-      - name: customer_id
-        description: "The unique identifier for the customer."
+      - name: revision_number
+        description: "Tracks changes to the sales order over time."
+      - name: order_date
+        description: "Date when the sales order was created."
         tests:
           - not_null
-
-      - name: sales_territory_id
-        description: "The identifier for the sales territory."
-        tests:
-          - not_null
-
-      - name: unit_freight_price
-        description: "The freight price assigned to each unit in the order."
-
-      - name: item_tax_rate
-        description: "The tax rate applied to the order item."
-        tests:
-          - not_null
-
-      - name: order_qty
-        description: "The quantity of the product ordered."
-        tests:
-          - not_null
-
-      - name: unit_price
-        description: "The unit price of the product."
-        tests:
-          - not_null
-
-      - name: carrier_tracking_number
-        description: "The carrier tracking number for the shipment."
-
-      - name: special_offer_id
-        description: "The identifier for the special offer applied to the order."
-        tests:
-          - not_null
-
       - name: due_date
-        description: "The date the order is due."
+        description: "Date by which the order is due."
         tests:
           - not_null
-
-      - name: status
-        description: "The status of the order."
+      - name: ship_date
+        description: "Date when the order was shipped, can be null."
+      - name: status_id
+        description: "Numerical status identifier of the sales order."
         tests:
           - not_null
-
+      - name: status_name
+        description: "Human-readable status name corresponding to the status ID."
+        tests:
+          - not_null
       - name: online_order_flag
-        description: "Flag indicating whether the order was placed online."
+        description: "Indicates if the order was placed online or by a sales representative."
         tests:
           - not_null
-
-      - name: ship_method_id
-        description: "The identifier for the shipping method."
+      - name: purchase_order_number
+        description: "Customer's purchase order number reference."
+      - name: account_number
+        description: "Financial accounting number reference."
+      - name: customer_id
+        description: "Identifier for the customer who placed the order."
         tests:
           - not_null
-
+          - relationships:
+              to: ref('dim_customer')
+              field: customer_id
+      - name: store_id
+        description: "Identifier for the store associated with the customer (business_entity_id)."
+        tests:
+          - relationships:
+              to: ref('dim_store')
+              field: business_entity_id
+      - name: sales_person_id
+        description: "Identifier for the salesperson who created the order."
+        tests:
+          - relationships:
+              to: ref('dim_sales_person')
+              field: sales_person_id
+      - name: sales_territory_id
+        description: "Sales territory where the order was placed."
+        tests:
+          - relationships:
+              to: ref('dim_sales_territory')
+              field: sales_territory_id
+      - name: payment_method
+        description: "Payment method used for the order ('CREDIT CARD' or 'OTHER')."
+        tests:
+          - not_null
+      - name: tax_rate
+        description: "Tax rate applied to the order, calculated as tax_amount/sub_total."
+        tests:
+          - not_null
+      - name: avg_unit_freight
+        description: "Average shipping cost associated with the order item, calculated by the shipping cost divided by the number of products purchased."
+        tests:
+          - not_null
+      - name: comment
+        description: "Sales representative comments regarding the order."
+      - name: sales_reason_names
+        description: "Aggregated sales reasons, separated by commas."
+      - name: sales_reason_types
+        description: "Aggregated types of sales reasons, separated by commas."
+      - name: line_total
+        description: "Total sales amount for the order, calculated from the sales order details."
+        tests:
+          - not_null
       - name: ship_method_name
-        description: "The name of the shipping method."
+        description: "Name of the shipping method used."
         tests:
           - not_null
+      - name: ship_base
+        description: "Base shipping charge for the order."
+        tests:
+          - not_null
+      - name: ship_rate
+        description: "Shipping charge per pound for the order."
+        tests:
+          - not_null
+      - name: from_currency_code
+        description: "Currency code for the currency from which the exchange rate is applied."
+      - name: to_currency_code
+        description: "Currency code for the currency to which the exchange rate is applied."
+      - name: average_rate
+        description: "The average exchange rate between the from and to currencies."
+      - name: order_qty
+        description: "Quantity of products ordered in the sales order detail."
+        tests:
+          - not_null
+      - name: unit_price
+        description: "Price per unit of the product."
+        tests:
+          - not_null
+      - name: unit_price_discount
+        description: "Discount applied to the product unit price."
+      - name: special_offer_id
+        description: "Identifier for the special offer applied to the product, if any."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_special_offer')
+              field: special_offer_id
+      - name: carrier_tracking_number
+        description: "Tracking number for the carrier used to ship the order."
 
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - sales_order_id
+            - sales_order_detail_id
             - product_id
-            - customer_id
-            - sales_territory_id

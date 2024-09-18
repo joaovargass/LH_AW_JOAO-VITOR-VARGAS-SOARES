@@ -2,57 +2,57 @@ version: 2
 
 models:
   - name: dim_sales_person
-    description: "This table contains detailed sales person information, including their associated sales territory, financial metrics, and personal details."
+    description: "This table contains detailed information about salespersons, including their sales territory, sales quota, and financial performance."
     columns:
       - name: sales_person_id
-        description: "Unique identifier for the sales person."
+        description: "Unique identifier for the salesperson."
         tests:
-          - unique
           - not_null
+          - unique
 
       - name: business_entity_id
-        description: "Unique identifier for the business entity associated with the sales person."
+        description: "Unique identifier for the business entity associated with the salesperson."
         tests:
           - not_null
 
       - name: first_name
-        description: "First name of the sales person."
+        description: "First name of the salesperson."
         tests:
           - not_null
 
       - name: last_name
-        description: "Last name of the sales person."
+        description: "Last name of the salesperson."
         tests:
           - not_null
 
       - name: sales_territory_id
-        description: "Identifier for the sales territory associated with the sales person."
+        description: "Identifier for the sales territory."
         tests:
           - relationships:
               to: ref('dim_sales_territory')
               field: sales_territory_id
 
-      - name: territory_name
-        description: "Name of the sales territory associated with the sales person."
+      - name: sales_territory_name
+        description: "Name of the sales territory."
 
       - name: country_region_id
         description: "Identifier for the country or region associated with the sales territory."
 
       - name: sales_quota
-        description: "The sales quota assigned to the sales person."
+        description: "The latest sales quota for the salesperson."
 
       - name: bonus
-        description: "Bonus amount for the sales person."
+        description: "Bonus amount for the salesperson."
         tests:
           - not_null
 
       - name: commission_pct
-        description: "Commission percentage for the sales person."
+        description: "Commission percentage for the salesperson."
         tests:
           - not_null
 
       - name: sales_ytd
-        description: "Year-to-date sales for the sales person."
+        description: "Year-to-date sales for the salesperson."
         tests:
           - not_null
 
@@ -60,3 +60,6 @@ models:
         description: "Sales for the previous year."
         tests:
           - not_null
+
+      - name: job_title
+        description: "Job title of the salesperson."

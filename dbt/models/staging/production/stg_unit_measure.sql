@@ -9,7 +9,6 @@ with stg_unit_measure as (
           cast(row_number() over (order by trim(unitmeasurecode)) as int64) as unit_measure_id
         , trim(unitmeasurecode) as unit_measure_code
         , name as unit_measure_name
-        , cast(modifieddate as datetime) as last_modified_date
     from
         {{ source('stg_adventure_works', 'unitmeasure') }}
 )
@@ -18,7 +17,6 @@ select
       unit_measure_id
     , unit_measure_code
     , unit_measure_name
-    , last_modified_date
 from
     stg_unit_measure
 order by

@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: agg_sales_by_customer
-    description: "Aggregates sales data by customer, allowing for analysis of customer behavior over time."
+    description: "Aggregated sales data by customer, including order details, top purchased product, and average values."
     columns:
       - name: customer_id
         description: "Unique identifier for the customer."
@@ -11,41 +11,51 @@ models:
           - relationships:
               to: ref('dim_customer')
               field: customer_id
-      - name: first_name
-        description: "Customer's first name."
 
-      - name: last_name
-        description: "Customer's last name."
-
-      - name: email_promotion
-        description: "Indicator if the customer is enrolled in email promotions."
-      - name: country_region_id
-        description: "Identifier for the customer's country or region."
-
-      - name: country_region_name
-        description: "Name of the customer's country or region."
-
-      - name: sales_territory_id
-        description: "Identifier for the sales territory."
-        tests:
-          - relationships:
-              to: ref('dim_sales_territory')
-              field: sales_territory_id
-      - name: sales_territory_name
-        description: "Name of the sales territory."
-
-      - name: sales_territory_group
-        description: "Group to which the sales territory belongs."
-      - name: store_id
-        description: "Identifier for the store where the sale occurred."
-
-      - name: start_of_week
-        description: "Date of the start of the weekly sales period."
+      - name: num_orders
+        description: "Total number of orders placed by the customer."
         tests:
           - not_null
+
+      - name: total_products
+        description: "Total quantity of products purchased by the customer."
+        tests:
+          - not_null
+
+      - name: avg_products_per_order
+        description: "Average number of products per order for the customer."
+        tests:
+          - not_null
+
       - name: total_sales_value
-        description: "Total sales value for the customer in the week."
-      - name: total_orders
-        description: "Total number of orders made by the customer in the week."
+        description: "Total value of all orders placed by the customer."
+        tests:
+          - not_null
+
+      - name: avg_order_value
+        description: "Average value per order, adjusted for discounts."
+        tests:
+          - not_null
+
       - name: last_order_date
-        description: "Date of the last order made by the customer."
+        description: "Date of the customer's most recent order."
+        tests:
+          - not_null
+
+      - name: most_purchased_product
+        description: "Product most frequently purchased by the customer, based on order quantity."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_product')
+              field: product_id
+
+      - name: total_qty_with_product
+        description: "Total quantity of the most purchased product by the customer."
+        tests:
+          - not_null
+
+      - name: num_orders_with_product
+        description: "Number of orders in which the most purchased product appeared."
+        tests:
+          - not_null

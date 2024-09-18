@@ -12,17 +12,10 @@ with stg_currency_rate as (
         , cast(tocurrencycode as string) as to_currency_code
         , cast(averagerate as float64) as average_rate
         , cast(endofdayrate as float64) as end_of_day_rate
-        , cast(modifieddate as datetime) as last_modified_date
     from {{ source('stg_adventure_works', 'currencyrate') }}
 )
 
 select
-    currency_rate_id
-    , currency_rate_date
-    , from_currency_code
-    , to_currency_code
-    , average_rate
-    , end_of_day_rate
-    , last_modified_date
+    *
 from stg_currency_rate
 order by currency_rate_id

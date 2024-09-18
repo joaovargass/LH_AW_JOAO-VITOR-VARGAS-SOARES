@@ -6,7 +6,7 @@
 with sales_territory as (
     select
         st.sales_territory_id
-        , st.territory_name as sales_territory_name
+        , st.sales_territory_name
         , st.territory_group as sales_territory_group
         , st.country_region_id
         , cr.country_region_name
@@ -20,14 +20,6 @@ with sales_territory as (
 )
 
 select
-    sales_territory_id
-    , sales_territory_name
-    , sales_territory_group
-    , country_region_id
-    , country_region_name
-    , sales_ytd
-    , sales_last_year
-    , cost_ytd
-    , cost_last_year
+    *
 from sales_territory
 order by sales_territory_id

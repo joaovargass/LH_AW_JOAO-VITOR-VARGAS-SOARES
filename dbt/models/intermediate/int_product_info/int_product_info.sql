@@ -8,6 +8,10 @@ with int_product_info as (
         p.product_id
         , p.name as product_name
         , p.product_number
+        , p.make_flag
+        , p.safety_stock_level
+        , p.reorder_point
+        , p.days_to_manufacture
         , pc.product_category_id
         , pc.product_category_name
         , ps.product_subcategory_id
@@ -42,28 +46,6 @@ with int_product_info as (
 )
 
 select
-    product_id
-    , product_name
-    , product_number
-    , product_category_id
-    , product_category_name
-    , product_subcategory_id
-    , product_subcategory_name
-    , product_model_id
-    , product_model_name
-    , product_line
-    , class
-    , style
-    , color
-    , size
-    , size_unit_measure_name
-    , weight
-    , weight_unit_measure_name
-    , standard_cost
-    , list_price
-    , sell_start_date
-    , sell_end_date
-    , discontinued_date
-    , finished_goods_flag
+    *
 from int_product_info
 order by product_id

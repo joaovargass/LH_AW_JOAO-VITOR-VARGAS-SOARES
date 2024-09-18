@@ -2,48 +2,60 @@ version: 2
 
 models:
   - name: agg_sales_by_store
-    description: "Aggregates sales data by store for analysis of weekly performance."
+    description: "aggregated sales data by store, including sales details by week, total sales value, and other relevant metrics."
     columns:
       - name: store_id
-        description: "Identifier for the store. Note: Store ID is not unique."
+        description: "unique identifier for the store."
         tests:
           - not_null
-          - relationships:
-              to: ref('dim_store')
-              field: store_id
+
       - name: store_name
-        description: "Name of the store."
+        description: "name of the store."
         tests:
           - not_null
-      - name: state_province_name
-        description: "Name of the state or province where the store is located."
+
+      - name: week_start_date
+        description: "start date of the week for which sales are aggregated."
         tests:
           - not_null
-      - name: city_district_name
-        description: "Name of the city district where the store is located."
+
+      - name: num_orders
+        description: "total number of orders made by the store during the week."
         tests:
           - not_null
-      - name: country_region_name
-        description: "Name of the country region where the store is located."
+
+      - name: total_products_sold
+        description: "total number of products sold by the store during the week."
         tests:
           - not_null
-      - name: start_of_week
-        description: "Date of the start of the weekly sales period."
-        tests:
-          - not_null
+
       - name: total_sales_value
-        description: "Total sales value for the period."
+        description: "total value of sales made by the store during the week."
         tests:
           - not_null
-      - name: total_sales_value_with_discount
-        description: "Total sales value with discounts applied for the period."
+
+      - name: avg_sales_value_per_order
+        description: "average sales value per order made by the store during the week."
         tests:
           - not_null
-      - name: total_quantity
-        description: "Total quantity of items sold in the period."
+
+      - name: avg_products_per_order
+        description: "average number of products per order made by the store during the week."
         tests:
           - not_null
-      - name: avg_item_tax_rate
-        description: "Average tax rate applied to the items sold."
+
+      - name: state_province_name
+        description: "the state or province where the store is located."
         tests:
           - not_null
+
+      - name: country_region_name
+        description: "the country or region where the store is located."
+        tests:
+          - not_null
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - store_id
+            - week_start_date

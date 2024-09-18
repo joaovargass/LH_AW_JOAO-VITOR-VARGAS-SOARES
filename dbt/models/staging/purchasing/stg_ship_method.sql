@@ -10,8 +10,6 @@ with stg_ship_method as (
         , sm.name as ship_method_name
         , cast(sm.shipbase as float64) as ship_base
         , cast(sm.shiprate as float64) as ship_rate
-        , cast(sm.rowguid as string) as row_guid
-        , cast(sm.modifieddate as datetime) as last_modified_date
     from
         {{ source('stg_adventure_works', 'shipmethod') }} sm
 )
@@ -21,8 +19,6 @@ select
     , ship_method_name
     , ship_base
     , ship_rate
-    , row_guid
-    , last_modified_date
 from
     stg_ship_method
 order by

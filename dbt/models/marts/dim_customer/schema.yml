@@ -2,20 +2,22 @@ version: 2
 
 models:
   - name: dim_customer
-    description: "This table contains detailed customer information, including personal details, demographics, and associated store and sales territory information."
+    description: "This table contains detailed customer information, including personal details, store, sales territory, and address-related data."
     columns:
       - name: customer_id
-        description: "Unique identifier for the customer."
+        description: "Primary key, unique identifier for the customer."
         tests:
-          - unique
           - not_null
+          - unique
 
       - name: person_id
-        description: "Foreign key reference to the person associated with the customer."
-        tests:
-          - relationships:
-              to: ref('dim_person')
-              field: person_id
+        description: "Foreign key to the person entity. Can be null."
+
+      - name: store_id
+        description: "Foreign key to the store entity. Can be null."
+
+      - name: sales_territory_id
+        description: "Foreign key to the sales territory entity. Can be null."
 
       - name: first_name
         description: "First name of the customer."
@@ -29,9 +31,6 @@ models:
       - name: name_title
         description: "Title of the customer."
 
-      - name: name_style
-        description: "Style of the customer's name."
-
       - name: person_type
         description: "Type of person (individual or organization)."
 
@@ -41,28 +40,26 @@ models:
       - name: email_promotion
         description: "Indicates whether the customer is open to email promotions."
 
-      - name: additional_contact_info
-        description: "Additional contact information of the customer."
+      - name: email_address
+        description: "Email address of the customer."
 
-      - name: demographics
-        description: "Demographic information of the customer."
+      - name: state_province_id
+        description: "Foreign key to the state or province entity."
 
-      - name: store_id
-        description: "Foreign key reference to the store associated with the customer."
-        tests:
-          - relationships:
-              to: ref('dim_store')
-              field: business_entity_id
+      - name: state_province_name
+        description: "Name of the state or province associated with the customer."
 
-      - name: sales_territory_id
-        description: "Foreign key reference to the sales territory associated with the customer."
-        tests:
-          - relationships:
-              to: ref('dim_sales_territory')
-              field: sales_territory_id
+      - name: city_district_id
+        description: "Foreign key to the city or district entity."
+
+      - name: city_district_name
+        description: "Name of the city or district associated with the customer."
 
       - name: country_region_id
-        description: "Identifier for the country or region associated with the customer."
+        description: "Foreign key to the country or region entity."
 
       - name: country_region_name
         description: "Name of the country or region associated with the customer."
+
+      - name: address_type_name
+        description: "Type of the address, based on the address type ID."

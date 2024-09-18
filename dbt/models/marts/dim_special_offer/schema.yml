@@ -2,38 +2,46 @@ version: 2
 
 models:
   - name: dim_special_offer
-    description: "This table contains details of special offers, including discount percentages and quantity limits."
+    description: "This table contains information about special offers, including discount percentages, offer type, and valid date ranges."
     columns:
       - name: special_offer_id
         description: "Unique identifier for the special offer."
         tests:
-          - unique
           - not_null
+          - unique
+
       - name: offer_description
         description: "Description of the special offer."
         tests:
           - not_null
+
       - name: discount_pct
         description: "Percentage discount provided by the special offer."
         tests:
           - not_null
+
       - name: offer_type
         description: "Type of the special offer."
         tests:
           - not_null
+
       - name: offer_category
         description: "Category of the special offer."
         tests:
           - not_null
+
       - name: start_date
         description: "Start date of the special offer."
         tests:
           - not_null
+
       - name: end_date
         description: "End date of the special offer."
+
       - name: min_qty
         description: "Minimum quantity required for the special offer to apply."
         tests:
           - not_null
+
       - name: max_qty
         description: "Maximum quantity allowed for the special offer."

@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: int_customer_info
-    description: "Intermediate view in the dev_adventure_works schema containing detailed customer information."
+    description: "Intermediate view in the dev_adventure_works schema containing detailed customer information, including addresses of type 2 (specific address type)."
     columns:
       - name: customer_id
         description: "Primary key, unique identifier for the customer."
@@ -35,19 +35,45 @@ models:
         description: "Last name of the customer."
       - name: name_title
         description: "Title of the customer."
-      - name: name_style
-        description: "Style of the customer's name."
       - name: person_type
         description: "Type of person (individual or organization)."
       - name: name_suffix
         description: "Suffix of the customer's name."
       - name: email_promotion
         description: "Indicates whether the customer is open to email promotions."
-      - name: additional_contact_info
-        description: "Additional contact information of the customer."
-      - name: demographics
-        description: "Demographic information of the customer."
+      - name: email_address
+        description: "Email address of the customer."
+        tests:
+          - relationships:
+              to: ref('stg_email_address')
+              field: email_address
+      - name: state_province_id
+        description: "Identifier for the state or province associated with the customer."
+        tests:
+          - relationships:
+              to: ref('stg_state_province')
+              field: state_province_id
+      - name: state_province_name
+        description: "Name of the state or province associated with the customer."
+      - name: city_district_id
+        description: "Identifier for the city or district associated with the customer."
+        tests:
+          - relationships:
+              to: ref('stg_city_district')
+              field: city_district_id
+      - name: city_district_name
+        description: "Name of the city or district associated with the customer."
       - name: country_region_id
-        description: "Identifier for the country or region associated with the sales territory."
+        description: "Identifier for the country or region associated with the customer."
+        tests:
+          - relationships:
+              to: ref('stg_country_region')
+              field: country_region_id
       - name: country_region_name
-        description: "Name of the country or region associated with the sales territory."
+        description: "Name of the country or region associated with the customer."
+      - name: address_type_name
+        description: "The type of address, based on the address_type_id."
+        tests:
+          - relationships:
+              to: ref('stg_address_type')
+              field: address_type_name

@@ -14,21 +14,11 @@ with stg_sales_order_detail as (
         , cast(orderqty as int64) as order_qty
         , cast(unitprice as float64) as unit_price
         , cast(unitpricediscount as float64) as unit_price_discount
-        , cast(rowguid as string) as row_guid
-        , cast(modifieddate as datetime) as last_modified_date
+        , unitprice * (1 - unitpricediscount) * orderqty as line_total
     from {{ source('stg_adventure_works', 'salesorderdetail') }}
 )
 
 select
-    sales_order_id
-    , sales_order_detail_id
-    , product_id
-    , special_offer_id
-    , carrier_tracking_number
-    , order_qty
-    , unit_price
-    , unit_price_discount
-    , row_guid
-    , last_modified_date
+    *
 from stg_sales_order_detail
 order by sales_order_detail_id

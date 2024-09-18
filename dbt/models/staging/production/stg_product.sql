@@ -43,8 +43,6 @@ stg_product as (
         , cast(sellstartdate as datetime) as sell_start_date
         , cast(sellenddate as datetime) as sell_end_date
         , cast(null as datetime) as discontinued_date
-        , rowguid
-        , cast(substr(modifieddate, 1, 19) as datetime) as last_modified_date
     from
         {{ source('stg_adventure_works', 'product') }} p
     left join
@@ -55,31 +53,7 @@ stg_product as (
         on trim(p.weightunitmeasurecode) = trim(wu.unit_measure_code)
 )
 select
-    product_id
-    , name
-    , product_number
-    , make_flag
-    , finished_goods_flag
-    , color
-    , safety_stock_level
-    , reorder_point
-    , standard_cost
-    , list_price
-    , size
-    , size_unit_measure_id
-    , weight_unit_measure_id
-    , weight
-    , days_to_manufacture
-    , product_line
-    , class
-    , style
-    , product_subcategory_id
-    , product_model_id
-    , sell_start_date
-    , sell_end_date
-    , discontinued_date
-    , rowguid
-    , last_modified_date
+    *
 from
     stg_product
 order by

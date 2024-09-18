@@ -2,21 +2,21 @@ version: 2
 
 models:
   - name: dim_sales_territory
-    description: "This table contains detailed information about sales territories, including associated regions and financial performance metrics."
+    description: "This table contains detailed sales territory information, including financial metrics and associated region details."
     columns:
       - name: sales_territory_id
         description: "Unique identifier for the sales territory."
         tests:
-          - unique
           - not_null
+          - unique
 
       - name: sales_territory_name
-        description: "The name of the sales territory."
+        description: "Name of the sales territory."
         tests:
           - not_null
 
       - name: sales_territory_group
-        description: "The group to which the sales territory belongs."
+        description: "Group to which the sales territory belongs."
         tests:
           - not_null
 
