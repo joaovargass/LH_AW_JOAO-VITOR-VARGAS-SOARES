@@ -6,9 +6,7 @@ Este projeto foi desenvolvido como parte do desafio final do programa Lighthouse
 
 - `dbt/`: Diretório contendo o projeto dbt.
 - `notebooks/`: Notebooks Jupyter para EDA e desenvolvimento de modelos de machine learning.
-- `src/`: Scripts Python para pré-processamento de dados e modelagem.
-- `data/`: Dados brutos e processados utilizados no projeto.
-- `reports/`: Relatórios de BI gerados.
+- `power-bi/`: Arquivo para o dashboard do PBI.
 
 ## Como Configurar
 
