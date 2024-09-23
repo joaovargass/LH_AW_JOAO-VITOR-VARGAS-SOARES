@@ -24,10 +24,6 @@ WITH first_purchase_check AS (
         , p.product_line
         , p.class
         , p.style
-        , p.size
-        , p.size_unit_measure_name
-        , p.weight
-        , p.weight_unit_measure_name
         , p.make_flag
         , p.safety_stock_level
         , p.reorder_point
@@ -40,30 +36,26 @@ WITH first_purchase_check AS (
         , COALESCE(c.state_province_name, 'Unknown') AS state_province_name
         , COALESCE(s.store_name, 'Unknown') AS store_name
         , s.store_id
-        , COUNT(DISTINCT foi.customer_id) AS num_unique_customers
         , DATE_TRUNC(foi.order_date, WEEK(MONDAY)) AS week_start_date
         , SUM(foi.order_qty) AS total_products_sold
-        , SUM(foi.unit_price * (1 - foi.unit_price_discount) * foi.order_qty) AS total_sales_value
-        , SUM(CASE WHEN foi.special_offer_id != 1 THEN foi.order_qty ELSE 0 END) AS products_sold_with_discount
-        , SUM(foi.unit_price_discount * foi.order_qty * foi.unit_price) AS total_discount_value
-        , AVG(foi.unit_price) AS avg_unit_price
-        , AVG(foi.unit_price_discount) AS avg_discount_pct
-        , AVG(foi.avg_unit_freight) AS avg_unit_freight
-        , AVG(foi.tax_rate) AS avg_tax_rate
-        , COUNT(DISTINCT foi.sales_order_id) AS num_orders
-        , COUNT(DISTINCT CASE WHEN foi.online_order_flag THEN foi.sales_order_id ELSE NULL END) AS num_online_orders
-        , COUNT(DISTINCT CASE WHEN NOT foi.online_order_flag THEN foi.sales_order_id ELSE NULL END) AS num_instore_orders
-        , AVG(CASE WHEN foi.special_offer_id != 1 THEN dimso.discount_pct ELSE 0 END) AS avg_special_offer_discount
-        , AVG(foi.ship_base) AS avg_ship_base
-        , AVG(foi.ship_rate) AS avg_ship_rate
+        , foi.unit_price
+        , foi.unit_price_discount
+        , avg(foi.avg_unit_freight) as avg_unit_freight
+        , foi.online_order_flag
         , foi.ship_method_name
         , foi.sales_person_id
         , foi.sales_reason_names
         , foi.sales_reason_types
+        , dimso.discount_pct
         , CASE
             WHEN fp.first_order_date = MIN(foi.order_date) THEN TRUE
             ELSE FALSE
           END AS is_first_purchase
+        , CASE
+            WHEN foi.special_offer_id != 1
+                THEN 1
+                ELSE 0
+            END AS has_discount
     FROM
         dev_adventure_works.fact_order_item foi
     JOIN
@@ -79,17 +71,14 @@ WITH first_purchase_check AS (
     LEFT JOIN
         first_purchase_check fp ON foi.customer_id = fp.customer_id AND foi.product_id = fp.product_id
     GROUP BY
-        p.product_id
+        DATE_TRUNC(foi.order_date, WEEK(MONDAY))
+        , p.product_id
         , p.product_name
         , p.product_category_name
         , p.product_subcategory_name
         , p.product_line
         , p.class
         , p.style
-        , p.size
-        , p.size_unit_measure_name
-        , p.weight
-        , p.weight_unit_measure_name
         , p.make_flag
         , p.safety_stock_level
         , p.reorder_point
@@ -101,13 +90,17 @@ WITH first_purchase_check AS (
         , c.city_district_name
         , c.state_province_name
         , s.store_name
+        , foi.unit_price
+        , foi.unit_price_discount
         , s.store_id
+        , foi.online_order_flag
+        , foi.ship_method_name
         , foi.sales_person_id
         , foi.sales_reason_names
         , foi.sales_reason_types
-        , foi.ship_method_name
-        , DATE_TRUNC(foi.order_date, WEEK(MONDAY))
+        , dimso.discount_pct
         , fp.first_order_date
+        , foi.special_offer_id
 )
 
 SELECT

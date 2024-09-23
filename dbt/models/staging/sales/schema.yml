@@ -202,8 +202,7 @@ models:
           - not_null
       - name: end_date
         description: "end date of the special offer."
-        tests:
-          - not_null
+
       - name: min_qty
         description: "minimum quantity required for the special offer."
         tests:

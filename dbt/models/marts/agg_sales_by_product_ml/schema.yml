@@ -33,18 +33,6 @@ models:
       - name: style
         description: "Product style: W = Women's, M = Men's, U = Universal."
 
-      - name: size
-        description: "Product size, specific to each product type."
-
-      - name: size_unit_measure_name
-        description: "The unit of measurement for the size of the product."
-
-      - name: weight
-        description: "Weight of the product."
-
-      - name: weight_unit_measure_name
-        description: "Unit of measurement for the weight of the product."
-
       - name: make_flag
         description: "Indicates whether the product is manufactured (TRUE) or bought (FALSE)."
         tests:
@@ -93,11 +81,6 @@ models:
       - name: store_id
         description: "The unique identifier for the store."
 
-      - name: num_unique_customers
-        description: "The number of unique customers who purchased this product in the given week."
-        tests:
-          - not_null
-
       - name: week_start_date
         description: "The starting date of the week during which the sales were recorded."
         tests:
@@ -108,63 +91,37 @@ models:
         tests:
           - not_null
 
-      - name: total_sales_value
-        description: "The total value of sales for the product in the given week, accounting for any discounts."
-        tests:
-          - not_null
+      - name: unit_price
+        description: "The unit price of the product at the time of sale."
 
-      - name: products_sold_with_discount
-        description: "The number of products sold with a discount."
-
-      - name: total_discount_value
-        description: "The total value of discounts applied to the sales of the product in the given week."
-
-      - name: avg_unit_price
-        description: "The average price of a single unit of the product in the given week."
-
-      - name: avg_discount_pct
-        description: "The average discount percentage applied to the product in the given week."
+      - name: unit_price_discount
+        description: "The discount applied to the unit price of the product at the time of sale."
 
       - name: avg_unit_freight
         description: "The average freight cost per unit for the product."
 
-      - name: avg_tax_rate
-        description: "The average tax rate applied to the sales of the product in the given week."
-
-      - name: num_orders
-        description: "The number of distinct orders that included the product in the given week."
-        tests:
-          - not_null
-
-      - name: num_online_orders
-        description: "The number of distinct online orders that included the product in the given week."
-
-      - name: num_instore_orders
-        description: "The number of distinct in-store orders that included the product in the given week."
-
-      - name: avg_special_offer_discount
-        description: "The average discount percentage offered as part of a special offer for the product in the given week."
-
-      - name: avg_ship_base
-        description: "The average base shipping cost for the product."
-
-      - name: avg_ship_rate
-        description: "The average shipping rate per unit weight for the product."
+      - name: online_order_flag
+        description: "Indicates if the order was placed online (TRUE) or in-store (FALSE)."
 
       - name: ship_method_name
-        description: "The name of the shipping method used to deliver the product."
+        description: "The name of the shipping method used for delivery."
 
       - name: sales_person_id
         description: "The unique identifier for the salesperson who made the sale."
 
       - name: sales_reason_names
-        description: "A list of sales reasons that explain why the customer made the purchase."
+        description: "A list of reasons for the sale."
 
       - name: sales_reason_types
-        description: "A list of types associated with the sales reasons for the purchase."
+        description: "The type of reasons associated with the sale."
+
+      - name: discount_pct
+        description: "The percentage discount applied to the sale."
 
       - name: is_first_purchase
         description: "Indicates whether this was the customer's first purchase of the product."
         tests:
           - not_null
 
+      - name: has_discount
+        description: "Indicates whether the product was sold with a discount (1) or not (0)."
